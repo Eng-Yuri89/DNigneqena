@@ -1,0 +1,21 @@
+Index: templates/admin/login.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- templates/admin/login.html	(date 1608286393551)
++++ templates/admin/login.html	(date 1608286393551)
+@@ -209,11 +209,11 @@
+                                     <form class="form-horizontal auth-form" method="post">
+                                         {% csrf_token %}
+                                         <div class="form-group">
+-                                            <input required="" name="[username]" type="text" class="form-control"
++                                            <input required="" name="username" type="text" class="form-control"
+                                                    placeholder="Username" id="username">
+                                         </div>
+                                         <div class="form-group">
+-                                            <input required="" name="[password]" type="password" class="form-control"
++                                            <input required="" name="password" type="password" class="form-control"
+                                                    placeholder="Password">
+                                         </div>
+                                         <div class="form-terms">
