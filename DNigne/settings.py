@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -27,7 +26,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,7 +36,24 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
+
+
+    # Admin APPS
+    'catalog.apps.CatalogConfig',
+    'coupons.apps.CouponsConfig',
+    'invoice.apps.InvoiceConfig',
+    'localization.apps.LocalizationConfig',
+    'media.apps.MediaConfig',
+    'reports.apps.ReportsConfig',
+    'sales.apps.SalesConfig',
+    'settings.apps.SettingsConfig',
+    'users.apps.UsersConfig',
+    'vendors.apps.VendorsConfig',
+
     "bootstrap4",
+    'jet.dashboard',
+    'jet',
+    'mptt'
 ]
 
 MIDDLEWARE = [
@@ -52,11 +67,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'DNigne.urls'
-
+# JET_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [os.path.join(BASE_DIR / 'templates')]
+
         ,
         'APP_DIRS': True,
         'OPTIONS': {
@@ -72,7 +88,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DNigne.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
@@ -82,7 +97,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -102,7 +116,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -116,23 +129,20 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
 
 ]
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-
-
+MEDIA_URL = '/upload/'
+MEDIA_ROOT = os.path.join(BASE_DIR, "upload")
 
 # ...
 SITE_ID = 1
 0.
-

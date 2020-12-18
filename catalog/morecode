@@ -1,0 +1,19 @@
+class FilterGroup(MPTTModel):
+    name = models.CharField(max_length=50)
+    sort_order = models.IntegerField(default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Filter(MPTTModel):
+    parent = models.ForeignKey(FilterGroup, on_delete=models.CASCADE)  # many to one relation with Category
+    filter = models.CharField(max_length=50)
+    sort_order = models.IntegerField(default=0)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.filter
