@@ -74,14 +74,14 @@
                                 <div class="front">
 
 
-                                    <a href="{% url 'product_detail' rs.id rs.slug %}"></a><img src="{{ rs.image.url }}"
+                                    <a href="{% url 'catalog:product_detail' rs.id rs.slug %}"></a><img src="{{ rs.image.url }}"
                                                                                     class="img-fluid blur-up lazyload bg-img"
                                                                                     alt="">
                                 </div>
 
 
                                 <div class="back">
-                                    <a href="{% url 'product_detail' rs.id rs.slug %}"><img src="{{ rs.image.url }}"
+                                    <a href="{% url 'catalog:product_detail' rs.id rs.slug %}"><img src="{{ rs.image.url }}"
                                                                                  class="img-fluid blur-up lazyload bg-img"
                                                                                  alt=""></a>
                                 </div>

@@ -1,9 +1,12 @@
+import json
+
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 
 # Create your views here.
 from catalog.models import Category, Product, Images
+from home.forms import SearchForm
 
 
 def index(request):
@@ -23,20 +26,35 @@ def index(request):
         'products_picked': products_picked,
 
 
+
         # 'category':category
     }
     return render(request, 'front/index.html', context)
 
 
-def category_products(request, id, slug):
-    currentlang = request.LANGUAGE_CODE[0:2]
-    catdata = Category.objects.get(pk=id)
-    products = Product.objects.filter(category_id=id)  # default language
+
+
+
+def category_admin(request):
+    catdata = Category.objects.all()
+    products = Product.objects.all()
 
     context = {'products': products,
                # 'category':category,
                'catdata': catdata}
-    return render(request, 'front/pages/category-page.html', context)
+    #return HttpResponse(1)
+    return render(request, 'admin/pages/category.html', context)
+
+
+def category_products(request):
+    catdata = Category.objects.all()
+    products = Product.objects.all()
+
+    context = {'products': products,
+               # 'category':category,
+               'catdata': catdata}
+    #return HttpResponse(1)
+    return render(request, 'front/pages/category.html', context)
 
 
 def user_list(request, id, slug):
@@ -64,3 +82,40 @@ def product_detail(request,id,slug):
                }
     #return HttpResponse('f')
     return render(request,'front/pages/product-page.html',context)
+
+
+def search(request):
+    if request.method == 'POST': # check post
+        form = SearchForm(request.POST)
+        if form.is_valid():
+            query = form.cleaned_data['query'] # get form input data
+            catid = form.cleaned_data['catid']
+            if catid==0:
+                products=Product.objects.filter(title__icontains=query)  #SELECT * FROM product WHERE title LIKE '%query%'
+            else:
+                products = Product.objects.filter(title__icontains=query,category_id=catid)
+
+            category = Category.objects.all()
+            context = {'products': products, 'query':query,
+                       'category': category }
+            return render(request, 'front/pages/search.html', context)
+
+    return HttpResponseRedirect('/')
+
+def search_auto(request):
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        products = Product.objects.filter(title__icontains=q)
+
+        results = []
+        for rs in products:
+            product_json = {}
+            product_json = rs.title +" > " + rs.category.title
+            results.append(product_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+

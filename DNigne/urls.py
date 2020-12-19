@@ -18,17 +18,25 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from catalog import views ,api
+from catalog.serializers import CategorySerializer
 from home import views
 from users import views as UserViews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
     path('', views.index, name='home'),
     path('home/', include('home.urls')),
+
+    path('', include('catalog.urls'),name='catalog'),
+
     #path('admin/', include(admin.site.urls),'admin'),
 
-    # Product Url
-    path('product/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
+    # Catelog Url
+
+
+
 
     # USER URL
     path('users/<int:id>', views.user_list, name='user_list'),
@@ -39,9 +47,22 @@ urlpatterns = [
     path('signup/', UserViews.signup_form, name='signup'),
 
 
+
+    #ADMIN URL
+    #path('admin/category/', views.category_admin, name='category_admin'),
+    path('admin/category/', views.category_admin, name='category_admin'),
+
+
     # jet admin dshboard
     #path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     #path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
+
+
+    #API URL
+    path('api-auth/', include('rest_framework.urls')),
+
+
+
 
 ]
 

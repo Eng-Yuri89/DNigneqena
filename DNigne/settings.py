@@ -53,7 +53,9 @@ INSTALLED_APPS = [
     "bootstrap4",
     'jet.dashboard',
     'jet',
-    'mptt'
+    'mptt',
+    'rest_framework',
+
 ]
 
 MIDDLEWARE = [
@@ -65,6 +67,15 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+
+    ]
+}
 
 ROOT_URLCONF = 'DNigne.urls'
 # JET_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
