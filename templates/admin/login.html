@@ -13,7 +13,7 @@
     <meta name="author" content="pixelstrap">
     <link rel="icon" href="{% static '' %}images/dashboard/favicon.png" type="image/x-icon">
     <link rel="shortcut icon" href="{% static '' %}images/dashboard/favicon.png" type="image/x-icon">
-    <title>NIGNE - Premium Admin Template</title>
+    <title>Multikart - Premium Admin Template</title>
 
     <!-- Google font-->
     <link href="https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900" rel="stylesheet">
@@ -196,21 +196,18 @@
                                 </li>
                             </ul>
                             <div class="tab-content" id="top-tabContent">
-
                                 <div class="tab-pane fade show active" id="top-profile" role="tabpanel"
                                      aria-labelledby="top-profile-tab">
-                                    {% if messages %}
-                                        {% for message in messages %}
-                                            <div class="alert alert-{{ message.tags }}" role="alert">
-                                                {{ message }}
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <form class="form-horizontal auth-form" method="post">
+                                    <form class="form-horizontal auth-form" method="POST" action="
+                                            {% if action_url %}{{ action_url }}{% else %}{% url 'accounts:user_login' %}  {% endif %}">
                                         {% csrf_token %}
+
+                                        {% if next_url %}
+                                            <input type="hidden" name="next" value='{{ next_url }}'>
+                                        {% endif %}
                                         <div class="form-group">
-                                            <input required="" name="username" type="text" class="form-control"
-                                                   placeholder="Username" id="username">
+                                            <input required="" name="email" type="email" class="form-control"
+                                                   placeholder="email" id="exampleInputEmail1">
                                         </div>
                                         <div class="form-group">
                                             <input required="" name="password" type="password" class="form-control"
@@ -226,7 +223,7 @@
                                             </div>
                                         </div>
                                         <div class="form-button">
-                                            <button class="btn btn-primary" type="submit" value="Login">Login</button>
+                                            <button class="btn btn-primary" value="Login" type="submit">Login</button>
                                         </div>
                                         <div class="form-footer">
                                             <span>Or Login up with social platforms</span>

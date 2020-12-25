@@ -21,41 +21,23 @@ from django.urls import path, include
 from catalog import views ,api
 from catalog.serializers import CategorySerializer
 from home import views
-from users import views as UserViews
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
 
-    path('', views.index, name='home'),
-    path('home/', include('home.urls')),
 
+    path('', include('home.urls'),name='home'),
     path('', include('catalog.urls'),name='catalog'),
-
-    #path('admin/', include(admin.site.urls),'admin'),
-
-    # Catelog Url
-
+    path('',include('accounts.urls'),name='accounts'),
 
 
 
     # USER URL
-    path('users/<int:id>', views.user_list, name='user_list'),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+
 
     # LOGIN URL
-    path('login/', UserViews.login_form, name='login'),
-    path('logout/', UserViews.logout_func, name='logout'),
-    path('signup/', UserViews.signup_form, name='signup'),
-
-
-
-    #ADMIN URL
-    #path('admin/category/', views.category_admin, name='category_admin'),
-    path('admin/category/', views.category_admin, name='category_admin'),
-
-
-    # jet admin dshboard
-    #path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
-    #path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
 
 
     #API URL

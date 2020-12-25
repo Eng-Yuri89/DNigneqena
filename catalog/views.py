@@ -1,5 +1,5 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, request
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -15,7 +15,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from catalog.models import Category, Product, Images
+from catalog.models import Category, Product, Image
 
 
 def index(request):
@@ -43,8 +43,6 @@ def index(request):
 
 def category_list(request):
     catdata = Category.objects.all()
-
-
     context = {
                # 'category':category,
                'catdata': catdata}
@@ -52,7 +50,7 @@ def category_list(request):
     return render(request, 'front/pages/category_list.html', context)
 
 
-def category_products(request):
+def product_list(request):
     catdata = Category.objects.all()
     products = Product.objects.all()
 
@@ -60,13 +58,13 @@ def category_products(request):
                # 'category':category,
                'catdata': catdata}
     #return HttpResponse(1)
-    return render(request, 'admin/pages/category.html', context)
+    return render(request, 'admin/pages/category-admin.html', context)
 
 
 def user_list(request, id, slug):
     # query = request.GET.get('q')
 
-    # users = UserProfile.objects.all()
+    # usersaaa = UserProfile.objects.all()
 
     return HttpResponse('h')
 # return render(request,'admin/user-list.html')
@@ -90,14 +88,17 @@ def product_detail(request,id,slug):
     return render(request,'front/pages/product-page.html',context)
 
 
-def category_admin():
-    return None
+
 
 
 class CatList(APIView):
     renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'admin/pages/category.html'
+    template_name = 'admin/pages/category-admin.html'
 
     def get(self, request):
         queryset = Category.objects.all()
         return Response({'categories': queryset})
+
+
+
+

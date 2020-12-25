@@ -24,12 +24,7 @@ def category_details_api(request,id):
     return Response({'data':data})
 
 #####Clas based
-class CategoryListAPi(generics.ListAPIView):
-    authentication_classes = (SessionAuthentication, BasicAuthentication, TokenAuthentication)
-    model = Category
-    queryset = Category.objects.all()
 
-    serializer_class = CategorySerializer
 
 class CategoryListAPi(generics.ListCreateAPIView):
     model = Category
@@ -38,31 +33,23 @@ class CategoryListAPi(generics.ListCreateAPIView):
 
 
 
-class CategoryAPi(generics.RetrieveUpdateDestroyAPIView):
+class CategoryApi(generics.RetrieveUpdateDestroyAPIView):
     model = Category
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'id'
 
 
-class ProductListAPi(generics.ListAPIView):
+class ProductListApi(generics.ListCreateAPIView):
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
 
 
-class ProductAPi(generics.RetrieveUpdateDestroyAPIView):
+class ProductApi(generics.RetrieveUpdateDestroyAPIView):
     model = Product
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'id'
 
-
-class CatList(APIView):
-    renderer_classes = [TemplateHTMLRenderer]
-    template_name = 'admin/pages/category.html'
-
-    def get(self, request):
-        queryset = Category.objects.all()
-        return Response({'categories': queryset})

@@ -1,6 +1,6 @@
 from decimal import Decimal
-
-
+from django.template.defaultfilters import slugify
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -9,8 +9,12 @@ from django.db.models import Avg, Count
 from django.forms import ModelForm
 from django.urls import reverse
 from django.utils.safestring import mark_safe
+from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+
+import accounts
+
 
 
 
@@ -23,15 +27,22 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
+    description = RichTextUploadingField()
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
     slug = models.SlugField(null=False, unique=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+
+
+
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Category, self).save(*args, **kwargs)
 
     class MPTTMeta:
         order_insertion_by = ['title']
@@ -46,6 +57,31 @@ class Category(MPTTModel):
             full_path.append(k.title)
             k = k.parent
         return ' / '.join(full_path[::-1])
+
+
+def get_upload_path(instance, filename):
+    model = instance.album.model.__class__._meta
+    name = model.verbose_name_plural.replace(' ', '_')
+    return f'{name}/images/{filename}'
+
+class ImageAlbum(models.Model):
+    def default(self):
+        return self.images.filter(default=True).first()
+    def thumbnails(self):
+        return self.images.filter(width__lt=100, length_lt=100)
+
+
+
+
+class Image(models.Model):
+    name = models.CharField(max_length=255)
+    image = models.ImageField(upload_to=get_upload_path)
+    default = models.BooleanField(default=False)
+    width = models.FloatField(default=100)
+    length = models.FloatField(default=100)
+    album = models.ForeignKey(ImageAlbum, related_name='images', on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
 class Product(models.Model):
@@ -66,6 +102,7 @@ class Product(models.Model):
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     image = models.ImageField(upload_to='images/', null=False)
+    album = models.OneToOneField(ImageAlbum, null=True, related_name='model', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     n_price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     discount = models.DecimalField(decimal_places=2, max_digits=10)
@@ -107,60 +144,10 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
-    def avaregereview(self):
-        reviews = Comment.objects.filter(product=self, status='True').aggregate(avarage=Avg('rate'))
-        avg = 0
-        if reviews["avarage"] is not None:
-            avg = float(reviews["avarage"])
-        return avg
-
-    def countreview(self):
-        reviews = Comment.objects.filter(product=self, status='True').aggregate(count=Count('id'))
-        cnt = 0
-        if reviews["count"] is not None:
-            cnt = int(reviews["count"])
-        return cnt
 
 
 
 
-
-
-
-
-class Images(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    title = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(blank=True, upload_to='images/')
-
-    def __str__(self):
-        return self.title
-
-
-class Comment(models.Model):
-    STATUS = (
-        ('New', 'New'),
-        ('True', 'True'),
-        ('False', 'False'),
-    )
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=50, blank=True)
-    comment = models.CharField(max_length=250, blank=True)
-    rate = models.IntegerField(default=1)
-    ip = models.CharField(max_length=20, blank=True)
-    status = models.CharField(max_length=10, choices=STATUS, default='New')
-    create_at = models.DateTimeField(auto_now_add=True)
-    update_at = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return self.subject
-
-
-class CommentForm(ModelForm):
-    class Meta:
-        model = Comment
-        fields = ['subject', 'comment', 'rate']
 
 
 class Color(models.Model):

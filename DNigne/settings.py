@@ -47,9 +47,14 @@ INSTALLED_APPS = [
     'reports.apps.ReportsConfig',
     'sales.apps.SalesConfig',
     'settings.apps.SettingsConfig',
-    'users.apps.UsersConfig',
     'vendors.apps.VendorsConfig',
 
+    # internal apps
+    'accounts',
+
+    'widget_tweaks',
+    'ckeditor',
+    'ckeditor_uploader',
     "bootstrap4",
     'jet.dashboard',
     'jet',
@@ -57,6 +62,8 @@ INSTALLED_APPS = [
     'rest_framework',
 
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -70,7 +77,7 @@ MIDDLEWARE = [
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
+    # or allow read-only access for unauthenticated usersaaa.
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
 
@@ -98,9 +105,11 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'DNigne.wsgi.application'
+LOGOUT_REDIRECT_URL = '/admin'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+
 
 DATABASES = {
     'default': {
@@ -108,6 +117,19 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'DNigne',
+        'USER':'root',
+        'PASSWORD':'',
+        'Host':'localhost',
+        'PORT':'3306',
+    }
+}
+'''
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -140,6 +162,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+#CUSTOM
+FORCE_SESSION_TO_ONE = True #Default is false
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
@@ -157,3 +182,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "upload")
 # ...
 SITE_ID = 1
 0.
+
+
+####################################
+##  CKEDITOR CONFIGURATION ##
+####################################
+
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_IMAGE_BACKEND = "pillow"
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    },
+}
+
+###################################

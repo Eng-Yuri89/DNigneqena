@@ -20,8 +20,8 @@ urlpatterns = [
     # class based views
 
     path('api/v2/category/', api.CategoryListAPi.as_view(), name='CategoryListAPi'),
-    path('api/v2/category/<int:id>', api.CategoryAPi.as_view(), name='CategoryAPi'),
-    path('api/v2/category/product', api.ProductListAPi.as_view(), name='ProductListAPi'),
-    path('api/v2/category/product/<int:id>', api.ProductAPi.as_view(), name='ProductAPi'),
+    path('api/v2/category/<int:id>', api.CategoryApi.as_view(), name='CategoryAPi'),
+    path('api/v2/category/product/', api.ProductListApi.as_view(), name='ProductListAPi'),
+    path('api/v2/category/product/<int:id>', api.ProductApi.as_view(), name='ProductAPi'),
 
 ]

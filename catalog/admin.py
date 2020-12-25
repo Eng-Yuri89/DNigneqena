@@ -5,9 +5,10 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
 from catalog import models
-from catalog.models import Category, Product, Images, Comment, Color, Size, Variants
+from catalog.models import Category, Product, Image,  Color, Size, Variants
 
 class CategoryAdmin2(DraggableMPTTAdmin):
+
     mptt_indent_field = "title"
     list_display = ('tree_actions', 'indented_title',
                     'related_products_count', 'related_products_cumulative_count')
@@ -43,7 +44,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class ProductImageInline(admin.TabularInline):
-    model = Images
+    model = Image
     readonly_fields = ('id',)
     extra = 1
 
@@ -59,15 +60,10 @@ class ProductVariantsInline(admin.TabularInline):
 
 
 @admin_thumbnails.thumbnail('image')
-class ImagesAdmin(admin.ModelAdmin):
-    list_display = ['image','title','image_thumbnail']
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ['image','name','image_thumbnail']
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display = ['title','category', 'status','image_tag']
-    list_filter = ['category']
-    readonly_fields = ('image_tag',)
-    inlines = [ProductImageInline,ProductVariantsInline]
-    prepopulated_fields = {'slug': ('title',)}
+
 
 
 class CommentAdmin(admin.ModelAdmin):
@@ -96,9 +92,9 @@ class CategoryLangugaeAdmin(admin.ModelAdmin):
     list_filter = ['lang']
 
 admin.site.register(Category,CategoryAdmin2)
-admin.site.register(Product,ProductAdmin)
-admin.site.register(Comment,CommentAdmin)
-admin.site.register(Images,ImagesAdmin)
+
+
+admin.site.register(Image,ImageAdmin)
 admin.site.register(Color,ColorAdmin)
 admin.site.register(Size,SizeAdmin)
 admin.site.register(Variants,VariantsAdmin)

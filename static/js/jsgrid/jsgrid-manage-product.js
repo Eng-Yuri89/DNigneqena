@@ -29,33 +29,45 @@
 
 
             insertItem: function (item) {
-                return $.ajax({
-                    type: "POST",
-                    url: "/api/v2/category/",
-                    dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('#token').val()
-                },
-                    data: item
-                });
+                $.ajax({
+            type: 'POST',
+            url: "/api/v2/category/" + "do_it/",
+            data: {csrfmiddlewaretoken: window.CSRF_TOKEN},
+            success: function() {
+                console.log("Success!");
+            }
+        })
             },
 
+
+
             updateItem: function (item) {
-                return $.ajax({
-                    type: "PUT",
-                    url: "/api/v2/category/" + item.id,
-                    dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': $('#token').val()
-                },
-                    data: item
-                });
+                var d = $.Deferred();
+                            $.ajax({
+                                type: "PUT",
+                                dataType: "json",
+
+                                contentType: "application/json; charset=utf-8",
+                                url: "/api/v2/category/" + item.id  ,
+                                data:  {csrfmiddlewaretoken: window.CSRF_TOKEN},
+                            }).done(function (response, textStatus, errorThrown) {
+                                d.resolve(response);
+
+
+                            }).fail(function (xhr, exception) {
+
+                            });
+                            return d.promise();
             },
 
             deleteItem: function (item) {
                 return $.ajax({
                     type: "DELETE",
-                    url: "/api/v2/category/" + item.id
+
+
+                    url: "/api/v2/category/" + item.id,
+
+
 
                 });
             }
@@ -90,3 +102,28 @@
         ]
     });
 })(jQuery);
+
+var csrftoken = $.cookie('csrftoken');
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+$.ajax(save_url, {
+    type : 'POST',
+    contentType : 'application/json',
+    data : JSON.stringify(canvas),
+    success: function () {
+        alert("Saved!");
+    }
+
+})
