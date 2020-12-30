@@ -51,6 +51,7 @@ INSTALLED_APPS = [
 
     # internal apps
     'accounts',
+    'system',
 
     'widget_tweaks',
     'ckeditor',
@@ -60,9 +61,13 @@ INSTALLED_APPS = [
     'jet',
     'mptt',
     'rest_framework',
+    'corsheaders',
+    'crispy_forms',
+    'easy_select2',
+    'multiselectfield',
 
 ]
-
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 AUTH_USER_MODEL = 'accounts.User'
 
 MIDDLEWARE = [
@@ -73,6 +78,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 REST_FRAMEWORK = {
@@ -193,10 +200,9 @@ CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_IMAGE_BACKEND = "pillow"
 
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': None,
-    },
-}
+
 
 ###################################
+
+
+CORS_ORIGIN_ALLOW_ALL = True

@@ -1,29 +1,24 @@
-from decimal import Decimal
-from django.template.defaultfilters import slugify
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
-
+from django.db.models.signals import pre_save
+from django.template.defaultfilters import slugify
 # Create your models here.
-from django.db.models import Avg, Count
-from django.forms import ModelForm
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-import accounts
+from system.models import Store
 
-
-
+STATUS = (
+    ('True', 'Enable'),
+    ('False', 'Disable'),
+)
 
 
 class Category(MPTTModel):
-    STATUS = (
-        ('True', 'True'),
-        ('False', 'False'),
-    )
     parent = TreeForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     keywords = models.CharField(max_length=255)
@@ -33,9 +28,6 @@ class Category(MPTTModel):
     slug = models.SlugField(null=False, unique=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
-
-
-
 
     def __str__(self):
         return self.title
@@ -64,90 +56,100 @@ def get_upload_path(instance, filename):
     name = model.verbose_name_plural.replace(' ', '_')
     return f'{name}/images/{filename}'
 
-class ImageAlbum(models.Model):
-    def default(self):
-        return self.images.filter(default=True).first()
-    def thumbnails(self):
-        return self.images.filter(width__lt=100, length_lt=100)
 
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(null=False, unique=True)
 
+    class Meta:
+        ordering = ['name']
 
-
-class Image(models.Model):
-    name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to=get_upload_path)
-    default = models.BooleanField(default=False)
-    width = models.FloatField(default=100)
-    length = models.FloatField(default=100)
-    album = models.ForeignKey(ImageAlbum, related_name='images', on_delete=models.CASCADE)
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super().save(*args, **kwargs)
+
 
 class Product(models.Model):
-    STATUS = (
-        ('True', 'True'),
-        ('False', 'False'),
+    status = (
+        ('True', 'Enable'),
+        ('False', 'Disable'),
     )
 
-    VARIANTS = (
-        ('None', 'None'),
-        ('Size', 'Size'),
-        ('Color', 'Color'),
-        ('Size-Color', 'Size-Color'),
 
-    )
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)  # many to one relation with Category
+    category = models.ForeignKey(Category, on_delete=models.CASCADE ,null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
-    image = models.ImageField(upload_to='images/', null=False)
-    album = models.OneToOneField(ImageAlbum, null=True, related_name='model', on_delete=models.CASCADE)
+    m_image = models.ImageField(upload_to='images/', null=True ,default='/static/images/2.jpg')
     price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     n_price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    discount = models.DecimalField(decimal_places=2, max_digits=10)
+    discount = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     amount = models.IntegerField(default=0)
-    minamount = models.IntegerField(default=3)
-    variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
-    detail = models.TextField()
+    min_amount = models.IntegerField(default=3)
+   # variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
+    #detail = models.TextField(max_length=255,blank=True)
+    #tags = models.ManyToManyField(Tag)
     slug = models.SlugField(null=False, unique=True)
-    status = models.CharField(max_length=10, choices=STATUS)
+    status = models.CharField(max_length=10, choices=status ,default='', verbose_name="status")
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-update_at']
+
+   # def getProductTags(self):
+       # return self.tags.all()
 
     def __str__(self):
         return self.title
 
-    def get_all_discounts(self):
-        all_fields = self._meta.get_fields()
-        discounts = []
-        for field in all_fields:
-            if field.get_internal_type() == 'ForeignKey':
-                field_ref = getattr(self, field.name)
-                if hasattr(field_ref, 'discount'):
-                    discounts.append(field_ref.discount)
-
-        return discounts
-
-    ## method to create discount
-    def get_final_discount(self):
-        return max(self.get_all_discounts())
-
     ## method to create a fake table field in read only mode
     def image_tag(self):
-        if self.image.url is not None:
-            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
+        if self.m_image.url is not None:
+            return mark_safe('<img src="{}" height="50"/>'.format(self.m_image.url))
         else:
             return ""
 
     def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+        return reverse('detail', kwargs={'slug': self.slug})
 
 
+class ImageAlbum(models.Model):
+    def default(self):
+        return self.images.filter(default=True).first()
+
+    def thumbnails(self):
+        return self.images.filter(width__lt=100, length_lt=100)
 
 
+class Image(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
+    name = models.CharField(max_length=255)
+    default = models.BooleanField(default=False)
+    width = models.FloatField(default=100)
+    length = models.FloatField(default=100)
+    album = models.ForeignKey(ImageAlbum, related_name='images', on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.product.title + " Img"
+
+
+def get_unique_slug(sender, instance, **kwargs):
+    num = 1
+    slug = slugify(instance.title)
+    unique_slug = slug
+    while Product.objects.filter(slug=unique_slug).exists():
+        unique_slug = '{}-{}'.format(slug, num)
+        num += 1
+    instance.slug = unique_slug
+
+
+pre_save.connect(get_unique_slug, sender=Product)
 
 
 class Color(models.Model):
@@ -186,7 +188,7 @@ class Variants(models.Model):
         return self.title
 
     def image(self):
-        img = Images.objects.get(id=self.image_id)
+        img = Image.objects.get(id=self.image_id)
         if img.id is not None:
             varimage = img.image.url
         else:
@@ -194,17 +196,22 @@ class Variants(models.Model):
         return varimage
 
     def image_tag(self):
-        img = Images.objects.get(id=self.image_id)
+        img = Image.objects.get(id=self.image_id)
         if img.id is not None:
             return mark_safe('<img src="{}" height="50"/>'.format(img.image.url))
         else:
             return ""
 
 
+class Manufacturer(models.Model):
+    title = models.CharField(max_length=100, blank=True, null=True)
+    store = models.ManyToManyField(Store, blank=True)
+    image = models.IntegerField(blank=True, null=True, default=0)
+    sort_order = models.IntegerField(default=0)
+    slug = models.SlugField(null=title, unique=True)
+    status = models.CharField(max_length=10, choices=STATUS)
+    #create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
-    def get_absolute_url(self):
-        return reverse('product_detail', kwargs={'slug': self.slug})
-
-
-    def get_absolute_url(self):
-        return reverse('category_detail', kwargs={'slug': self.slug})
+    def __str__(self):
+        return self.title

@@ -78,7 +78,7 @@ def product_detail(request,id,slug):
 
     product = Product.objects.get(pk=id)
 
-    images = Images.objects.filter(product_id=id)
+    images = Image.objects.filter(product_id=id)
     paginator = Paginator(images, 1)  # Show 25 contacts per page.
 
     context = {'product': product,'category': category,

@@ -46,9 +46,9 @@
                                         <div class="add-product">
                                             <div class="row">
                                                 <div class="col-xl-9 xl-50 col-sm-6 col-9">
-                                                    {% for rs in product %}
-                                                    <img src="" alt="" class="img-fluid image_zoom_1 blur-up lazyloaded">
-                                                    {% endfor %}
+
+                                                    <img src="{{ product.m_image.url }}" alt="" class="img-fluid image_zoom_1 blur-up lazyloaded">
+
                                                 </div>
                                                 <div class="col-xl-3 xl-50 col-sm-6 col-3">
                                                     <ul class="file-upload-product">
@@ -64,7 +64,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-7">
-                                        <form class="needs-validation add-product-form" novalidate="" action="{% url 'home:product_edit' product.id product.slug %}" method="post">
+                                        <form class="needs-validation add-product-form" novalidate="" action="{% url 'home:ProductUpdate' product.id product.slug %}" method="post">
                                             <div class="form">
                                                 {% csrf_token %}
                                                 <div class="form-group mb-3 row">
@@ -75,7 +75,7 @@
                                                 </div>
                                                 <div class="form-group mb-3 row">
                                                     <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">Price :</label>
-                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" type="text" required="">
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" value="{{ product.price }}" type="number" required="">
                                                     <div class="valid-feedback">Looks good!</div>
                                                 </div>
                                                 <div class="form-group mb-3 row">

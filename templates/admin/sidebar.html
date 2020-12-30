@@ -21,13 +21,13 @@
                     class="fa fa-angle-right pull-right"></i></a>
 
                         <ul class="sidebar-submenu">
-                            <li><a href="{% url 'home:category_admin' %}"><i class="fa fa-circle"></i>Categories</a>
-                            <li><a href="{% url 'home:products_admin' %}"><i class="fa fa-circle"></i>Products</a></li>
+                            <li><a href="{% url 'home:categories' %}"><i class="fa fa-circle"></i>Categories</a>
+                            <li><a href="{% url 'home:product' %}"><i class="fa fa-circle"></i>Products</a></li>
                             <li><a href="product-list.html"><i class="fa fa-circle"></i>Recurring Profiles</a></li>
                             <li><a href="product-detail.html"><i class="fa fa-circle"></i>Filters</a></li>
                             <li><a href="add-product.html"><i class="fa fa-circle"></i>Attributes</a></li>
                             <li><a href="add-product.html"><i class="fa fa-circle"></i>Options</a></li>
-                            <li><a href="add-product.html"><i class="fa fa-circle"></i>Manufacturers</a></li>
+                            <li><a href="{% url 'home:AddCategory' %}"><i class="fa fa-circle"></i>Manufacturers</a></li>
                             <li><a href="add-product.html"><i class="fa fa-circle"></i>Downloads</a></li>
                             <li><a href="add-product.html"><i class="fa fa-circle"></i>Reviews</a></li>
                             <li><a href="add-product.html"><i class="fa fa-circle"></i>Information</a></li>

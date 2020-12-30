@@ -1,0 +1,86 @@
+<script type="text/javascript">
+    $(document).ready(function(){
+    $('#addmanufacturereModel').on('show.bs.modal', function (event) {
+        var getTagList = $("#tag-list").title().split(",");
+        if($("#tag-list").title()==""){
+            var getTagList = [];
+        }
+        $('[name="tags"]').tagify({
+            whitelist: getTagList,
+            maxTags: 10,
+            dropdown: {
+                // maxItems: 20,           // <- mixumum allowed rendered suggestions
+                classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+                enabled: 0,             // <- show suggestions on focus
+                closeOnSelect: false,    // <- hide the suggestions dropdown once an item has been selected
+                duplicates :false,
+            },
+        })
+      })
+    $(document).on('submit',"#manufacturer-form",function(e){
+        e.preventDefault();
+        var modal = $("#addmanufacturerModel");
+        var form = $("#manufacturer-form");
+        var url = form.attr("action");
+        var httpMethod = form.attr("method");
+        var TagValues = JSON.parse($('[name="tags"]').tagify().val())
+        var TagArray = []
+        for(let i=0;i<TagValues.length;i++){
+            TagArray.push(TagValues[i].value)
+        }
+        var dataToSend = $(this).serializeArray();
+        for (let index = 0; index < dataToSend.length; ++index) {
+            if (dataToSend[index].name == "tags") {
+                dataToSend[index].value = TagArray;
+                break;
+            }
+        }
+        $.ajax({
+        url: url,
+        method: httpMethod,
+        data: jQuery.param(dataToSend),
+        success: function(data){
+            document.getElementById("manufacturer-form").reset();
+            modal.modal('toggle');
+            var shortText = jQuery.trim(data.text).substring(0, 79) + '...';
+            var shortTitle = jQuery.trim(data.title).substring(0, 21);
+            if (data.manufacturer_created){
+            // we can't include the snippet bcoz- Any jQuery calls will happen after the DOM is loaded. While any include statements will happen before.
+                var manufacturer = $(".full-manufacturer-col").clone();
+                manufacturer.removeClass("d-none");
+                manufacturer.find(".card-title").text(shortTitle);
+                manufacturer.find(".card-keywords").text(shortKeywords);
+                var manufacturer_badges = manufacturer.find("#badge-list");
+                for(let i=0;i<TagArray.length;i++){
+                    var url = "manufacturer/tag/"+TagArray[i]
+                    manufacturer_badges.append(
+                        "<a href=\""+url +"\" class=\'badge badge-primary\'>#"+ TagArray[i] +'</a>'
+                    )
+                    console.log("appended a badge");
+                }
+                $(".manufacturer-list-row").prepend(manufacturer);
+            }
+            else{
+                // manufacturer is updated
+                var manufacturer = $("#manufacturer_"+data.id);
+                manufacturer.find(".card-title").text(shortTitle);
+                manufacturer.find(".card-keywords").text(shortKeywords);
+                var manufacturer_badges = manufacturer.find("#badge-list").text('');
+                for(let i=0;i<TagArray.length;i++){
+                    var url = "manufacturer/tag/"+TagArray[i]
+                    manufacturer_badges.append(
+                        "<a href=\""+url +"\" class=\'badge badge-primary\'>#"+ TagArray[i] +'</a>'
+                    )
+                    console.log("appended a badge");
+                }
+            }
+            $("#empty-manufacturer-msg").addClass("d-none");
+        },
+        error: function(xhr,errmsg,err){
+            console.log("below is the error msg")
+            console.log(xhr.status + ": " + xhr.responseText);
+        }
+      })
+    });
+});
+</script>
