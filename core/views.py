@@ -15,11 +15,14 @@ from django.views.generic import UpdateView, CreateView, ListView, DeleteView, D
 from catalog.forms.forms import ProductAddForm, ManufacturerAddForm, ImageForm, SingleProductAddForm
 from catalog.models.models import Category, Product, Tag, Images
 from core.forms import SearchForm
-from system.models import Store
+from SiteSetting.models import Store
 
 
+try:
+    setting = Store.objects.get(pk=1)
+except:
+    pass
 
-setting = Store.objects.get(pk=1)
 
 
 def index(request):
@@ -47,7 +50,7 @@ def categories(request):
     categories = Category.objects.all()
     context = {
         'categories': categories,
-        'setting': setting,
+        #'setting': setting,
 
     }
     # return HttpResponse(1)
@@ -59,14 +62,14 @@ class AddCategory(CreateView):
     template_name = 'admin/pages/add-category.html'
     fields = '__all__'
     # uccess_url =redirect('core:product_admin')
-    success_url = reverse_lazy('core:category')
+    success_url = reverse_lazy('core:categories')
 
 
 class EditCategory(UpdateView):
     model = Category
     fields = '__all__'
     template_name = 'admin/pages/edit-category.html'
-    success_url = reverse_lazy('core:category')
+    success_url = reverse_lazy('core:categories')
 
 
 class DeleteCategory(DeleteView):

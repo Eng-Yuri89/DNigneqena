@@ -1160,7 +1160,7 @@ Docs & License: https://fullcalendar.io/
             a.innerText = this.getMoreLinkText(hiddenSegs.length);
             a.addEventListener('click', function (ev) {
                 var clickOption = options.eventLimitClick;
-                var _col = isRtl ? _this.colCnt - col - 1 : col; // HACK: props.cells has different dir system?
+                var _col = isRtl ? _this.colCnt - col - 1 : col; // HACK: props.cells has different dir SiteSetting?
                 var date = _this.props.cells[row][_col].date;
                 var moreEl = ev.currentTarget;
                 var dayEl = _this.getCellEl(row, col);
@@ -1196,7 +1196,7 @@ Docs & License: https://fullcalendar.io/
         DayGrid.prototype.showSegPopover = function (row, col, moreLink, segs) {
             var _this = this;
             var _a = this.context, calendar = _a.calendar, view = _a.view, theme = _a.theme, isRtl = _a.isRtl;
-            var _col = isRtl ? this.colCnt - col - 1 : col; // HACK: props.cells has different dir system?
+            var _col = isRtl ? this.colCnt - col - 1 : col; // HACK: props.cells has different dir SiteSetting?
             var moreWrap = moreLink.parentNode; // the <div> wrapper around the <a>
             var topEl; // the element we want to match the top coordinate of
             var options;

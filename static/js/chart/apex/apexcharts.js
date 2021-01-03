@@ -24133,7 +24133,7 @@
         screenCTM: function screenCTM() {
           /* https://bugzilla.mozilla.org/show_bug.cgi?id=1344537
              This is needed because FF does not return the transformation matrix
-             for the inner coordinate system when getScreenCTM() is called on nested svgs.
+             for the inner coordinate SiteSetting when getScreenCTM() is called on nested svgs.
              However all other Browsers do that */
           if (this instanceof SVG.Nested) {
             var rect = this.rect(1, 1);
@@ -27706,7 +27706,7 @@
 
                       // Now we check if the new height and width still valid (> 0)
                       if (this.parameters.box.width - snap[0] > 0 && this.parameters.box.height - snap[1] > 0) {
-                          // ...if valid, we resize the this.el (which can include moving because the coord-system starts at the left-top and this edge is moving sometimes when resized)
+                          // ...if valid, we resize the this.el (which can include moving because the coord-SiteSetting starts at the left-top and this edge is moving sometimes when resized)
 
                           /*
                            * but first check if the element is text box, so we can change the font size instead of

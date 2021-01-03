@@ -1375,7 +1375,7 @@ Docs & License: https://fullcalendar.io/
                 class: TimeGridView,
                 allDaySlot: true,
                 slotDuration: '00:30:00',
-                slotEventOverlap: true // a bad name. confused with overlap/constraint system
+                slotEventOverlap: true // a bad name. confused with overlap/constraint SiteSetting
             },
             timeGridDay: {
                 type: 'timeGrid',

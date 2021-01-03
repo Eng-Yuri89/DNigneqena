@@ -46,12 +46,12 @@ INSTALLED_APPS = [
     'media.apps.MediaConfig',
     'reports.apps.ReportsConfig',
     'sales.apps.SalesConfig',
-    'settings.apps.SettingsConfig',
+
     'vendors.apps.VendorsConfig',
 
     # internal apps
     'accounts',
-    'system',
+    'SiteSetting',
     'core',
 
     'widget_tweaks',

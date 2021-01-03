@@ -1773,7 +1773,7 @@ Docs & License: https://fullcalendar.io/
     var UnselectAuto = /** @class */ (function () {
         function UnselectAuto(calendar) {
             var _this = this;
-            this.isRecentPointerDateSelect = false; // wish we could use a selector to detect date selection, but uses hit system
+            this.isRecentPointerDateSelect = false; // wish we could use a selector to detect date selection, but uses hit SiteSetting
             this.onSelect = function (selectInfo) {
                 if (selectInfo.jsEvent) {
                     _this.isRecentPointerDateSelect = true;
@@ -1990,7 +1990,7 @@ Docs & License: https://fullcalendar.io/
     /*
     Makes an element (that is *external* to any calendar) draggable.
     Can pass in data that determines how an event will be created when dropped onto a calendar.
-    Leverages FullCalendar's internal drag-n-drop functionality WITHOUT a third-party drag system.
+    Leverages FullCalendar's internal drag-n-drop functionality WITHOUT a third-party drag SiteSetting.
     */
     var ExternalDraggable = /** @class */ (function () {
         function ExternalDraggable(el, settings) {
@@ -2035,8 +2035,8 @@ Docs & License: https://fullcalendar.io/
     }());
 
     /*
-    Detects when a *THIRD-PARTY* drag-n-drop system interacts with elements.
-    The third-party system is responsible for drawing the visuals effects of the drag.
+    Detects when a *THIRD-PARTY* drag-n-drop SiteSetting interacts with elements.
+    The third-party SiteSetting is responsible for drawing the visuals effects of the drag.
     This class simply monitors for pointer movements and fires events.
     It also has the ability to hide the moving element (the "mirror") during the drag.
     */

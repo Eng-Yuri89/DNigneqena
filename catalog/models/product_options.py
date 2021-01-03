@@ -12,7 +12,7 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
 from catalog.models.models import Product, Images, STATUS
-from system.models import Store
+from SiteSetting.models import Store
 
 
 class Color(models.Model):

@@ -11,7 +11,7 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from system.models import Store
+from SiteSetting.models import Store
 
 STATUS = (
     ('True', 'Enable'),

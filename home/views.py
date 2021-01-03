@@ -6,14 +6,16 @@ from django.shortcuts import render
 from django.views.generic import  ListView,  DetailView
 from catalog.models.models import Category, Product, Tag, Images
 from home.forms import SearchForm
-from system.models import Store
+from SiteSetting.models import Store
 
 
 def index(request):
     categories = Category.objects.all()
     products = Product.objects.all()
     store = Store.objects.all()
+
     setting = Store.objects.get(pk=1)
+
 
     products_latest = Product.objects.all().order_by('-id')[:4]  # last 4 products
     products_slider = Product.objects.all().order_by('id')[:4]  # first 4 products

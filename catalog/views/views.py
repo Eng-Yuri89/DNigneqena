@@ -16,7 +16,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from catalog.models.models import Category, Product, Images
-from system.models import Store
+from SiteSetting.models import Store
 
 
 def index(request):

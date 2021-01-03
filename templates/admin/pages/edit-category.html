@@ -46,7 +46,7 @@
                                 <div class="add-product">
                                     <div class="row">
                                         <div class="col-xl-9 xl-50 col-sm-6 col-9">
-                                            {% for rs in category %}
+                                            {% for rs in categories %}
                                                 <img src="{{ rs.image.url }}" alt=""
                                                      class="img-fluid image_zoom_1 blur-up lazyloaded">
                                             {% endfor %}
@@ -69,7 +69,7 @@
 
                                     <div class="form">
                                         {% csrf_token %}
-                                        {% for rs in category %}
+                                        {% for rs in categories %}
                                             <div class="form-group mb-3 row">
                                                 <label class="col-xl-3 col-sm-4 mb-0">Title :</label>
                                                 <input class="form-control col-xl-8 col-sm-7" type="text"

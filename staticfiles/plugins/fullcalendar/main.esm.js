@@ -1848,7 +1848,7 @@ function findCommonInsertion(full0, partial0, full1, partial1) {
 TODO: fix the terminology of "formatter" vs "formatting func"
 */
 /*
-At the time of instantiation, this object does not know which cmd-formatting system it will use.
+At the time of instantiation, this object does not know which cmd-formatting SiteSetting it will use.
 It receives this at the time of formatting, as a setting.
 */
 var CmdFormatter = /** @class */ (function () {
@@ -4669,7 +4669,7 @@ var OptionsManager = /** @class */ (function () {
     // Computes the flattened options hash for the calendar and assigns to `this.options`.
     // Assumes this.overrides and this.dynamicOverrides have already been initialized.
     OptionsManager.prototype.compute = function () {
-        // TODO: not a very efficient system
+        // TODO: not a very efficient SiteSetting
         var locales = firstDefined(// explicit locale option given?
         this.dynamicOverrides.locales, this.overrides.locales, globalDefaults.locales);
         var locale = firstDefined(// explicit locales option given?

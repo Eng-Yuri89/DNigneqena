@@ -64,7 +64,7 @@
                                         </div>
                                     </div>
                                     <div class="col-xl-7">
-                                        <form class="needs-validation add-product-form" novalidate="" action="{% url 'home:ProductUpdate' product.id product.slug %}" method="post">
+                                        <form class="needs-validation add-product-form" novalidate="" action="{% url 'core:ProductUpdate' product.id product.slug %}" method="post">
                                             <div class="form">
                                                 {% csrf_token %}
                                                 <div class="form-group mb-3 row">

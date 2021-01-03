@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from system.models import Store
+from SiteSetting.models import Store
 from accounts.admin import UserAdmin
 from accounts.forms import GuestForm, UserAdminChangeForm
 from django.utils.http import is_safe_url

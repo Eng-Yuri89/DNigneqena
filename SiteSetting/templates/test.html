@@ -1,0 +1,82 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load crispy_forms_filters %}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+
+
+
+
+    <div class="page-body">
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>Store Setting
+                            <small>{{ setting.title }} Admin panel</small>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb pull-right">
+                        <li class="breadcrumb-item"><a href="/"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Setting</li>
+                        <li class="breadcrumb-item active">{{ setting.title }}</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+    <div class="card tab2-card">
+    <div class="card-header">
+        <h5>Store Details</h5>
+    </div>
+    <div class="col-xl-9 xl-50 col-sm-6 col-9">
+                                <form class="needs-validation add-product-form" novalidate=""
+                                      enctype="multipart/form-data" action="{% url 'system:update_setting' %}"
+                                      method="post">
+
+                                    <div class="form">
+
+                                        {% csrf_token %}
+
+
+
+                                            <div class="form-group mb-3 row">
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="col-xl-3 col-sm-4 mb-0">{{ field.label }}
+                                                    :</label>
+                                            {{ form.media }}
+                                            {{ forms|crispy:"bootstrap4"  }}
+                                                {{ field|add_class:'form-control' }}
+                                                {% for error in field.errors %}
+                                                    <span class="help-block">{{ error }}</span>
+                                                {% endfor %}
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+
+
+                                        <div class="offset-xl-3 offset-sm-4">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                            <button type="button" class="btn btn-light">Discard</button>
+                                        </div>
+                                    </div>
+                                </form>
+    </div></div>
+{% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
+
+
+{% endblock %}
+
+{% block foot %} {% include 'admin/footer.html' %}  {% endblock %}
+{% block js %}{% include 'admin/js.html' %}{% endblock %}
