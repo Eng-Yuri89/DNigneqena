@@ -8,20 +8,25 @@ from django.contrib.auth import (
     logout
 )
 
+
+
 User = get_user_model()
 
 from django.urls import reverse_lazy
+
+first_name = forms.CharField(label=False)
 
 
 class UserAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     class Meta:
         model = User
-        fields = ['email', 'full_name']
+
+        fields = ['email', 'first_name', 'last_name']
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -57,7 +62,7 @@ class UserAdminChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['email', 'password', 'admin', 'full_name']
+        fields = ['email', 'password', 'admin', 'first_name', 'last_name']
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.
@@ -88,10 +93,10 @@ class UserLoginForm(forms.Form):
             user = authenticate(email=email, password=password)
 
             if not user:
-                raise forms.ValidationError("This user does not exist")
+                raise forms.ValidationError("Incorrect Information  . Please Login Again")
 
             if not user.check_password(password):
-                raise forms.ValidationError("Incorrect passsword")
+                raise forms.ValidationError("Incorrect Password")
 
             if not user.is_active:
                 raise forms.ValidationError("This user is not longer active.")
@@ -109,9 +114,7 @@ class UserRegisterForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = [
-            'email'
-        ]
+        fields = '__all__'
 
     def clean_password2(self):
         """
@@ -137,3 +140,41 @@ class UserRegisterForm(forms.ModelForm):
             user.save()
 
         return user
+
+
+class CustomerRegisterForm(forms.ModelForm):
+    """
+    Description:A form for creating new users.
+    Includes all the required fields, plus a repeated password
+    """
+    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ['email','password1','password2']
+
+    def clean_password2(self):
+        """
+        Description:Check that the two password entries match.\n
+        """
+        password1 = self.cleaned_data.get("password1")
+        password2 = self.cleaned_data.get("password2")
+
+        if password1 and password2 and password1 != password2:
+            raise forms.ValidationError("Passwords don't match")
+
+        return password2
+
+    def save(self, commit=True):
+        """
+        Description:Save the provided password in hashed format.\n
+        """
+        customer = super(CustomerRegisterForm, self).save(commit=False)
+        customer.set_password(self.cleaned_data["password1"])
+        # user.is_active = True # send confirmation email via signals
+
+        if commit:
+            customer.save()
+
+        return customer

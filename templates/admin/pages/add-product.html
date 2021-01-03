@@ -1,4 +1,5 @@
 {% extends 'admin/adminbase.html' %}
+{% load crispy_forms_filters %}
 {% load static %}
 
 
@@ -38,9 +39,10 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <form class="needs-validation" enctype="multipart/form-data"
-                              action="{% url 'home:ProductCreate' %}"
+                              action="{% url 'core:ProductCreate' %}"
                               method="post">
                             {% csrf_token %}
+
                             <div class="card-body">
                                 <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
                                     <li class="nav-item"><a class="nav-link active show" id="general-tab"
@@ -81,38 +83,23 @@
                                                             <div class="digital-add needs-validation">
                                                                 <div class="form-group">
                                                                     <label for="validationCustom01"
-                                                                           class="col-form-label pt-0"><span>*</span>
-                                                                        Title</label>
-                                                                    <input class="form-control" id="title"
-                                                                           type="text" required="" value="hard"
-                                                                           name="title">
+                                                                           class="col-form-label pt-0">
+                                                                        </label>
+                                                                            {{ form.title|as_crispy_field:"bootstrap4" }}
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="validationCustomtitle"
-                                                                           class="col-form-label pt-0"><span>*</span>
-                                                                        Keywords</label>
-                                                                    <input class="form-control"
-                                                                           id="validationCustomtitle" type="text"
-                                                                           required="" value="5"
-                                                                           name="keywords">
+                                                                           class="col-form-label pt-0">
+                                                                        </label>
+                                                                        {{ form.keywords|as_crispy_field:"bootstrap4" }}
                                                                 </div>
                                                                 <div class="form-group  ">
                                                                     <label for="categoryFormControlSelect1"
-                                                                           class="col-form-label pt-0 "><span>*</span>Category
-                                                                        :</label>
-                                                                    <select class="form-control "
-                                                                            name="category"
-                                                                            id="categoryFormControlSelect1">
-                                                                        {% for category in category %}
-                                                                            <option value="{{ category.title }}">{{ category.title }} </option>
-                                                                        {% endfor %}
-
-                                                                    </select>
+                                                                           class="col-form-label pt-0 "></label>
+                                                                        {{ form.category|as_crispy_field:"bootstrap4" }}
                                                                 </div>
                                                                 <div class="form-group ">
-                                                                    <label class="col-form-label"><span>*</span>Description</label>
-                                                                    <textarea rows="1" cols="10"
-                                                                              name="description"></textarea>
+                                                                    <label class="col-form-label">{{ form.description|as_crispy_field:"bootstrap4" }}</label>
                                                                 </div>
                                                                 <div class="card">
                                                                     <div class="card-header">
@@ -131,23 +118,16 @@
                                                                             <div class="form-group">
                                                                                 <label class="col-form-label">Meta
                                                                                     Description</label>
-                                                                                <textarea rows="4" cols="12"></textarea>
+
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                     <div class="form-group  ">
                                                                     <label for="{{form.status.id_label}}"
-                                                                           class="col-form-label pt-0 "><span>*</span> {{form.status.label}}
+                                                                           class="col-form-label pt-0 ">
                                                                         </label>
-                                                                    <select class="form-control "
-                                                                            name="status"
-                                                                            id="{{form.status.id_label}}">
-                                                                        {% for value , text in form.status.field.choices %}
-                                                                            <option value="{{ value }}">{{ text  }} </option>
-                                                                        {% endfor %}
-
-                                                                    </select>
+                                                                    {{ form.status|as_crispy_field:"bootstrap4" }}
                                                                 </div>
 
                                                                 <div>
@@ -168,8 +148,7 @@
                                                             <div class="digital-add needs-validation">
                                                                 <div class="form-group mb-0">
                                                                     <div class="description-sm">
-                                                                        <textarea id="editor1" name="detail" cols="10"
-                                                                                  rows="4"></textarea>
+                                                                        {{ form.detail|as_crispy_field:"bootstrap4" }}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -187,41 +166,31 @@
                                             <label for="validationCustom02"
                                                    class="col-form-label"><span>*</span> Product
                                                 Price</label>
-                                            <input class="form-control" id="validationCustom02"
-                                                   type="number" required="" value="5"
-                                                   name="price">
+                                            {{ form.price|as_crispy_field:"bootstrap4" }}
                                         </div>
                                         <div class="form-group">
                                             <label for="validationCustom02"
                                                    class="col-form-label"><span>*</span> Product
                                                 New Price</label>
-                                            <input class="form-control" id="validationCustom02"
-                                                   type="number" required="" value="5"
-                                                   name="n_price">
+                                            {{ form.n_price|as_crispy_field:"bootstrap4" }}
                                         </div>
                                         <div class="form-group">
                                             <label for="validationCustom02"
                                                    class="col-form-label"><span>*</span> Product
                                                 Discount</label>
-                                            <input class="form-control" id="validationCustom02"
-                                                   type="number" required="" value="5"
-                                                   name="discount">
+                                            {{ form.discount|as_crispy_field:"bootstrap4" }}
                                         </div>
                                         <div class="form-group">
                                             <label for="validationCustom02"
                                                    class="col-form-label"><span>*</span> Product
                                                 Amount</label>
-                                            <input class="form-control" id="validationCustom02"
-                                                   type="number" required="" value="5"
-                                                   name="amount">
+                                            {{ form.amount|as_crispy_field:"bootstrap4" }}
                                         </div>
                                         <div class="form-group">
                                             <label for="validationCustom02"
                                                    class="col-form-label"><span>*</span> Product
                                                 Miumum Amount</label>
-                                            <input class="form-control" id="validationCustom02"
-                                                   type="number" required="" value="5"
-                                                   name="min_amount">
+                                            {{ form.min_amount|as_crispy_field:"bootstrap4" }}
                                         </div>
 
                                     </div>
@@ -253,16 +222,15 @@
                                                                 <img src="{% static "" %}images/pro3/1.jpg" alt=""
                                                                      class="img-fluid image_zoom_1 blur-up lazyloaded">
                                                             </div>
-                                                            <div class="col-xl-3 xl-50 col-sm-6 col-3">
+                                                            <div class=" ">
                                                                 <ul class="file-upload-product">
+
+
+                                                                            {{ form.image|as_crispy_field:"bootstrap4" }}
+
                                                                     <li>
                                                                         <div class="box-input-file"><input
-                                                                                class="upload" type="file"><i
-                                                                                class="fa fa-plus"></i></div>
-                                                                    </li>
-                                                                    <li>
-                                                                        <div class="box-input-file"><input
-                                                                                class="upload" type="file"><i
+                                                                                class="upload" type="file" name="images" id="images"><i
                                                                                 class="fa fa-plus"></i></div>
                                                                     </li>
                                                                     <li>
@@ -300,8 +268,7 @@
                                         <div class="form-group row">
                                             <label for="validationCustom2" class="col-xl-3 col-md-4">Meta
                                                 Title</label>
-                                            <input class="form-control col-xl-8 col-md-7" id="validationCustom2"
-                                                   type="text" name="slug" value="5">
+                                            {{ form.slug|as_crispy_field:"bootstrap4" }}
                                         </div>
                                         <div class="form-group row editor-label">
                                             <label class="col-xl-3 col-md-4">Meta Description</label>
@@ -328,7 +295,9 @@
         </div>
     </div>
     </div>
-
+{% if uploaded_file_url %}
+    <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+  {% endif %}
 
 {% endblock %}
 

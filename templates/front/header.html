@@ -11,8 +11,8 @@
                     <div class="col-lg-6">
                         <div class="header-contact">
                             <ul>
-                                <li>NIGNe </li>
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: 123 - 55 - 7890</li>
+                                <li>{{ setting.title }} </li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: {{ setting.phone }}0</li>
                             </ul>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                                     </a>
                                 </div>
                                 <div class="brand-logo">
-                                    <a href="index.html"><img src="{% static '' %}images/icon/logo.png"
+                                    <a href="index.html"><img src=""
                                             class="img-fluid blur-up lazyload" alt=""></a>
                                 </div>
                             </div>
@@ -232,8 +232,8 @@
                     <div class="col-lg-6">
                         <div class="header-contact">
                             <ul>
-                                <li>NIGNe to Our store Multikart</li>
-                                <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: 123 - 456 - 7890</li>
+                                <li>{{ setting.title }}  store </li>
+                                <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: {{ setting.phone}}</li>
                             </ul>
                         </div>
                     </div>
@@ -241,13 +241,23 @@
                         <ul class="header-dropdown">
                             <li class="mobile-wishlist"><a href="#"><i class="fa fa-heart" aria-hidden="true"></i></a>
                             </li>
+                             {% if user.id is not None %}
+                                 <li class="onhover-dropdown mobile-account"> <i class="fa fa-user" aria-hidden="true"></i>
+                                  <strong class="text-uppercase">{{ user.first_name }} </strong>
+                                 <ul class="onhover-show-div">
+                                 <li><a href="{% url 'accounts:customer_logout' %}" data-lng="es">Logout</a></li>
+                                 </ul>
+                                     </li>
+                                 {% else %}
                             <li class="onhover-dropdown mobile-account"> <i class="fa fa-user" aria-hidden="true"></i>
                                 My Account
                                 <ul class="onhover-show-div">
-                                    <li><a href="#" data-lng="en">Login</a></li>
-                                    <li><a href="#" data-lng="es">Logout</a></li>
+
+                                    <li><a href="{% url 'accounts:customer_login' %}" data-lng="en">Login</a></li>
                                 </ul>
+
                             </li>
+                              {% endif %}
                         </ul>
                     </div>
                 </div>
@@ -396,8 +406,8 @@
                                 </div>
                             </div>
                             <div class="brand-logo">
-                                <a href="index.html"><img src="{% static '' %}images/icon/logo.png"
-                                        class="img-fluid blur-up lazyload" alt=""></a>
+                                <a href="index.html"><img src="{{ setting.image.url }}"
+                                        class="img-fluid blur-up lazyload" width="179 px" height="34 px" alt=""></a>
                             </div>
                         </div>
                         <div class="menu-right pull-right">

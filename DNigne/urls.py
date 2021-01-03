@@ -18,18 +18,15 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from catalog import views ,api
-from catalog.serializers import CategorySerializer
-from home import views
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
 
 
     path('', include('home.urls'),name='home'),
+    path('', include('core.urls'),name='core'),
     path('', include('catalog.urls'),name='catalog'),
     path('',include('accounts.urls'),name='accounts'),
+    path('',include('system.urls'),name='system'),
 
 
 

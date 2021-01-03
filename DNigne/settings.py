@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # internal apps
     'accounts',
     'system',
+    'core',
 
     'widget_tweaks',
     'ckeditor',

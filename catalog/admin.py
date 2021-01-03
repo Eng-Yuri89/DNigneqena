@@ -5,7 +5,9 @@ from django.contrib import admin
 from mptt.admin import DraggableMPTTAdmin
 
 from catalog import models
-from catalog.models import Category, Product, Image,  Color, Size, Variants
+from catalog.models.models import Category, Product, Images
+from catalog.models.product_options import Variants, Color, Size
+
 
 class CategoryAdmin2(DraggableMPTTAdmin):
 
@@ -44,7 +46,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
 
 @admin_thumbnails.thumbnail('image')
 class ProductImageInline(admin.TabularInline):
-    model = Image
+    model = Images
     readonly_fields = ('id',)
     extra = 1
 
@@ -94,7 +96,7 @@ class CategoryLangugaeAdmin(admin.ModelAdmin):
 admin.site.register(Category,CategoryAdmin2)
 
 
-admin.site.register(Image,ImageAdmin)
+admin.site.register(Images,ImageAdmin)
 admin.site.register(Color,ColorAdmin)
 admin.site.register(Size,SizeAdmin)
 admin.site.register(Variants,VariantsAdmin)
