@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'accounts',
     'SiteSetting',
     'core',
+    'billing',
+
 
     'widget_tweaks',
     'ckeditor',

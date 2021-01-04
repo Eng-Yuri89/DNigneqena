@@ -5,8 +5,8 @@ from django.utils.safestring import mark_safe
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name=None, last_name=None, password=None, is_active=True, is_staff=False,
-                    is_admin=False):
+    def create_user(self, email, first_name=None, last_name=None, password=None, is_active=True, is_staff=False,is_seller=True,
+                    is_admin=False ,is_customer=True ):
         if not email:
             raise ValueError("Users must have an email address")
         if not password:
@@ -17,6 +17,8 @@ class UserManager(BaseUserManager):
             last_name=last_name,
         )
         user_obj.set_password(password)
+        user_obj.customer = is_customer
+        user_obj.seller = is_seller
         user_obj.staff = is_staff
         user_obj.admin = is_admin
         user_obj.active = is_active
@@ -29,6 +31,18 @@ class UserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             password=password,
+
+
+        )
+        return user
+
+    def create_seller(self, email, first_name=None, last_name=None, password=None ,):
+        user = self.create_user(
+            email,
+            first_name=first_name,
+            last_name=last_name,
+            password=password,
+            is_seller=True,
             is_staff=True,
         )
         return user
@@ -75,6 +89,7 @@ class User(AbstractBaseUser):
     about = RichTextUploadingField(blank=True)
     active = models.BooleanField(default=True)
     customer = models.BooleanField(default=False)
+    seller = models.BooleanField(default=False)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -108,6 +123,11 @@ class User(AbstractBaseUser):
 
     @property
     def is_customer(self):
+        # "Is the user a member of staff?"
+        return self.customer
+
+    @property
+    def is_seller(self):
         # "Is the user a member of staff?"
         return self.customer
 

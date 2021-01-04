@@ -32,9 +32,9 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="profile-details text-center">
-                                    <img src="{% static "profile.html" %}images/dashboard/designer.jpg" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
-                                    <h5 class="f-w-600 mb-0">{{ current_user.first_name}}</h5>
-                                    <span>{{ current_user.email}}</span>
+                                    <img src="{{ user.image.url }}" alt="" class="img-fluid img-90 rounded-circle blur-up lazyloaded">
+                                    <h5 class="f-w-600 mb-0">{{ user.first_name}}</h5>
+                                    <span>{{ user.email}}</span>
                                     <div class="social">
                                         <div class="form-group btn-showcase">
                                             <button class="btn social-btn btn-fb d-inline-block"> <i class="fa fa-facebook"></i></button>
@@ -91,15 +91,15 @@
                                                 <tbody>
                                                 <tr>
                                                     <td>First Name:</td>
-                                                    <td>{{ current_user.first_name }}</td>
+                                                    <td>{{ user.first_name }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Last Name:</td>
-                                                    <td>{{ current_user.last_name }}</td>
+                                                    <td>{{ user.last_name }}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Email:</td>
-                                                    <td>{{ current_user.email}}</td>
+                                                    <td>{{ user.email}}</td>
                                                 </tr>
                                                 <tr>
                                                     <td>Gender:</td>
@@ -107,15 +107,15 @@
                                                 </tr>
                                                 <tr>
                                                     <td>Mobile Number:</td>
-                                                    <td>{{ current_user.phone }}</td>
+                                                    <td>{{ user.phone }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>DOB:</td>
-                                                    <td>Dec, 15 1993</td>
+                                                    <td>Admin:</td>
+                                                    <td>{{ user.admin }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <td>Location:</td>
-                                                    <td>USA</td>
+                                                    <td>Seller:</td>
+                                                    <td>{{ user.seller }}</td>
                                                 </tr>
                                                 </tbody>
                                             </table>

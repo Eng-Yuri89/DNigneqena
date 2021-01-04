@@ -27,6 +27,7 @@ urlpatterns = [
     path('', include('catalog.urls'),name='catalog'),
     path('',include('accounts.urls'),name='accounts'),
     path('', include('SiteSetting.urls'), name='SiteSetting'),
+    path('', include('vendors.urls'), name='vendors'),
 
 
 

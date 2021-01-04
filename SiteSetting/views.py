@@ -6,13 +6,13 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from SiteSetting.forms import StoreAddForm
-from SiteSetting.models import Store
+from SiteSetting.models import Setting
 
 
 def setting(request):
     #return HttpResponse('1')
 
-    setting = Store.objects.get(pk=1)
+    setting = Setting.objects.get(pk=1)
     fields = '__all__'
 
     context={'setting':setting,
@@ -21,7 +21,7 @@ def setting(request):
     def get_object(self, queryset=None):
         if "pk" not in self.kwargs:
             self.kwargs['pk'] = None
-        obj, created = Store.objects.get_or_create(pk=self.kwargs.get('id' ,None),
+        obj, created = Setting.objects.get_or_create(pk=self.kwargs.get('id' ,None),
                                                    )
 
         return obj
@@ -29,7 +29,7 @@ def setting(request):
 
 
 def update_setting(request):
-    store = Store.objects.get(id=request.user.id)
+    setting = Setting.objects.get(id=request.user.id)
     forms = StoreAddForm(instance=store)
     if request.method == 'POST':
         forms = StoreAddForm(request.POST, request.FILES, instance=store)

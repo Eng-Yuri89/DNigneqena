@@ -12,7 +12,7 @@ from django.utils.http import is_safe_url
 from django.views import View
 from django.views.generic import CreateView
 
-from accounts.forms import UserRegisterForm, UserLoginForm, CustomerRegisterForm
+from accounts.forms import UserLoginForm, UserRegisterForm
 from accounts.models import User
 
 from accounts.signals import user_logged_in
@@ -90,7 +90,7 @@ class CustomerLoginView(View):
 
 class CustomerRegister(CreateView):
     model = User
-    form_class = CustomerRegisterForm
+    form_class = UserRegisterForm
     template_name = 'front/UsersAccount/CustomerRegister.html'
 
     # uccess_url =redirect('home:product_admin')

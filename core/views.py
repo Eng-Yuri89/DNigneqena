@@ -15,13 +15,8 @@ from django.views.generic import UpdateView, CreateView, ListView, DeleteView, D
 from catalog.forms.forms import ProductAddForm, ManufacturerAddForm, ImageForm, SingleProductAddForm
 from catalog.models.models import Category, Product, Tag, Images
 from core.forms import SearchForm
-from SiteSetting.models import Store
 
 
-try:
-    setting = Store.objects.get(pk=1)
-except:
-    pass
 
 
 
@@ -38,7 +33,7 @@ def index(request):
     context = {
         'categories': categories,
         'product': product,
-        "setting":setting,
+
         'products_slider': products_slider,
         'products_latest': products_latest,
         'products_picked': products_picked,
@@ -264,7 +259,7 @@ def user_list(request, id, slug):
     return HttpResponse('h')
 
 
-# return render(request,'admin/user-list.html')
+# return render(request,'admin/stores-list.html')
 
 
 def search(request):

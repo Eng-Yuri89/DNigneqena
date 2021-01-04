@@ -11,8 +11,8 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from catalog.models.models import Product, Images, STATUS
-from SiteSetting.models import Store
+from catalog.models.models import STATUS, Product, Images
+
 
 
 class Color(models.Model):
@@ -68,7 +68,7 @@ class Variants(models.Model):
 
 class Manufacturer(models.Model):
     title = models.CharField(max_length=100, blank=True, null=True)
-    store = models.ManyToManyField(Store, blank=True)
+    #store = models.ManyToManyField(Store, blank=True)
     image = models.IntegerField(blank=True, null=True, default=0)
     sort_order = models.IntegerField(default=0)
     slug = models.SlugField(null=title, unique=True)

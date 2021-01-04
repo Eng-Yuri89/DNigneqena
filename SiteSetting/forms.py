@@ -9,7 +9,7 @@ from django.contrib.auth import (
     logout
 )
 
-from SiteSetting.models import Store
+
 
 User = get_user_model()
 
@@ -19,5 +19,5 @@ from django.urls import reverse_lazy
 class StoreAddForm(forms.ModelForm):
 
     class Meta:
-        model = Store
+        #model = Store
         fields = '__all__'

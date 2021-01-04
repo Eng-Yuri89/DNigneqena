@@ -16,19 +16,17 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from catalog.models.models import Category, Product, Images
-from SiteSetting.models import Store
+
 
 
 def index(request):
-    store = Store.objects.all()
-    setting = Store.objects.get(pk=1)
+
     catdata = Category.objects.all()
     product = Product.objects.all
     page = "home"
     context = {
         'page': page,
-        'store': store,
-        "setting": setting,
+
         'catdata':catdata,
         'product':product,
     }
@@ -36,14 +34,12 @@ def index(request):
 
 
 def sidebar(request):
-    store = Store.objects.all()
-    setting = Store.objects.get(pk=1)
+
     catdata = Category.objects.all()
     page = "home"
     context = {
         'page': page,
-        'store': store,
-        "setting": setting,
+
         'catdata':catdata
     }
     return render(request, 'admin/sidebar.html', context)
@@ -75,7 +71,7 @@ def user_list(request, id, slug):
     # usersaaa = UserProfile.objects.all()
 
     return HttpResponse('h')
-# return render(request,'admin/user-list.html')
+# return render(request,'admin/stores-list.html')
 
 
 def product_detail(request,id,slug):

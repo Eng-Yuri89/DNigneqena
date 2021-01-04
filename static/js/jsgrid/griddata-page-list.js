@@ -34,12 +34,12 @@
     db.clients = [
 
         {
-            "Name": "Product List",
+            "Name": "SellerProduct List",
             "Status": "<i class=\"fa fa-circle font-warning f-12\"></i>",
             "Created on": "Sep 5,18",
         },
         {
-            "Name": "Digital Product",
+            "Name": "Digital SellerProduct",
             "Status": "<i class=\"fa fa-circle font-danger f-12\"></i>",
             "Created on": "Mar 10,18",
         },
@@ -49,7 +49,7 @@
             "Created on": "Aug 24,18",
         },
         {
-            "Name": "About Product",
+            "Name": "About SellerProduct",
             "Status": "<i class=\"fa fa-circle font-success f-12\"></i>",
             "Created on": "Jun 12,18",
         },
@@ -59,7 +59,7 @@
             "Created on": "May 26,18",
         },
         {
-            "Name": "Discount Product",
+            "Name": "Discount SellerProduct",
             "Status": "<i class=\"fa fa-circle font-danger f-12\"></i>",
             "Created on": "Sep 13,18",
         },

@@ -20,11 +20,11 @@
 /* 7. About CSS  */
 /* 8. Banner Timer CSS  */
 /* 9. Category CSS */
-/* 10. Product Box CSS */
+/* 10. SellerProduct Box CSS */
 /* 11. Theme tab CSS */
 /* 12. Banner CSS */
 /* 13. Collection Banner CSS */
-/* 14. Product-box slider CSS */
+/* 14. SellerProduct-box slider CSS */
 /* 15. Modal popup CSS */
 /* 16. Look-book CSS */
 /* 17. Demo css
@@ -2690,7 +2690,7 @@ header {
       transition: all 0.5s ease; }
 
 /*=====================
-    10.Product Box CSS start
+    10.SellerProduct Box CSS start
 ==========================*/
 .absolute-product .theme-tab .tab-title .current a {
   font-weight: 700; }
@@ -3958,7 +3958,7 @@ header {
               transform: none; }
 
 /*=====================
-    14.Product-box slider CSS start
+    14.SellerProduct-box slider CSS start
 ==========================*/
 .layout7-product .product-box {
   padding: 2px; }

@@ -5,25 +5,25 @@ from django.test import TestCase
 """""
 
 class ProductView(ListView):
-    model = Product
+    model = SellerProduct
     template_name = 'admin/pages/products-admin.html'
     paginate_by = 10
 
 
 class ProductDetailView(DetailView):
-    model = Product
+    model = SellerProduct
     template_name = 'admin/pages/product-detail.html'
 
 
 class ProductCreateView(CreateView):
-    model = Product
+    model = SellerProduct
     template_name = 'admin/pages/add-product.html'
     fields = '__all__'
 
 
 def products_admin(request):
     category = Category.objects.all()
-    products = Product.objects.all()
+    products = SellerProduct.objects.all()
     context = {'products': products,
 
                }
@@ -34,7 +34,7 @@ def products_admin(request):
 def product_admin(request, id, slug):
     query = request.GET.get('q')
     category = Category.objects.all()
-    product = Product.objects.get(pk=id)
+    product = SellerProduct.objects.get(pk=id)
 
     context = {'product': product, 'category': category,
 
@@ -54,7 +54,7 @@ def create(request):
 
 
 def edit(request, pk, template_name='admin/pages/edit-product'):
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(SellerProduct, pk=pk)
     form = ProductAddForm(request.POST or None, instance=title)
     if form.is_valid():
         form.save()
@@ -63,7 +63,7 @@ def edit(request, pk, template_name='admin/pages/edit-product'):
 
 
 def delete(request, pk, template_name='crudapp/confirm_delete.html'):
-    product = get_object_or_404(Product, pk=pk)
+    product = get_object_or_404(SellerProduct, pk=pk)
     if request.method == 'POST':
         product.delete()
         return redirect('/admin')
@@ -72,8 +72,8 @@ def delete(request, pk, template_name='crudapp/confirm_delete.html'):
 
 def product_edit(request, id, slug):
     # return HttpResponse('1')
-    products = Product.objects.all()
-    product = Product.objects.filter(pk=id)
+    products = SellerProduct.objects.all()
+    product = SellerProduct.objects.filter(pk=id)
 
     context = {
         'product': product,
@@ -140,7 +140,7 @@ from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.forms import TextInput, EmailInput, Select, FileInput, Textarea
 
-from catalog.models import Category, Product, ImageAlbum, Manufacturer
+from catalog.models import Category, SellerProduct, ImageAlbum, Manufacturer
 
 
 class CategoryAddForm(forms.ModelForm):
@@ -153,7 +153,7 @@ class CategoryAddForm(forms.ModelForm):
 
 class ProductAddForm(forms.ModelForm):
     class Meta:
-        model = Product
+        model = SellerProduct
         fields = '__all__'
 
 class ProductAddFormm(forms.ModelForm):
@@ -183,7 +183,7 @@ class ProductAddFormm(forms.ModelForm):
     slug = forms.SlugField()
     status = forms.ChoiceField(choices=STATUS)
     class Meta:
-        model = Product
+        model = SellerProduct
         fields = ('category','title','keywords','description','m_image','price','n_price','discount','amount','min_amount'
                   ,'variant','slug','status')
 

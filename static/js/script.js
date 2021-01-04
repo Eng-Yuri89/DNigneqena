@@ -17,7 +17,7 @@
 // 08.Toggle nav
 // 09.Footer according
 // 10.Add to cart quantity Counter
-// 11.Product page Quantity Counter
+// 11.SellerProduct page Quantity Counter
 // 12.Full slider
 // 13.Slick slider
 // 14.Header z-index js
@@ -238,7 +238,7 @@
 
 
     /*=====================
-     11. Product page Quantity Counter
+     11. SellerProduct page Quantity Counter
      ==========================*/
     $('.collection-wrapper .qty-box .quantity-right-plus').on('click', function() {
         var $qty = $('.qty-box .input-number');

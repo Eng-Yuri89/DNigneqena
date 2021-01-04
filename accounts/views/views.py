@@ -2,13 +2,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 
-from SiteSetting.models import Store
+
 from accounts.admin import UserAdmin
 from accounts.forms import GuestForm, UserAdminChangeForm
 from django.utils.http import is_safe_url
 from accounts.signals import user_logged_in
 from django.views.generic import CreateView, TemplateView, UpdateView
-from django.views import View
+from django.views import View, generic
 
 from django.contrib.auth import (
     authenticate,
@@ -21,17 +21,32 @@ from accounts.models import GuestEmail, User
 from accounts.forms import UserLoginForm, UserRegisterForm
 
 
-
-@login_required # Check login
-def profile(request):
-    #category = Category.objects.all()
+@login_required  # Check login
+def user_list(request):
+    users = User.objects.all()
     current_user = request.user  # Access User Session information
-    setting = Store.objects.get(pk=1)
-    #profile = User.objects.get(user.id)
-    context = {'current_user': current_user,
-               'profile':profile,
-               'setting':setting}
-    return render(request, 'accounts/profile.html', context)
+    #setting = Store.objects.get(pk=1)
+    # profile = User.objects.get(user.id)
+    context = {'users': users,
+
+               }
+    return render(request, 'accounts/user-list.html', context)
+
+
+
+def user_profile(request, id):
+    user = User.objects.get(id=id)
+
+    context = {'user': user,
+              }
+    return render(request, 'accounts/user_profile.html', context)
+
+
+def user_delete(request, user_id):
+    user = User.objects.get(id=user_id)
+    user.is_delete = True
+    user.save()
+    return redirect('accounts:user_list')
 
 
 def update_profile(request):
@@ -42,10 +57,11 @@ def update_profile(request):
         if forms.is_valid():
             forms.save()
     context = {
-        'user':user,
+        'user': user,
         'forms': forms
     }
     return render(request, 'accounts/test.html', context)
+
 
 class AddProfile(CreateView):
     model = User
@@ -118,14 +134,15 @@ class UserLoginView(View):
         return render(request, self.template_name, context)
 
 
-
 def logout_func(request):
     logout(request)
 
     return render(request, 'admin/login.html')
+
+
 # class RegisterView(CreateView):
 #     form_class = UserRegisterForm
-#     template_name = 'accounts/register.html'
+#     template_name = 'accounts/create_store.html'
 #     success_url = '/login/'
 
 

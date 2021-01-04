@@ -2,7 +2,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save, post_save
 from django.template.defaultfilters import slugify
 # Create your models here.
 from django.urls import reverse
@@ -11,7 +11,8 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from SiteSetting.models import Store
+from DNigne import settings
+from vendors.models import Store
 
 STATUS = (
     ('True', 'Enable'),
@@ -52,6 +53,9 @@ def get_upload_path(instance, filename):
     return f'{name}/images/{filename}'
 
 
+def download_media_location(instance, filename):
+    return "%s/%s" %(instance.slug, filename)
+
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(null=False, unique=True)
@@ -75,12 +79,13 @@ class Product(models.Model):
     )
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)  # many to one relation with Category
+    store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
     image = models.ImageField(upload_to='images/', null=True, default='/static/images/2.jpg', verbose_name='images')
-    price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
-    n_price = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    price = models.DecimalField(max_digits=100, decimal_places=2, default=9.99, null=True)  # 100.00
+    sale_price = models.DecimalField(max_digits=100, decimal_places=2, default=6.99, null=True, blank=True)  # 100.00
     discount = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     amount = models.IntegerField(default=0)
     min_amount = models.IntegerField(default=3)
@@ -88,7 +93,7 @@ class Product(models.Model):
     detail = RichTextField(max_length=255,blank=True)
     #tags = models.ManyToManyField(Tag)
     slug = models.SlugField(null=False, unique=True)
-    status = models.CharField(max_length=10, choices=status, default='', verbose_name="status")
+    sale_active = models.BooleanField(default=False)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -109,32 +114,14 @@ class Product(models.Model):
             return ""
 
     def get_absolute_url(self):
-        return reverse('detail', kwargs={'slug': self.slug})
+        view_name = "products:detail_slug"
+        return reverse(view_name, kwargs={"slug": self.slug})
 
 
 class Images(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to=get_upload_path, null=True, blank=True, verbose_name='image')
-    name = models.CharField(max_length=255)
-    default = models.BooleanField(default=False)
-    width = models.FloatField(default=100)
-    length = models.FloatField(default=100)
+    title = models.CharField(max_length=50, blank=True)
+    image = models.ImageField(blank=True, upload_to='images/')
 
     def __str__(self):
-        return self.product.title + " Img"
-
-
-def get_unique_slug(sender, instance, **kwargs):
-    num = 1
-    slug = slugify(instance.title)
-    unique_slug = slug
-    while Product.objects.filter(slug=unique_slug).exists():
-        unique_slug = '{}-{}'.format(slug, num)
-        num += 1
-    instance.slug = unique_slug
-
-
-pre_save.connect(get_unique_slug, sender=Product)
-
-
-
+        return self.title

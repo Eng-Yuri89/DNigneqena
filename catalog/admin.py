@@ -96,7 +96,7 @@ class CategoryLangugaeAdmin(admin.ModelAdmin):
 admin.site.register(Category,CategoryAdmin2)
 
 
-admin.site.register(Images,ImageAdmin)
+
 admin.site.register(Color,ColorAdmin)
 admin.site.register(Size,SizeAdmin)
 admin.site.register(Variants,VariantsAdmin)

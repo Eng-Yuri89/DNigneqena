@@ -3,36 +3,59 @@
 
 
 {% block body %}
-            <!-- Container-fluid starts-->
-            <div class="container-fluid">
-                <div class="page-header">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="page-header-left">
-                                <h3>User List
-                                    <small>Multikart Admin panel</small>
-                                </h3>
-                            </div>
+
+
+
+
+    <div class="page-body">
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="page-header-left">
+                            <h3>Categories
+                                <small>Multikart Admin panel</small>
+                            </h3>
                         </div>
-                        <div class="col-lg-6">
-                            <ol class="breadcrumb pull-right">
-                                <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
-                                <li class="breadcrumb-item">Users</li>
-                                <li class="breadcrumb-item active">User List</li>
-                            </ol>
+                    </div>
+                    <div class="col-lg-6">
+                        <ol class="breadcrumb pull-right">
+                            <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
+                            <li class="breadcrumb-item">Physical</li>
+                            <li class="breadcrumb-item active">User List</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+            {% if users %}
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <!-- Default box -->
+
+
+                            <h5>  Category List </h5>
+                            <div class="card-tools ">
+                                <a href="{% url 'accounts:user_list' %}">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-original-title="test" data-target="#exampleModal">Add Category
+                                    </button>
+                                </a>
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Container-fluid Ends-->
 
-            <!-- Container-fluid starts-->
-            <div class="container-fluid">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>User Details</h5>
-                    </div>
-                    <div class="card-body p-0 ">
+            <div class="card-body p-0 ">
                 <table class="table table-striped projects">
                     <thead>
                     <tr>
@@ -40,13 +63,13 @@
                             #
                         </th>
                         <th style="width: 20%">
-                            Avatar
+                            Project Name
                         </th>
                         <th style="width: 10%">
-                            Name
+                            Team Members
                         </th>
-                        <th style="width: 8%" class="text-center">
-                            Last Login
+                        <th style="width: 10%">
+                            Team Members
                         </th>
                         <th style="width: 8%" class="text-center">
                             Status
@@ -56,14 +79,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for rs in object_list %}
+                    {% for rs in users %}
                         <tr>
                             <td>
-                                {{ rs.id }}
+                                {{ forloop.counter }}
                             </td>
                             <td>
                                 <a>
-                                    {{ rs.title }}
+                                    {{ rs.first_name }}
                                 </a>
                                 <br/>
                                 <small>
@@ -96,17 +119,17 @@
                                 <span class="badge badge-success">{{ rs.status }}</span>
                             </td>
                             <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="#">
+                                <a class="btn btn-primary btn-sm" href="{% url 'accounts:user_profile' user.id %}">
                                     <i class="fas fa-folder">
                                     </i>
                                     View
                                 </a>
-                                <a class="btn btn-info btn-sm" href="{% url 'home:EditCategory' rs.id rs.slug %}">
+                                <a class="btn btn-info btn-sm" href="">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                     Edit
                                 </a>
-                                <a class="btn btn-danger btn-sm" href="{% url 'home:delete_category' rs.id rs.slug %}">
+                                <a class="btn btn-danger btn-sm" href="{% url 'accounts:user_delete' user.id %}">
                                     <i class="fas fa-trash">
                                     </i>
                                     Delete
@@ -120,12 +143,16 @@
                     {% include "_pagination.html" %}
                 {% endif %}
             </div>
-                </div>
-            </div>
-            <!-- Container-fluid Ends-->
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    {% endif %}
+
+    </div>
+
+    <!-- Container-fluid Ends-->
+
 
 {% endblock %}
-
 {% block foot %} {% include 'admin/footer.html' %}  {% endblock %}
 {% block js %} {% include 'admin/js.html' %}  {% endblock %}
-
