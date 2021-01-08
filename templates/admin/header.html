@@ -1,11 +1,17 @@
 
 {% load static %}
+
 {% load bootstrap4 %}
 <!-- Page Header Start-->
     <div class="page-main-header">
         <div class="main-header-right row">
             <div class="main-header-left d-lg-none">
-                <div class="logo-wrapper"><a href="/"><img class="blur-up lazyloaded" src="{{ setting.image.url }}" alt=""></a></div>
+                {% for rs in setting %}
+
+                <div class="logo-wrapper"><a href="/"><img class="blur-up lazyloaded" src="{{ rs.image.url }}" alt=""></a></div>
+                {% endfor %}
+
+
             </div>
             <div class="mobile-sidebar">
                 <div class="media-body text-right switch-sm">

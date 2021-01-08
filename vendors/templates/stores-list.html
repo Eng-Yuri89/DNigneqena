@@ -41,7 +41,7 @@
                             <!-- Default box -->
 
 
-                            <h5>  Store List </h5>
+                            <h5> Store List </h5>
                             <div class="card-tools ">
                                 <a href="{% url 'vendors:store_list' %}">
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
@@ -62,14 +62,17 @@
                         <th style="width: 1%">
                             #
                         </th>
-                        <th style="width: 20%">
-                            Project Name
+                        <th style="width: 10%">
+                             Image
                         </th>
                         <th style="width: 10%">
-                            Team Members
+                             Name
                         </th>
                         <th style="width: 10%">
-                            Team Members
+                             Owner
+                        </th>
+                        <th style="width: 10%">
+                             Phone
                         </th>
                         <th style="width: 8%" class="text-center">
                             Status
@@ -85,51 +88,41 @@
                                 {{ forloop.counter }}
                             </td>
                             <td>
-                                <a>
-                                    {{ rs.title }}
-                                </a>
-                                <br/>
-                                <small>
-                                    {{ rs.parent }}
-                                </small>
-                            </td>
-                            <td>
                                 <ul class="list-inline">
                                     <li class="list-inline-item">
                                         <img alt="Avatar" class="table-avatar"
                                                 {% if rs.image %}
-                                             src="{{ rs.image.url }}">
+                                             src="{{ rs.image.url }} "style="width: 100px">
                                                 {% endif %}
                                     </li>
 
                                 </ul>
                             </td>
-                            <td class="project_progress">
-                                <div class="progress progress-sm">
-                                    <div class="progress-bar bg-green" role="progressbar"
-                                         aria-volumenow="57" aria-volumemin="0" aria-volumemax="100"
-                                         style="width: 57%">
-                                    </div>
-                                </div>
-                                <small>
-                                    57% Complete
-                                </small>
+                            <td>
+                                {{ rs.title }}
+                            </td>
+                            <td>
+                                {{ rs.vendor }}
+                            </td>
+                            <td>
+                                {{ rs.phone }}
                             </td>
                             <td class="project-state">
                                 <span class="badge badge-success">{{ rs.status }}</span>
                             </td>
                             <td class="project-actions text-right">
-                                <a class="btn btn-primary btn-sm" href="{% url 'accounts:user_profile' user.id %}">
+                                <a class="btn btn-primary btn-sm" href="{% url 'vendors:store_page' rs.id %}">
                                     <i class="fas fa-folder">
                                     </i>
                                     View
                                 </a>
-                                <a class="btn btn-info btn-sm" href="">
+
+                                    <a class="btn btn-primary btn-sm" href="">
                                     <i class="fas fa-pencil-alt">
                                     </i>
                                     Edit
                                 </a>
-                                <a class="btn btn-danger btn-sm" href="{% url 'accounts:user_delete' user.id %}">
+                                <a class="btn btn-danger btn-sm" href="">
                                     <i class="fas fa-trash">
                                     </i>
                                     Delete

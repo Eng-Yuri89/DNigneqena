@@ -2,8 +2,10 @@ from django import views
 from django.conf.urls import url
 from django.contrib.auth.views import LogoutView
 from django.urls import path
+from django.views.decorators.csrf import csrf_exempt
 
-from .views.customer import customer_logout, CustomerRegister, CustomerLoginView
+from .views.customer import customer_logout, CustomerRegister, CustomerLoginView, RegistrationView, EmailValidationView, \
+    VerificationView
 from .views.views import UserLoginView, RegisterView, update_profile, guest_user_view, user_list, user_profile, \
     user_delete
 
@@ -32,6 +34,10 @@ urlpatterns = [
     path('home/login/',CustomerLoginView.as_view(),name='customer_login'),
     path('home/register/',CustomerRegister.as_view(),name='customer_register'),
     path('home/logout/',customer_logout,name='customer_logout'),
+    path('validate-email', csrf_exempt(EmailValidationView.as_view()),
+         name='validate_email'),
+    path('activate/<uidb64>/<token>',
+         VerificationView.as_view(), name='activate'),
     #path('user/profile',profile,name='customer_profile'),
     #path('user/uprofile/', update_profile, name='customer_update_profile'),
     #path('admin/create-profile',AddProfile.as_view(),name='create_profile'),

@@ -4,6 +4,8 @@ from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse, request
 from django.shortcuts import render
 from django.views.generic import  ListView,  DetailView
+
+
 from catalog.models.models import Category, Product, Tag, Images
 from home.forms import SearchForm
 
@@ -12,6 +14,7 @@ from home.forms import SearchForm
 def index(request):
     categories = Category.objects.all()
     products = Product.objects.all()
+
 
 
 

@@ -51,7 +51,6 @@ INSTALLED_APPS = [
 
     # internal apps
     'accounts',
-    'SiteSetting',
     'core',
     'billing',
 
@@ -107,6 +106,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'core.context_processors.site_profile',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -209,3 +209,12 @@ CKEDITOR_IMAGE_BACKEND = "pillow"
 
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+
+# email stuff
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+EMAIL_PORT = 587
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

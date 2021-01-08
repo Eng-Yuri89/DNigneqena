@@ -41,8 +41,10 @@
                                     </a>
                                 </div>
                                 <div class="brand-logo">
-                                    <a href="/home"><img src=""
-                                            class="img-fluid blur-up lazyload" alt=""></a>
+                                    {% for rs in setting %}
+                                    <a href="/home"><img src="{{ rs.image.url }}"
+                                            class="img-fluid blur-up lazyload"  alt=""></a>
+                                    {% endfor %}
                                 </div>
                             </div>
                             <div class="menu-right pull-right">
@@ -245,7 +247,12 @@
                                  <li class="onhover-dropdown mobile-account"> <i class="fa fa-user" aria-hidden="true"></i>
                                   <strong class="text-uppercase">{{ user.first_name }} </strong>
                                  <ul class="onhover-show-div">
+                                     {% if user.seller is not None %}
+                                     <li><a href="" data-lng="es">start selling</a></li>
+                                      {% endif %}
+
                                  <li><a href="{% url 'accounts:customer_logout' %}" data-lng="es">Logout</a></li>
+
                                  </ul>
                                      </li>
                                  {% else %}
@@ -406,9 +413,11 @@
                                 </div>
                             </div>
                             <div class="brand-logo">
-                                <a href="/home"><img src="{{ setting.image.url }}"
-                                        class="img-fluid blur-up lazyload" width="179 px" height="34 px" alt=""></a>
-                            </div>
+                                    {% for rs in setting %}
+                                    <a href="/home"><img src="{{ rs.image.url }}"
+                                            class="img-fluid blur-up lazyload" alt=""></a>
+                                    {% endfor %}
+                                </div>
                         </div>
                         <div class="menu-right pull-right">
                             <div>
