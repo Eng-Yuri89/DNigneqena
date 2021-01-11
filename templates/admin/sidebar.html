@@ -4,7 +4,7 @@
 <div class="page-sidebar">
     <div class="main-header-left d-none d-lg-block">
 
-        <div class="logo-wrapper"><a href="/admin"><img class="blur-up lazyloaded"
+        <div class="logo-wrapper"><a href="{% url 'core:index' %}"><img class="blur-up lazyloaded"
                                                         src="{{ setting.image.url }}"  style="width: 200px "height="100px" alt=""></a>
         </div>
 
@@ -18,7 +18,7 @@
             <p>general manager.</p>
         </div>
         <ul class="sidebar-menu active">
-            <li><a class="sidebar-header" href="/admin"><i data-feather="home"></i><span>Dashboard</span></a></li>
+            <li><a class="sidebar-header" href="{% url 'core:index' %}"><i data-feather="home"></i><span>Dashboard</span></a></li>
             <li><a class="sidebar-header active" href="#"><i data-feather="box"></i> <span>Catalog</span><i
                     class="fa fa-angle-right pull-right"></i></a>
 
@@ -78,7 +78,7 @@
                     class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu">
                     <li><a href="{% url 'vendors:store_list' %}"><i class="fa fa-circle"></i>Store List</a></li>
-                    <li><a href="{% url 'vendors:AddStore' %}"><i class="fa fa-circle"></i>Create Stores</a></li>
+
                 </ul>
             </li>
             <li><a class="sidebar-header" href=""><i data-feather="chrome"></i><span>Localization</span><i

@@ -15,7 +15,7 @@ def download_media_location(instance, filename):
 
 
 class SellerProduct(models.Model):
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    #store = models.ForeignKey(Store, on_delete=models.CASCADE)
     media = models.ImageField(blank=True,
                               null=True,
                               upload_to=download_media_location

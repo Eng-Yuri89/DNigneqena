@@ -5,7 +5,7 @@ from django.utils.safestring import mark_safe
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name=None, last_name=None, password=None, is_active=True, is_staff=False,is_seller=True,
+    def create_user(self, email, first_name=None, last_name=None, password=None, is_active=True, is_staff=False,is_seller=False,
                     is_admin=False ,is_customer=True ):
         if not email:
             raise ValueError("Users must have an email address")

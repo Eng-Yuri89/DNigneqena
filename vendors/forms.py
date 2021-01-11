@@ -1,6 +1,5 @@
 from django import forms
 from django.contrib import messages
-from django.contrib.auth import authenticate
 from django.shortcuts import render
 from requests import request
 
@@ -10,14 +9,35 @@ from vendors.models import Store
 
 
 class StoreAddForm(forms.ModelForm):
-
     class Meta:
         model = Store
-        fields = ['email','phone']
-        #exclude = ('vendor',)  # ETA: added comma to make this a tuple
+        # fields = '__all__'
+        fields = ['email', 'phone']
+        exclude = ['vendor']
+
+        def clean_title(self, title):
+            from django.utils.text import slugify
+            from django.core.exceptions import ValidationError
+
+            email = slugify(title)
+            if Store.objects.filter(email=email).exists():
+                raise ValidationError('Store with this Email already exists.')
+
+
+class StoreAddFormm(forms.ModelForm):
+    class Meta:
+        model = Store
+
+        # fields = '__all__'
+        fields = ['email', 'phone', 'vendor']
+
+        # exclude=['vendor']
+
+    # exclude = ('vendor',)  # ETA: added comma to make this a tuple
     def user(self):
-        vendor= Store.objects.get(User_id=id)
-        if vendor is None:
+
+        user = User.objects.filter(pk=id)
+        if user is None:
             messages.error(
                 request, 'Account is not active,please check your email')
             return render(request, 'front/UsersAccount/CustomerRegister.html', context={
@@ -25,22 +45,14 @@ class StoreAddForm(forms.ModelForm):
                 "form": UserRegisterForm
             })
         else:
-            def __init__(self, *args, **kwargs):
-                self.vendor = kwargs['initial']['vendor']
-                super(StoreAddForm, self).__init__(*args, **kwargs)
-
             def save(self, commit=True):
                 obj = super(StoreAddForm, self).save(False)
-                obj.vendor = self.vendor
+                # obj.vendor = User.objects.filter(vendor=)
                 commit and obj.save()
                 return obj
-
-
 
 
 class StoreEditForm(forms.ModelForm):
     class Meta:
         model = Store
         fields = '__all__'
-
-

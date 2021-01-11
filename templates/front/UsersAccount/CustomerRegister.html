@@ -44,10 +44,7 @@
                                  {{ form|as_crispy_errors:"bootstrap4" }}
 
                                 <div class="col-md-6">
-                                    {{ form }}
-
-
-
+                                    {{ form.email|as_crispy_field:"bootstrap4" }}
 
                                 </div>
 
@@ -55,7 +52,11 @@
                             <div class="form-row">
                                 <div class="col-md-6">
 
-                                    {#  { form.password1|as_crispy_field:"bootstrap4" }#}
+                                    {{ form.password1|as_crispy_field:"bootstrap4" }}
+                                </div>
+                                <div class="col-md-6">
+
+                                    {{ form.password2|as_crispy_field:"bootstrap4" }}
                                 </div>
                                 <div class="col-md-6">
 

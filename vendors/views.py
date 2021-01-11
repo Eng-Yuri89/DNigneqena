@@ -1,35 +1,48 @@
-
-from django.views.generic.base import RedirectView
-from django.shortcuts import get_object_or_404
-from catalog.models.models import Product
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, TemplateView, UpdateView
-from accounts.models import  User
+from django.views.generic import CreateView, DetailView
+from django.views.generic.base import RedirectView
 
+from accounts.models import User
+from catalog.models.models import Product
 from vendors.forms import StoreEditForm, StoreAddForm
 from vendors.models import Store
 
 
 @login_required  # Check login
 def store_list(request):
-    stores = Store.objects.all()
+    store = Store.objects.all()
     current_user = request.user  # Access User Session information
     # setting = Store.objects.get(pk=1)
     # profile = User.objects.get(user.id)
-    context = {'stores': stores,
+    context = {'store': store,
 
                }
     return render(request, 'stores-list.html', context)
 
 
-def store_page(request, id):
+def admin_dashboard(request, id):
+    current_user = request.user  # Access User Session information
     store = Store.objects.get(id=id)
 
     context = {'store': store,
                }
     return render(request, 'store_page.html', context)
+
+@login_required(login_url='/home/login/') # Check login
+def vendor_dashboard(request ,vendor=None):
+    vendor = request.user  # Access User Session information
+    store = Store.objects.get(vendor=vendor)
+
+
+    context = {'store': store,
+
+
+               }
+    return render(request, 'vendor-dashboard.html', context)
 
 
 def create_success(request, id):
@@ -39,18 +52,23 @@ def create_success(request, id):
                }
     return render(request, 'store-page/create-success.html', context)
 
+def become_seller(request, id):
+    forms = StoreAddForm
+    if request.method == 'POST':
 
-class AddStore(CreateView):
-    model = Store
-    template_name = 'store-page/become-vendor.html'
-    form_class = StoreAddForm
-
-    def get_initial(self):
-        self.initial.update({'vendor': self.request.user})
-        return self.initial
-
-    success_url = reverse_lazy('vendors:create_success')
-
+        print(request.POST)
+        forms = StoreAddForm(request.POST, request.FILES)
+        if forms.is_valid():
+            store = forms.save(commit=False)
+            store.vendor = request.user
+            store.save()
+            # Add this to check if the email already exists in your database or not
+            # store.save()
+            return render(request, 'store-page/create-success.html', )
+    else:
+        forms = StoreAddForm(request.POST, request.FILES)
+        return render(request, 'store-page/become-seller.html', {'forms': forms})
+    return render(request, 'store-page/become-seller.html', {'forms': forms})
 
 def edit_store(request):
     store = Store.objects.get(id=request.store.id)
@@ -64,7 +82,6 @@ def edit_store(request):
         'forms': forms
     }
     return render(request, 'store_page.html', context)
-
 
 def store_delete(request, user_id):
     store = Store.objects.get(id=user_id)

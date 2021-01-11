@@ -276,22 +276,19 @@
                         India.
                         Selling on Multikart.com is easy and absolutely free. All you need is to register, list your
                         catalogue and start selling your products.</p>
-                    <form action="{% url 'vendors:become_vendor' %}" method="POST">
+                    <form action="{% url 'vendors:become_seller' user.id %}" method="POST">
                         {% csrf_token %}
+                        {{ forms|as_crispy_errors:"bootstrap4" }}
                         <div class="row">
-                            {{ form|as_crispy_errors }}
                             <div class="col-sm-6">
-
-                                {{ form.email|as_crispy_field }}
-                            </div>
-                            <div class="col-sm-6">
-                                {{ form.phone|as_crispy_field }}
-
-                            </div>
-                        </div>
-
+                             {{ forms.email|as_crispy_field:"bootstrap4" }}
+                           </div>
+                           <div class="col-sm-6">
+                            {{ forms.phone|as_crispy_field:"bootstrap4" }}
+                          </div>
                         <div>
                             <button type="submit" class="btn btn-solid btn-sm">start selling</button>
+                        </div>
                         </div>
                     </form>
 

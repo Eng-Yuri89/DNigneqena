@@ -79,7 +79,7 @@ class Product(models.Model):
     )
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)  # many to one relation with Category
-    store = models.ForeignKey(to=Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
+    #store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
