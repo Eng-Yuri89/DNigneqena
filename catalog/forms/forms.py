@@ -30,10 +30,6 @@ class SingleProductAddForm(forms.ModelForm):
 
 class ProductAddForm(forms.ModelForm):
 
-    def __init__(self, *args, **kargs):
-        super(ProductAddForm, self).__init__(*args, **kargs)
-
-
     status= forms.ChoiceField(label="status", choices=(
         ('True', 'Enable'),
         ('False', 'Disable'),

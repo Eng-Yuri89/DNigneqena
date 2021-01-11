@@ -43,7 +43,7 @@
                               method="post">
                             {% csrf_token %}
 
-                            <div class="card-body">
+                           <div class="card-body">
                                 <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
                                     <li class="nav-item"><a class="nav-link active show" id="general-tab"
                                                             data-toggle="tab"
@@ -120,7 +120,7 @@
                                                                                 <label class="col-form-label">Meta
                                                                                     Description</label>
                                                                                 <label class="col-form-label"></label>
-                                                                                {{ form.store|as_crispy_field:"bootstrap4" }}
+                                                                                {#  { form.store|as_crispy_field:"bootstrap4" }#}
 
                                                                             </div>
                                                                         </div>

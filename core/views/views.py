@@ -67,8 +67,6 @@ class DeleteCategory(DeleteView):
     fields = '__all__'
     template_name = 'admin/pages/message/category_confirm_delete.html'
     success_url = reverse_lazy('core:category_admin')
-
-
 class ProductView(ListView):
     template_name = 'admin/pages/products-admin.html'
     context_object_name = 'product_list'
@@ -76,18 +74,15 @@ class ProductView(ListView):
 
     def get_queryset(self):
         return Product.objects.all()
-
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'admin/pages/product-detail.html'
-
-
 class ProductCreate(CreateView):
     model = Product
-    form = SingleProductAddForm
-    template_name = 'admin/pages/add-product.html'
+    #form_class = ProductAddForm
     fields = '__all__'
+    template_name = 'admin/pages/add-product.html'
+    #template_name = 'coretest.html'
     success_url = reverse_lazy('core:product')
 
 
