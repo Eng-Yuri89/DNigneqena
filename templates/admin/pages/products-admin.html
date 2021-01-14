@@ -12,7 +12,7 @@
                         <h3>Product List
                             <small>
                                 <ol class="breadcrumb pull-left">
-                                    <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'core:index' %}"><i data-feather="home"></i></a></li>
                                     <li class="breadcrumb-item">Physical</li>
                                     <li class="breadcrumb-item active">Product List</li>
                                 </ol>
@@ -48,7 +48,7 @@
                         <div class="card-body product-box">
                             <div class="img-wrapper">
                                 <div class="front">
-                                    <a href="#"><img src="{{ rs.image.url }}" class="img-fluid blur-up lazyload bg-img"
+                                    <a href="#"><img src="{{ rs.main_image.url }}" class="img-fluid blur-up lazyload bg-img"
                                                      alt=""></a>
                                     <div class="product-hover">
                                         <ul>
@@ -56,7 +56,7 @@
                                                 <a href="{% url 'core:ProductDelete' rs.id rs.slug  %}">
                                                 <button class="btn" type="button" data-original-title="" title=""><i
                                                         class="ti-trash"></i></button>
-                                            </li>
+                                                </a></li>
                                             <li>
                                                 <a href="{% url 'core:ProductUpdate' rs.id rs.slug  %}">
                                                     <button class="btn" type="button" data-toggle="modal"

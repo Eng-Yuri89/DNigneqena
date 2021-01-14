@@ -1,0 +1,298 @@
+{% extends 'admin/adminbase.html' %}
+{% load crispy_forms_filters %}
+{% load static %}
+
+
+{% load widget_tweaks %}
+{% block body %}
+
+    <div class="page-body">
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="page-header-left">
+                            <h3>Add Products
+                                <small>
+                                    {% if not edit %}🆕 Add a new Learned Language {% else %} ✏ Edit a
+                                        Language{% endif %}</small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ol class="breadcrumb pull-right">
+                            <li class="breadcrumb-item"><a href="/"><i data-feather="home"></i></a></li>
+                            <li class="breadcrumb-item">Physical</li>
+                            <li class="breadcrumb-item active">Add Product</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row product-adding">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <form class="needs-validation" enctype="multipart/form-data"
+                              action="{% url 'core:ProductCreate' %}"
+                              method="post">
+                            {% csrf_token %}
+                            {{ form|as_crispy_errors:"bootstrap4" }}
+                            <div class="card-body">
+                                <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active show" id="general-tab"
+                                                            data-toggle="tab"
+                                                            href="#general" role="tab" aria-controls="general"
+                                                            aria-selected="true" data-original-title=""
+                                                            title="">General</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" id="data-tabs" data-toggle="tab"
+                                                            href="#data"
+                                                            role="tab" aria-controls="data" aria-selected="false"
+                                                            data-original-title="" title="">Data</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="image-tabs" data-toggle="tab"
+                                                            href="#image"
+                                                            role="tab" aria-controls="image" aria-selected="false"
+                                                            data-original-title="" title="">Image</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="option-tabs" data-toggle="tab"
+                                                            href="#option"
+                                                            role="tab" aria-controls="option" aria-selected="false"
+                                                            data-original-title="" title="">Option</a></li>
+
+                                    <li class="nav-item"><a class="nav-link" id="seo-tabs" data-toggle="tab" href="#seo"
+                                                            role="tab" aria-controls="seo" aria-selected="false"
+                                                            data-original-title="" title="">SEO</a></li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class=" card tab-pane fade active show" id="general" role="tabpanel"
+                                         aria-labelledby="general-tab">
+                                        <!-- Container-fluid starts-->
+                                        <div class="container-fluid">
+                                            <div class="row product-adding">
+                                                <div class="col-md-4">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>General</h5>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="digital-add needs-validation">
+                                                                <div class="form-group row">
+                                                                    <label for="validationCustom0"
+                                                                           class="col-xl-3 col-md-4"><span>*</span>Title</label>
+                                                                    <input class="form-control col-md-7"
+                                                                           id="validationCustom0" type="text"
+                                                                           name="title" value="5" required="">
+                                                                </div>
+                                                            {{ form }}
+                                                                <div class="form-group row">
+                                                                    <label for="validationCustom0"
+                                                                           class="col-xl-3 col-md-4"><span>*</span>
+                                                                        Keywords</label>
+                                                                    <input class="form-control col-md-7"
+                                                                           id="validationCustom0" type="text"
+                                                                           name="keywords" value="5" required="">
+
+                                                                </div>
+                                                                <div class="form-group row ">
+                                                                    <label for="categoryFormControlSelect1"
+                                                                           class="col-form-label pt-0 "></label>
+
+
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-xl-3 col-md-4">Category
+                                                                    </label>
+                                                                    <select class="custom-select  col-md-7" required="">
+
+                                                                        <option value="">--Select--</option>
+                                                                        {% for value, text in form.category.field.choices %}
+                                                                            <option value="{{ value }}">{{ text }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                                <div class="card">
+                                                                    <div class="card-header row">
+                                                                        <h5>Status</h5>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group row">
+                                                                    <label class="col-xl-3 col-md-4">Status
+                                                                    </label>
+                                                                    <select class="custom-select  col-md-7" required="">
+
+                                                                        <option value="">--Select--</option>
+                                                                        {% for value, text in form.status.field.choices %}
+                                                                            <option value="{{ value }}">{{ text }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
+                                                                <div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-xl-8">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            <h5>Add Description</h5>
+                                                        </div>
+                                                        <div class="form-group row">
+
+                                                    <div class="col-xl-8 col-md-7 pl-0 description-md">
+                                                        <textarea id="editor1"  content="hhhhhhhhh" name="description" cols="10" rows="4"></textarea>
+                                                    </div>
+                                                </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Container-fluid Ends-->
+                                    </div>
+                                    <div class="tab-pane fade" id="data" role="tabpanel" aria-labelledby="data-tabs">
+                                        <h4>Data</h4>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">Price :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="price" value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">Sale Price :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="sale_price"  value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">discount :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="discount" value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">amount :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="amount"  value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">min_amount :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="min_amount" value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="option" role="tabpanel"
+                                         aria-labelledby="option-tabs">
+                                        <h4>Option</h4>
+                                        <div class="form-group  ">
+                                            <label for="categoryFormControlSelect1"
+                                                   class="col-form-label pt-0 "><span>*</span>variant
+                                                :</label>
+                                            <select class="form-control "
+                                                    name="variant"
+                                                    id="categoryFormControlSelect1">
+                                                {% for rs in product %}
+                                                    <option value=""></option>
+                                                {% endfor %}
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tabs">
+                                        <h4>Image</h4>
+                                        <div class="card-body">
+                                            <div class="row product-adding">
+                                                <div class="col-xl-5">
+                                                    <div class="add-product">
+                                                        <div class="row">
+                                                            <div class="col-xl-9 xl-50 col-sm-6 col-9">
+                                                                <img src="{% static "" %}images/pro3/1.jpg" alt=""
+                                                                     class="img-fluid image_zoom_1 blur-up lazyloaded">
+                                                            </div>
+                                                            <div class=" ">
+                                                                <ul class="file-upload-product">
+                                                                    <li>
+                                                                        <div class="box-input-file"><input
+                                                                                class="upload" type="file" name="image"
+                                                                                id="image"><i
+                                                                                class="fa fa-plus"></i></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="box-input-file"><input
+                                                                                class="upload" type="file"><i
+                                                                                class="fa fa-plus"></i></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="box-input-file"><input
+                                                                                class="upload" type="file"><i
+                                                                                class="fa fa-plus"></i></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="box-input-file"><input
+                                                                                class="upload" type="file"><i
+                                                                                class="fa fa-plus"></i></div>
+                                                                    </li>
+                                                                    <li>
+                                                                        <div class="box-input-file"><input
+                                                                                class="upload" type="file"><i
+                                                                                class="fa fa-plus"></i></div>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="seo" role="tabpanel" aria-labelledby="seo-tabs">
+
+                                        <h4>SEO</h4>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">slug :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="slug" value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+                                        <div class="form-group mb-3 row">
+                                                    <label for="validationCustom02" class="col-xl-3 col-sm-4 mb-0">tags :</label>
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustom02" name="tags"  value="5" type="text" required="">
+                                                    <div class="valid-feedback">Looks good!</div>
+                                                </div>
+
+                                    </div>
+
+                                    <div class="form-group mb-0">
+                                        <div class="product-buttons text-center">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                            <button type="submit" class="btn btn-light">Discard</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Container-fluid Ends-->
+            </div>
+        </div>
+    </div>
+    </div>
+    {% if uploaded_file_url %}
+        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    {% endif %}
+
+{% endblock %}
+
+{% block foot %} {% include 'admin/footer.html' %}  {% endblock %}
+{% block js %}{% include 'admin/js.html' %}{% endblock %}
+
+

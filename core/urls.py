@@ -3,7 +3,7 @@ from django.urls import path
 
 from core.views.setting_views import update_setting
 from core.views.views import AddCategory, ProductView, ProductUpdate, ProductCreate, ProductDelete, categories, index, \
-    EditCategory, DeleteCategory, ProductDetailView
+    EditCategory, DeleteCategory, ProductDetailView, AddProductView
 
 app_name = 'core'
 urlpatterns = [
@@ -24,7 +24,8 @@ urlpatterns = [
     path('admin/product/', ProductView.as_view(), name='product'),
     path('admin/product/<int:pk>/', ProductDetailView.as_view(), name='ProductDetail'),
     path('admin/product/edit/<int:pk>/<slug:slug>/',ProductUpdate.as_view(), name='ProductUpdate'),
-    path('admin/product/create/', ProductCreate.as_view(), name='ProductCreate'),
+    #path('admin/product/create/', ProductCreate.as_view(), name='ProductCreate'),
+    path('admin/product/create/', AddProductView, name='ProductCreate'),
     #path('admin/product/create/', addProductView, name='addProductView'),
     path('admin/product/delete/<int:id>/<slug:slug>/', ProductDelete.as_view(), name='ProductDelete'),
 

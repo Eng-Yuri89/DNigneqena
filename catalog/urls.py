@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from catalog.views import views
 from catalog.api import api
@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/v2/category/<int:id>', api.CategoryApi.as_view(), name='CategoryAPi'),
     path('api/v2/category/product/', api.ProductListApi.as_view(), name='ProductListAPi'),
     path('api/v2/category/product/<int:id>', api.ProductApi.as_view(), name='ProductAPi'),
+
 
 ]

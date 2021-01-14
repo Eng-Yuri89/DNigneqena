@@ -42,7 +42,7 @@
                               action="{% url 'core:ProductCreate' %}"
                               method="post">
                             {% csrf_token %}
-
+                                     {{ form|as_crispy_errors:"bootstrap4" }}
                            <div class="card-body">
                                 <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
                                     <li class="nav-item"><a class="nav-link active show" id="general-tab"

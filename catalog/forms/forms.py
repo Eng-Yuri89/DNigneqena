@@ -1,3 +1,4 @@
+import datetime
 from urllib import request
 
 from crispy_forms.helper import FormHelper
@@ -9,8 +10,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from django.forms import TextInput, EmailInput, Select, FileInput, Textarea, ImageField
+from haystack import indexes
 
-from catalog.models.models import Category, Product, Images
+from catalog.models.models import Category, Product, Image
 from catalog.models.product_options import Manufacturer, SingleProduct
 
 
@@ -21,60 +23,74 @@ class CategoryAddForm(forms.ModelForm):
         model = Category
         fields = '__all__'
 
+
 class SingleProductAddForm(forms.ModelForm):
     class Meta:
         model = SingleProduct
         fields = ['title', ]
 
 
-
 class ProductAddForm(forms.ModelForm):
-
-    status= forms.ChoiceField(label="status", choices=(
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='image')
+    status = forms.ChoiceField(label="status", choices=(
         ('True', 'Enable'),
         ('False', 'Disable'),
     ))
+
     class Meta:
         model = Product
         fields = '__all__'
-        extra_field = CategoryAddForm.Meta.fields
+        # extra_field = CategoryAddForm.Meta.fields
         widgets = {'title': forms.TextInput(attrs={'class': 'form-control'}),
                    'keywords': forms.TextInput(attrs={'class': 'form-control'}),
-                   'category': forms.Select(attrs={'class': 'form-control'}),
+                   'category': forms.Select(attrs={'class': 'custom-select'}),
                    'slug': forms.TextInput(attrs={'class': 'form-control'}),
                    'price': forms.NumberInput(attrs={'class': 'form-control'}),
+                   'detail': CKEditorWidget(attrs={'class': 'form-control'}),
 
                    }
-class CustomUploadFile(Field):
-    template = 'add-product.html'
 
 
-class CustomFieldForm(ProductAddForm):
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.layout = Layout(
-            Row(
-                Column('image', css_class='fa fa-plus'),
+class ProductFullForm(ProductAddForm):
+    product_id = forms.IntegerField(required=False)
+    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False , label='image')
+    tags = forms.CharField(max_length=50, required=False)
 
-                css_class='form-row'
-            ),
+    class Meta(ProductAddForm.Meta):
+        fields = '__all__'
+        field_classes=ProductAddForm.Meta.fields
 
-            Submit('image'),  # <-- Here
+        widgets = {'title': forms.TextInput(attrs={'class': 'form-control'}),
+                   'keywords': forms.TextInput(attrs={'class': 'form-control'}),
+                   'category': forms.Select(attrs={'class': 'custom-select'}),
+                   'slug': forms.TextInput(attrs={'class': 'form-control'}),
+                   'price': forms.NumberInput(attrs={'class': 'form-control'}),
+                   'detail': CKEditorWidget(attrs={'class': 'form-control'}),
 
-        )
+                   }
 
-
-
-class ImageForm(forms.ModelForm):
-    image = ImageField(label='image')
-
-    class Meta:
-        model = Images
-        fields = ['image', ]
+    def save(self, *args, **kwargs):
+        multiImage = super(ProductFullForm, self).save(*args, **kwargs)
+        if hasattr(self.files, 'getlist'):
+            for f in self.files.getlist('other_images'):
+                Image.objects.create(multiImage=multiImage, image=f)
+        return multiImage
 
 
 class ManufacturerAddForm(forms.ModelForm):
     class Meta:
         model = Manufacturer
         fields = '__all__'
+
+
+class ProductIndex(indexes.SearchIndex, indexes.Indexable):
+    text = indexes.CharField(document=True, use_template=True)
+    category = indexes.CharField(model_attr='product')
+    pub_date = indexes.DateTimeField(model_attr='pub_date')
+
+    def get_model(self):
+        return Product
+
+    def index_queryset(self, using=None):
+        """Used when the entire index for model is updated."""
+        return self.get_model().objects.filter(pub_date__lte=datetime.datetime.now())

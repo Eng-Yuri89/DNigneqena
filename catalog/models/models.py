@@ -1,8 +1,7 @@
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import pre_save, post_save
+from django.db.models.signals import pre_save
 from django.template.defaultfilters import slugify
 # Create your models here.
 from django.urls import reverse
@@ -11,8 +10,7 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from DNigne import settings
-from vendors.models import Store
+from DNigne.utils import unique_slug_generator
 
 STATUS = (
     ('True', 'Enable'),
@@ -45,8 +43,6 @@ class Category(MPTTModel):
         return reverse('category_detail', kwargs={'slug': self.slug})
 
 
-
-
 def get_upload_path(instance, filename):
     model = instance.album.model.__class__._meta
     name = model.verbose_name_plural.replace(' ', '_')
@@ -54,7 +50,8 @@ def get_upload_path(instance, filename):
 
 
 def download_media_location(instance, filename):
-    return "%s/%s" %(instance.slug, filename)
+    return "%s/%s" % (instance.slug, filename)
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=50, unique=True)
@@ -69,31 +66,26 @@ class Tag(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
+        return super(Tag, self).save(*args, **kwargs)
 
 
 class Product(models.Model):
-    status = (
-        ('True', 'Enable'),
-        ('False', 'Disable'),
-    )
-
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)  # many to one relation with Category
-    #store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
+    # store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
     description = models.TextField(max_length=255)
-    image = models.ImageField(upload_to='images/', null=True, default='/static/images/2.jpg', verbose_name='images')
+    main_image = models.ImageField(upload_to='images/', null=True, default='images/2.jpg')
     price = models.DecimalField(max_digits=100, decimal_places=2, default=9.99, null=True)  # 100.00
     sale_price = models.DecimalField(max_digits=100, decimal_places=2, default=6.99, null=True, blank=True)  # 100.00
     discount = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     amount = models.IntegerField(default=0)
     min_amount = models.IntegerField(default=3)
     # variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
-    detail = RichTextField(max_length=255,blank=True)
-    #tags = models.ManyToManyField(Tag)
-    slug = models.SlugField(null=False, unique=True)
-    sale_active = models.BooleanField(default=False)
+    detail = RichTextUploadingField()
+    tags = models.ManyToManyField(Tag)
+    slug = models.SlugField(max_length=250, null=True, blank=True, unique=True, )
+    status = models.CharField(max_length=10, choices=STATUS)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -106,22 +98,35 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-    # method to create a fake table field in read only mode
-    def image_tag(self):
-        if self.image.url is not None:
-            return mark_safe('<img src="{}" height="50"/>'.format(self.image.url))
-        else:
-            return ""
-
-    def get_absolute_url(self):
-        view_name = "products:detail_slug"
-        return reverse(view_name, kwargs={"slug": self.slug})
+    def getProductTags(self):
+        return self.tags.all()
 
 
-class Images(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+def slug_genrator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = unique_slug_generator(instance)
+
+
+pre_save.connect(slug_genrator, sender=Product)
+
+
+# method to create a fake table field in read only mode
+def image_tag(self):
+    if self.main_image.url is not None:
+        return mark_safe('<img src="{}" height="50"/>'.format(self.main_image.url))
+    else:
+        return ""
+
+
+def get_absolute_url(self):
+    view_name = "products:detail_slug"
+    return reverse(view_name, kwargs={"slug": self.slug})
+
+
+class Image(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='image')
     title = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(blank=True, upload_to='images/')
+    image = models.ImageField(upload_to='images/')
 
     def __str__(self):
         return self.title

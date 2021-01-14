@@ -10,9 +10,7 @@ from core.models import Setting
 
 
 def setting(request):
-
-    setting = Setting.objects.get(pk=1)
-
+    setting = Setting.objects.first()
     context = {'setting': setting,
 
                }
@@ -29,7 +27,7 @@ def setting(request):
 
 def update_setting(request):
     try:
-        setting = Setting.objects.get(id=request.user.id)
+        setting = Setting.objects.first()
         forms = SettingAddForm(instance=setting)
         if request.method == 'POST':
             forms = SettingAddForm(request.POST, request.FILES, instance=setting)
@@ -41,7 +39,7 @@ def update_setting(request):
         }
         return render(request, 'setting.html', context)
     except Setting.DoesNotExist:
-        go = None
+        setting = None
 
     forms = SettingAddForm()
     if request.method == 'POST':
@@ -53,6 +51,6 @@ def update_setting(request):
         'forms': forms
     }
 
-    return render(request, 'create_store.html',context)
+    return render(request, 'setting.html',context)
 
 

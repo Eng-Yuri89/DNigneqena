@@ -22,7 +22,7 @@
                         </div>
                         <div class="col-lg-6">
                             <ol class="breadcrumb pull-right">
-                                <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'core:index' %}"><i data-feather="home"></i></a></li>
                                 <li class="breadcrumb-item">Physical</li>
                                 <li class="breadcrumb-item active">Add Product</li>
                             </ol>
@@ -47,7 +47,7 @@
                                             <div class="row">
                                                 <div class="col-xl-9 xl-50 col-sm-6 col-9">
 
-                                                    <img src="{{ product.m_image.url }}" alt="" class="img-fluid image_zoom_1 blur-up lazyloaded">
+                                                    <img src="{{ product.main_image.url }}" alt="" class="img-fluid image_zoom_1 blur-up lazyloaded">
 
                                                 </div>
                                                 <div class="col-xl-3 xl-50 col-sm-6 col-3">
@@ -80,7 +80,7 @@
                                                 </div>
                                                 <div class="form-group mb-3 row">
                                                     <label for="validationCustomUsername" class="col-xl-3 col-sm-4 mb-0">Product Code :</label>
-                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustomUsername" type="text" required="">
+                                                    <input class="form-control col-xl-8 col-sm-7" id="validationCustomUsername" type="text" value="{{ product.description }}" required="">
                                                     <div class="invalid-feedback offset-sm-4 offset-xl-3">Please choose Valid Code.</div>
                                                 </div>
                                             </div>

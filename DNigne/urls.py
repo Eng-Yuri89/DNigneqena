@@ -29,6 +29,8 @@ urlpatterns = [
 
     path('', include('vendors.urls'), name='vendors'),
 
+    path('search/', include('haystack.urls'), name='haystack'),
+
 
 
     # USER URL

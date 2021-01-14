@@ -15,7 +15,7 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from catalog.models.models import Category, Product, Images
+from catalog.models.models import Category, Product, Image
 
 
 
@@ -82,14 +82,14 @@ def product_detail(request,id,slug):
 
     product = Product.objects.get(pk=id)
 
-    images = Images.objects.filter(product_id=id)
+    images = Image.objects.filter(product_id=id)
     paginator = Paginator(images, 1)  # Show 25 contacts per page.
 
     context = {'product': product,'category': category,
                'images': images,"paginator":paginator
                }
     #return HttpResponse('f')
-    return render(request, 'front/pages/product-page.html', context)
+    return render(request, 'add-producttest.html', context)
 
 
 

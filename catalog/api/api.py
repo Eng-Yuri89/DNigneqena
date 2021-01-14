@@ -2,7 +2,7 @@
 from rest_framework import generics
 from rest_framework.renderers import JSONRenderer
 
-from catalog.models.models import Category, Product
+from catalog.models.models import Category, Product, Image
 from catalog.api.serializers import CategorySerializer, ProductSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, renderer_classes

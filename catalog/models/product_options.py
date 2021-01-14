@@ -11,7 +11,7 @@ from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from catalog.models.models import STATUS, Product, Images
+from catalog.models.models import STATUS, Product, Image
 
 
 
@@ -51,7 +51,7 @@ class Variants(models.Model):
         return self.title
 
     def image(self):
-        img = Images.objects.get(id=self.image_id)
+        img = Image.objects.get(id=self.image_id)
         if img.id is not None:
             varimage = img.image.url
         else:
@@ -59,7 +59,7 @@ class Variants(models.Model):
         return varimage
 
     def image_tag(self):
-        img = Images.objects.get(id=self.image_id)
+        img = Image.objects.get(id=self.image_id)
         if img.id is not None:
             return mark_safe('<img src="{}" height="50"/>'.format(img.image.url))
         else:
