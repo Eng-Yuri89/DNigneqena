@@ -42,13 +42,13 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row products-admin ratio_asos">
-            {% for rs in object_list  %}
+            {% for rs in product_list  %}
                 <div class="col-xl-3 col-sm-6">
                     <div class="card">
                         <div class="card-body product-box">
                             <div class="img-wrapper">
                                 <div class="front">
-                                    <a href="#"><img src="{{ rs.main_image.url }}" class="img-fluid blur-up lazyload bg-img"
+                                    <a href="#"><img src="{{ rs.thumbnail.url }}" class="img-fluid blur-up lazyload bg-img"
                                                      alt=""></a>
                                     <div class="product-hover">
                                         <ul>
@@ -58,7 +58,7 @@
                                                         class="ti-trash"></i></button>
                                                 </a></li>
                                             <li>
-                                                <a href="{% url 'core:ProductUpdate' rs.id rs.slug  %}">
+                                                <a href="{% url 'core:ProductUpdate' rs.id rs.slug   %}">
                                                     <button class="btn" type="button" data-toggle="modal"
                                                             data-target="#exampleModalCenter" data-original-title=""
                                                             title=""><i class="ti-pencil-alt"></i></button>

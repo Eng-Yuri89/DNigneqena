@@ -74,8 +74,14 @@ class Product(models.Model):
     # store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
     keywords = models.CharField(max_length=255)
-    description = models.TextField(max_length=255)
-    main_image = models.ImageField(upload_to='images/', null=True, default='images/2.jpg')
+    description = models.TextField( max_length=255,null=True , blank=True)
+    thumbnail  = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
+    image1 = models.ImageField(upload_to='images/%Y/%m/%d', null=True, default='images/2.jpg')
+    image2 = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
+    image3 = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
+    image4 = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
+    image5 = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
+    image6 = models.ImageField(upload_to='images/%Y/%m/%d/', null=True, default='images/2.jpg')
     price = models.DecimalField(max_digits=100, decimal_places=2, default=9.99, null=True)  # 100.00
     sale_price = models.DecimalField(max_digits=100, decimal_places=2, default=6.99, null=True, blank=True)  # 100.00
     discount = models.DecimalField(decimal_places=2, max_digits=10, default=0)
@@ -122,11 +128,18 @@ def get_absolute_url(self):
     view_name = "products:detail_slug"
     return reverse(view_name, kwargs={"slug": self.slug})
 
+def get_image_filename(instance, filename):
+    id = instance.product.id
+    return "post_images/%s" % id
+
 
 class Image(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='image')
     title = models.CharField(max_length=50, blank=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to=get_image_filename,
+                              verbose_name='Image')
 
     def __str__(self):
         return self.title
+
+

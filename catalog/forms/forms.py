@@ -14,6 +14,7 @@ from haystack import indexes
 
 from catalog.models.models import Category, Product, Image
 from catalog.models.product_options import Manufacturer, SingleProduct
+from core.models import Images
 
 
 class CategoryAddForm(forms.ModelForm):
@@ -31,7 +32,7 @@ class SingleProductAddForm(forms.ModelForm):
 
 
 class ProductAddForm(forms.ModelForm):
-    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='image')
+    thumbnail = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='image')
     status = forms.ChoiceField(label="status", choices=(
         ('True', 'Enable'),
         ('False', 'Disable'),
@@ -51,9 +52,17 @@ class ProductAddForm(forms.ModelForm):
                    }
 
 
+class ImageForm(forms.ModelForm):
+
+    class Meta:
+        model = Images
+        fields = ('image',)
+
+
 class ProductFullForm(ProductAddForm):
     product_id = forms.IntegerField(required=False)
-    images = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False , label='image')
+    thumbnail = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False )
+    image1 = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False)
     tags = forms.CharField(max_length=50, required=False)
 
     class Meta(ProductAddForm.Meta):
@@ -70,11 +79,11 @@ class ProductFullForm(ProductAddForm):
                    }
 
     def save(self, *args, **kwargs):
-        multiImage = super(ProductFullForm, self).save(*args, **kwargs)
+        image = super(ProductFullForm, self).save(*args, **kwargs)
         if hasattr(self.files, 'getlist'):
-            for f in self.files.getlist('other_images'):
-                Image.objects.create(multiImage=multiImage, image=f)
-        return multiImage
+            for f in self.files.getlist('image'):
+                Image.objects.create(product=image, image=f)
+        return image
 
 
 class ManufacturerAddForm(forms.ModelForm):

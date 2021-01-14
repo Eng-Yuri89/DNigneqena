@@ -33,104 +33,16 @@
             </div>
         </div>
         <!-- Container-fluid Ends-->
-        <script type="text/javascript">
-            $(document).ready(function () {
-                $('#addProductModel').on('show.bs.modal', function (event) {
-                    var getTagList = $("#tag-list").text().split(",");
-                    if ($("#tag-list").text() == "") {
-                        var getTagList = [];
-                    }
-                    $('[name="tags"]').tagify({
-                        whitelist: getTagList,
-                        maxTags: 10,
-                        dropdown: {
-                            // maxItems: 20,           // <- mixumum allowed rendered suggestions
-                            classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
-                            enabled: 0,             // <- show suggestions on focus
-                            closeOnSelect: false,    // <- hide the suggestions dropdown once an item has been selected
-                            duplicates: false,
-                        },
-                    })
-                })
-                $(document).on('submit', "#product-form", function (e) {
-                    e.preventDefault();
-                    var modal = $("#addProductModel");
-                    var form = $("#ProductAddForm");
-                    var url = form.attr("action");
-                    var httpMethod = form.attr("method");
-                    var TagValues = JSON.parse($('[name="tags"]').tagify().val())
-                    var TagArray = []
-                    for (let i = 0; i < TagValues.length; i++) {
-                        TagArray.push(TagValues[i].value)
-                    }
-                    var dataToSend = $(this).serializeArray();
-                    for (let index = 0; index < dataToSend.length; ++index) {
-                        if (dataToSend[index].name == "tags") {
-                            dataToSend[index].value = TagArray;
-                            break;
-                        }
-                    }
-                    $.ajax({
-                        url: url,
-                        method: httpMethod,
-                        data: jQuery.param(dataToSend),
-                        success: function (data) {
-                            document.getElementById("ProductAddForm").reset();
-                            modal.modal('toggle');
-                            var shortText = jQuery.trim(data.text).substring(0, 79) + '...';
-                            var shortTitle = jQuery.trim(data.title).substring(0, 21);
-                            if (data.product_created) {
-                                // we can't include the snippet bcoz- Any jQuery calls will happen after the DOM is loaded. While any include statements will happen before.
-                                var product = $(".full-product-col").clone();
-                                product.removeClass("d-none");
-                                product.find(".card-title").text(shortTitle);
-                                product.find(".card-text").text(shortText);
-                                var product_badges = product.find("#badge-list");
-                                for (let i = 0; i < TagArray.length; i++) {
-                                    var url = "product/tag/" + TagArray[i]
-                                    product_badges.append(
-                                        "<a href=\"" + url + "\" class=\'badge badge-primary\'>#" + TagArray[i] + '</a>'
-                                    )
-                                    console.log("appended a badge");
-                                }
-                                $(".product-list-row").prepend(product);
-                            } else {
-                                // product is updated
-                                var product = $("#product_" + data.id);
-                                product.find(".card-title").text(shortTitle);
-                                product.find(".card-text").text(shortText);
-                                var product_badges = product.find("#badge-list").text('');
-                                for (let i = 0; i < TagArray.length; i++) {
-                                    var url = "product/tag/" + TagArray[i]
-                                    product_badges.append(
-                                        "<a href=\"" + url + "\" class=\'badge badge-primary\'>#" + TagArray[i] + '</a>'
-                                    )
-                                    console.log("appended a badge");
-                                }
-                            }
-                            $("#empty-product-msg").addClass("d-none");
-                        },
-                        error: function (xhr, errmsg, err) {
-                            console.log("below is the error msg")
-                            console.log(xhr.status + ": " + xhr.responseText);
-                        }
-                    })
-                });
-            });
-        </script>
+
         <!-- Container-fluid starts-->
         <div class="container-fluid">
             <div class="row product-adding">
                 <div class="col-xl-12">
                     <div class="card">
                         <form class="needs-validation" enctype="multipart/form-data"
-                              action="{% url 'core:ProductCreate' %}"
-                              method="post">
-                            {% csrf_token %}
-                             {{ form|as_crispy_errors }}
-                            {{ form|crispy }}
-                             {{ form.main_image|as_crispy_field }}
-                            {{ form.main_image|as_crispy_field }}
+                              action="{% url 'core:ProductUpdate' object.id object.slug %}">
+
+
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <button type="submit" class="btn btn-primary">Save</button>

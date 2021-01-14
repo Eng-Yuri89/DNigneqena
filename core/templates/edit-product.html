@@ -24,8 +24,8 @@
                     <div class="col-lg-6">
                         <ol class="breadcrumb pull-right">
                             <li class="breadcrumb-item"><a href="/"><i data-feather="home"></i></a></li>
-                            <li class="breadcrumb-item">Physical</li>
-                            <li class="breadcrumb-item active">Add Product</li>
+                            <li class="breadcrumb-item">Edit</li>
+                            <li class="breadcrumb-item active">{{ product.title}}</li>
                         </ol>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                 <div class="col-xl-12">
                     <div class="card">
                         <form class="needs-validation" enctype="multipart/form-data"
-                              action="{% url 'core:ProductCreate' %}"
+                              action="{% url 'core:ProductUpdate' %}"
                               method="post">
                             {% csrf_token %}
 
@@ -97,7 +97,7 @@
                                                                            class="col-xl-3 col-md-4"><span>*</span>Title</label>
                                                                     <input class="form-control col-md-7"
                                                                            id="validationCustom0" type="text"
-                                                                           name="title" value="5" required="">
+                                                                           name="title" value="{{ product.title }}" required="">
                                                                 </div>
 
                                                                 <div class="form-group row">
@@ -106,7 +106,7 @@
                                                                         Keywords</label>
                                                                     <input class="form-control col-md-7"
                                                                            id="validationCustom0" type="text"
-                                                                           name="keywords" value="5" required="">
+                                                                           name="keywords" value="{{ product.title }}" required="">
 
                                                                 </div>
                                                                 <div class="form-group row ">

@@ -1,16 +1,19 @@
 import datetime
 import json
 
+from django.contrib import messages
 from django.core import serializers
+from django.forms import modelformset_factory
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render
 # Create your views here.
 from django.urls import reverse_lazy, reverse
 from django.views.generic import UpdateView, CreateView, ListView, DeleteView, DetailView
 
-from catalog.forms.forms import ProductAddForm, ProductFullForm
+from catalog.forms.forms import ProductAddForm, ProductFullForm, ImageForm
 from catalog.models.models import Category, Product, Tag, Image
 from core.forms.forms import SearchForm
+from core.models import Images
 from vendors.models import Store
 
 
@@ -69,14 +72,15 @@ class ProductView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+    context_object_name = 'product'
     template_name = 'admin/pages/product-detail.html'
 
 
 class ProductCreate(CreateView):
     model = Product
-    # form_class = ProductAddForm
-    fields = '__all__'
-    template_name = 'admin/pages/add-product.html'
+    form_class = ProductAddForm
+    #fields = '__all__'
+    template_name = 'add-producttest.html'
     # template_name = 'coretest.html'
     success_url = reverse_lazy('core:product')
 
@@ -84,7 +88,7 @@ class ProductCreate(CreateView):
 class ProductUpdate(UpdateView):
     model = Product
     template_name = 'admin/pages/edit-product.html'
-    fields = '__all__'
+    #fields = ['title',]
     success_url = reverse_lazy('core:product')
 
 
@@ -115,8 +119,6 @@ def movies_create(request):
 '''''
 
 
-
-
 def getNoteResponseData(product_obj, tags, product_created):
     date = datetime.datetime.now().strftime('%B') + " " + datetime.datetime.now().strftime(
         '%d') + ", " + datetime.datetime.now().strftime('%Y')
@@ -130,10 +132,10 @@ def getNoteResponseData(product_obj, tags, product_created):
         "last_mod": date,
         "note_created": product_created
     }
-    #return JsonResponse(response_data)
-    #template_name = 'admin/pages/message/category_confirm_delete.html'
-    #success_url = reverse_lazy('core:category_admin')
-    return render( product_created,'admin/pages/category-admin.html')
+    # return JsonResponse(response_data)
+    # template_name = 'admin/pages/message/category_confirm_delete.html'
+    # success_url = reverse_lazy('core:category_admin')
+    return render(product_created, 'admin/pages/category-admin.html')
 
 
 def tagsInDic(tags):
@@ -204,9 +206,8 @@ def to_json(self, objects):
 
 
 def AddProductView(request):
-    if request.method == "POST" :
+    if request.method == "POST":
         form = ProductFullForm(request.POST or None, request.FILES or None)
-        print(request.POST)
         files = request.FILES.getlist('images')
         if form.is_valid():
             print(request.POST)
@@ -214,7 +215,13 @@ def AddProductView(request):
             title = form.cleaned_data['title']
             keywords = form.cleaned_data['keywords']
             description = form.cleaned_data['description']
-            main_image = form.cleaned_data['main_image']
+            thumbnail = form.cleaned_data['thumbnail']
+            image1 = form.cleaned_data['image1']
+            image2 = form.cleaned_data['image2']
+            image3 = form.cleaned_data['image3']
+            image4 = form.cleaned_data['image4']
+            image5 = form.cleaned_data['image5']
+            image6 = form.cleaned_data['image6']
             category = form.cleaned_data['category']
             price = form.cleaned_data['price']
             sale_price = form.cleaned_data['sale_price']
@@ -229,11 +236,15 @@ def AddProductView(request):
             tags_dic = tags.copy()
             if not product_id:
                 print(request)
-                product_obj = Product.objects.create( title=title,keywords=keywords,category=category,description=description,
-                                                      main_image=main_image,price=price,sale_price=sale_price,discount=discount,
-                                                      amount=amount,min_amount=min_amount,detail=detail,
-                                                      slug=slug,status=status
-                                               )  # create will create as well as save too in db.
+                product_obj = Product.objects.create(title=title, keywords=keywords, category=category,
+                                                     description=description,
+                                                     image1=image1, image2=image2, image3=image3, image4=image4,
+                                                     image5=image5, image6=image6,
+                                                     thumbnail=thumbnail, price=price, sale_price=sale_price,
+                                                     discount=discount,
+                                                     amount=amount, min_amount=min_amount, detail=detail,
+                                                     slug=slug, status=status
+                                                     )  # create will create as well as save too in db.
                 for k in tags.keys():
                     tag_obj, created = Tag.objects.get_or_create(name=k)
                     product_obj.tags.add(tag_obj)  # it won't add duplicated as stated in django docs
@@ -249,7 +260,7 @@ def AddProductView(request):
                 for k, v in tags_dic.items():
                     tag_obj, created = Tag.objects.get_or_create(name=k)
                     product_obj.tags.add(tag_obj)
-                note_created = False
+                product_created = False
             for f in files:
                 print(request)
                 Image.objects.create(product=product_obj, image=f)
@@ -257,6 +268,13 @@ def AddProductView(request):
             product_obj.title = title
             product_obj.keywords = keywords
             product_obj.description = description
+            product_obj.thumbnail = thumbnail
+            product_obj.image1 = image1
+            product_obj.image2 = image2
+            product_obj.image3 = image3
+            product_obj.image4 = image4
+            product_obj.image5 = image5
+            product_obj.image6 = image6
             product_obj.price = price
             product_obj.sale_price = sale_price
             product_obj.discount = discount
@@ -265,16 +283,113 @@ def AddProductView(request):
             product_obj.detail = detail
             product_obj.slug = slug
             product_obj.status = status
+            print(request.POST)
             product_obj.save()  # last_modified field won't update on chaning other model field, save() trigger change
-            #return reverse('core:product')
-            return HttpResponseRedirect('/admin/product')
-            #return render(request,template_name='admin/pages/products-admin.html')
-            #return getNoteResponseData(product_obj, tags, product_created)
+            # return reverse('core:product')
+            return HttpResponseRedirect('/admin/product', product_created)
+            # return render(request,template_name='admin/pages/products-admin.html')
+            # return getNoteResponseData(product_obj, tags, product_created)
         else:
             print("Form invalid, see below error msg")
+            print(request.POST)
             print(form.errors)
+            messages.error(request, "Error")
     # if GET method form, or anything wrong then we will create blank form
     else:
         form = ProductFullForm()
-    #return HttpResponseRedirect('/')
-    return render(request, 'add-producttest.html', {'form': form})
+    # return HttpResponseRedirect('/')
+    return render(request, 'add-product.html', {'form': form})
+def EditProductView(request  ):
+    if request.method == "POST":
+        form = ProductFullForm(request.POST or None, request.FILES or None)
+        files = request.FILES.getlist('images')
+        if form.is_valid():
+            print(request.POST)
+            product_created = True
+            title = form.cleaned_data['title']
+            keywords = form.cleaned_data['keywords']
+            description = form.cleaned_data['description']
+            thumbnail = form.cleaned_data['thumbnail']
+            image1 = form.cleaned_data['image1']
+            image2 = form.cleaned_data['image2']
+            image3 = form.cleaned_data['image3']
+            image4 = form.cleaned_data['image4']
+            image5 = form.cleaned_data['image5']
+            image6 = form.cleaned_data['image6']
+            category = form.cleaned_data['category']
+            price = form.cleaned_data['price']
+            sale_price = form.cleaned_data['sale_price']
+            discount = form.cleaned_data['discount']
+            amount = form.cleaned_data['amount']
+            min_amount = form.cleaned_data['min_amount']
+            detail = form.cleaned_data['detail']
+            slug = form.cleaned_data['slug']
+            status = form.cleaned_data['status']
+            product_id = form.cleaned_data['product_id']
+            tags = tagsInDic(form.cleaned_data['tags'].strip())
+            tags_dic = tags.copy()
+            if not product_id:
+                print(request)
+                product_obj = Product.objects.create(title=title, keywords=keywords, category=category,
+                                                     description=description,
+                                                     image1=image1, image2=image2, image3=image3, image4=image4,
+                                                     image5=image5, image6=image6,
+                                                     thumbnail=thumbnail, price=price, sale_price=sale_price,
+                                                     discount=discount,
+                                                     amount=amount, min_amount=min_amount, detail=detail,
+                                                     slug=slug, status=status
+                                                     )  # create will create as well as save too in db.
+                for k in tags.keys():
+                    tag_obj, created = Tag.objects.get_or_create(name=k)
+                    product_obj.tags.add(tag_obj)  # it won't add duplicated as stated in django docs
+            else:
+                # handling all cases of the tags
+                print(request)
+                product_obj = Product.objects.get(id=product_id)
+                for t in product_obj.tags.all():
+                    if t.name not in tags_dic:
+                        product_obj.tags.remove(t)
+                    else:  # deleting pre-existing element so that we could know what's new tags are
+                        del tags_dic[t.name]
+                for k, v in tags_dic.items():
+                    tag_obj, created = Tag.objects.get_or_create(name=k)
+                    product_obj.tags.add(tag_obj)
+                product_created = False
+            for f in files:
+                print(request)
+                Image.objects.create(product=product_obj, image=f)
+            product_obj.category = category
+            product_obj.title = title
+            product_obj.keywords = keywords
+            product_obj.description = description
+            product_obj.thumbnail = thumbnail
+            product_obj.image1 = image1
+            product_obj.image2 = image2
+            product_obj.image3 = image3
+            product_obj.image4 = image4
+            product_obj.image5 = image5
+            product_obj.image6 = image6
+            product_obj.price = price
+            product_obj.sale_price = sale_price
+            product_obj.discount = discount
+            product_obj.amount = amount
+            product_obj.min_amount = min_amount
+            product_obj.detail = detail
+            product_obj.slug = slug
+            product_obj.status = status
+            print(request.POST)
+            product_obj.save()  # last_modified field won't update on chaning other model field, save() trigger change
+            # return reverse('core:product')
+            return HttpResponseRedirect('/admin/product', product_created)
+            # return render(request,template_name='admin/pages/products-admin.html')
+            # return getNoteResponseData(product_obj, tags, product_created)
+        else:
+            print("Form invalid, see below error msg")
+            print(request.POST)
+            print(form.errors)
+            messages.error(request, "Error")
+    # if GET method form, or anything wrong then we will create blank form
+    else:
+        form = ProductFullForm()
+    # return HttpResponseRedirect('/')
+    return render(request, 'edit-product.html', {'form': form})

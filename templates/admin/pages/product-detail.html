@@ -22,7 +22,7 @@
                     <ol class="breadcrumb pull-right">
                         <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
                         <li class="breadcrumb-item">Physical</li>
-                        <li class="breadcrumb-item active">Product Detail</li>
+                        <li class="breadcrumb-item active">{{ product.title }}</li>
                     </ol>
                 </div>
             </div>
@@ -40,34 +40,37 @@
 
                     <div class="product-slider owl-carousel owl-theme" id="sync1">
 
-                        <div class="item"><img src="{{ product.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.thumbnail.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ multiImage.image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image1.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ product.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image2.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ product.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image3.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ product.other_images.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image4.url }}" alt="" class="blur-up lazyloaded">
+                        </div>
+                        <div class="item"><img src="{{ product.image5.url }}" alt="" class="blur-up lazyloaded">
+                        </div>
+                        <div class="item"><img src="{{ product.image6.url }}" alt="" class="blur-up lazyloaded">
                         </div>
                     </div>
-                    <div class="product-slider owl-carousel owl-theme" id="sync1">
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                    <div class="owl-carousel owl-theme" id="sync2">
+                        <div class="item"><img src="{{ product.thumbnail.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image1.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image2.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image3.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image4.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image5.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
+                        <div class="item"><img src="{{ product.image6.url }}" alt="" class="blur-up lazyloaded">
                         </div>
-                        <div class="item"><img src="{{ images.main_image.url }}" alt="" class="blur-up lazyloaded">
-                        </div>
+
                     </div>
                 </div>
                 <div class="col-xl-8">
@@ -82,7 +85,7 @@
                         </select>
                         <hr>
                         <h6 class="product-title">product details</h6>
-                        <p>{{ product.detail }}</p>
+                        <p>{{ product.description }}</p>
                         <div class="product-price digits mt-2">
                             <h3>{{ product.n_price }}
                                 <del>{{ product.price }}</del>
