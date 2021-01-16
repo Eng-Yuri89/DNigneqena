@@ -13,7 +13,7 @@ from django.views.generic import UpdateView, CreateView, ListView, DeleteView, D
 from catalog.forms.forms import ProductAddForm, ProductFullForm, ImageForm
 from catalog.models.models import Category, Product, Tag, Image
 from core.forms.forms import SearchForm
-from core.models import Images
+
 from vendors.models import Store
 
 

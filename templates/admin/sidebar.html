@@ -58,9 +58,10 @@
                 </ul>
             </li>
             <li><a class="sidebar-header" href="media.html"><i data-feather="camera"></i><span>Media</span></a></li>
-            <li><a class="sidebar-header" href="#"><i data-feather="align-left"></i><span>Menus</span><i
+            <li><a class="sidebar-header" href="#"><i data-feather="align-left"></i><span>Design</span><i
                     class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu">
+                     <li><a href="{% url 'core:BannerView' %}"><i class="fa fa-circle"></i>Banners</a></li>
                     <li><a href="menu-list.html"><i class="fa fa-circle"></i>Menu Lists</a></li>
                     <li><a href="create-menu.html"><i class="fa fa-circle"></i>Create Menu</a></li>
                 </ul>
@@ -69,7 +70,7 @@
                     class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu">
                     <li><a href="{% url 'accounts:user_list' %}"><i class="fa fa-circle"></i>User List</a></li>
-                    <li><a href="{% url 'accounts:user_profile' user.id %}"><i class="fa fa-circle"></i>User Profile</a></li>
+                    <li><a href="{#% url 'accounts:user_profile' user.id %#}"><i class="fa fa-circle"></i>User Profile</a></li>
                     <li><a href="{% url 'accounts:update_profile' %}"><i class="fa fa-circle"></i>Edit Profile</a></li>
                     <li><a href="{% url 'accounts:user_register' %}"><i class="fa fa-circle"></i>Create User</a></li>
                 </ul>

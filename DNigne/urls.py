@@ -35,6 +35,7 @@ urlpatterns = [
 
     # USER URL
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('imagefit/', include('imagefit.urls')),
 
 
     # LOGIN URL

@@ -1,4 +1,4 @@
-from core.models import Setting
+from core.models.models import Setting
 from core.views.setting_views import setting
 
 

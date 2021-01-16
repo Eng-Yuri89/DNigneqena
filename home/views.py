@@ -7,7 +7,7 @@ from django.views.generic import  ListView,  DetailView
 from haystack import indexes
 
 from catalog.models.models import Category, Product, Tag, Image
-from core.models import Setting
+
 from home.forms import SearchForm
 from vendors.models import Store
 

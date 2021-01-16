@@ -2,7 +2,7 @@ from ckeditor.widgets import CKEditorWidget
 from django import forms
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 
-from core.models import Setting
+from core.models.models import Setting
 from vendors.models import Store
 
 

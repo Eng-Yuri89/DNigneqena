@@ -14,7 +14,7 @@ from haystack import indexes
 
 from catalog.models.models import Category, Product, Image
 from catalog.models.product_options import Manufacturer, SingleProduct
-from core.models import Images
+from core.models.models import Images
 
 
 class CategoryAddForm(forms.ModelForm):

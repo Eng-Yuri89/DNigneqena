@@ -12,7 +12,7 @@ class ProductView(ListView):
 
 class ProductDetailView(DetailView):
     model = SellerProduct
-    template_name = 'admin/pages/product-detail.html'
+    template_name = 'admin/pages/banner-detail.html'
 
 
 class ProductCreateView(CreateView):
@@ -40,7 +40,7 @@ def product_admin(request, id, slug):
 
                }
     # return HttpResponse('f')
-    return render(request, 'admin/pages/product-detail.html', context)
+    return render(request, 'admin/pages/banner-detail.html', context)
 
 
 def create(request):

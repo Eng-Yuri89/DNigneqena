@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from core.forms.seeting_forms import SettingAddForm
-from core.models import Setting
+from core.models.models import Setting
 
 
 def setting(request):

@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import tempfile
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -37,7 +38,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home.apps.HomeConfig',
 
-
     # Admin APPS
     'catalog.apps.CatalogConfig',
     'coupons.apps.CouponsConfig',
@@ -54,7 +54,6 @@ INSTALLED_APPS = [
     'core',
     'billing',
 
-
     'widget_tweaks',
     'ckeditor',
     'ckeditor_uploader',
@@ -68,6 +67,11 @@ INSTALLED_APPS = [
     'crispy_forms',
     'easy_select2',
     'multiselectfield',
+    'imagefit',
+    'imagekit',
+
+    'jquery',
+    'djangoformsetjs',
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -94,11 +98,11 @@ REST_FRAMEWORK = {
     ]
 }
 
-
 HAYSTACK_CONNECTIONS = {
     'default': {
         'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8983/solr/tester',                 # Assuming you created a core named 'tester' as described in installing search engines.
+        'URL': 'http://127.0.0.1:8983/solr/tester',
+        # Assuming you created a core named 'tester' as described in installing search engines.
         'ADMIN_URL': 'http://127.0.0.1:8983/solr/admin/cores'
         # ...or for multicore...
         # 'URL': 'http://127.0.0.1:8983/solr/mysite',
@@ -119,13 +123,16 @@ TEMPLATES = [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'core.context_processors.site_profile',
-               #'vendors.context_processors.user_profile',
+                # 'vendors.context_processors.user_profile',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
         },
     },
 ]
+
+
+
 
 WSGI_APPLICATION = 'DNigne.wsgi.application'
 LOGOUT_REDIRECT_URL = '/admin'
@@ -185,12 +192,12 @@ USE_L10N = True
 
 USE_TZ = True
 
-#CUSTOM
-FORCE_SESSION_TO_ONE = True #Default is false
+# CUSTOM
+FORCE_SESSION_TO_ONE = True  # Default is false
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+IMAGEFIT_ROOT = "upload"
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
@@ -206,7 +213,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "upload")
 SITE_ID = 1
 0.
 
-
 ####################################
 ##  CKEDITOR CONFIGURATION ##
 ####################################
@@ -216,13 +222,10 @@ CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_IMAGE_BACKEND = "pillow"
 
-
-
 ###################################
 
 
 CORS_ORIGIN_ALLOW_ALL = True
-
 
 # email stuff
 EMAIL_HOST = os.environ.get('EMAIL_HOST')
@@ -231,3 +234,29 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
 EMAIL_PORT = 587
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+
+
+
+
+# enable/disable server cache
+IMAGEFIT_CACHE_ENABLED = True
+# set the cache name specific to imagefit with the cache dict
+IMAGEFIT_CACHE_BACKEND_NAME = 'imagefit'
+CACHES = {
+
+'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+    },
+    'imagefit': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': os.path.join(tempfile.gettempdir(), 'django_imagefit')
+    }
+}
+
+
+IMAGEFIT_PRESETS = {
+    'thumbnail': {'width': 64, 'height': 64, 'crop': True},
+    'my_preset1': {'width': 300, 'height': 220},
+    'my_preset2': {'width': 100},
+}
