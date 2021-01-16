@@ -1,6 +1,7 @@
 from django import views
 from django.urls import path
 
+from core.tests import banner_create
 from core.views.banners_views import BannerView, BannerDetailView, BannerCreate
 from core.views.setting_views import update_setting
 from core.views.views import AddCategory, ProductView, ProductUpdate, ProductCreate, ProductDelete, categories, index, \
@@ -58,7 +59,7 @@ urlpatterns = [
     ########## Banners   #########
     path('admin/banner', BannerView.as_view(), name='BannerView'),
 	path('admin/banner/<int:pk>/', BannerDetailView.as_view(), name='BannerDetailView'),
-    path('admin/banner/create/',BannerCreate.as_view(), name='add_banner'),
+    path('admin/banner/create/',banner_create, name='add_banner'),
 
 
 ]

@@ -47,32 +47,23 @@ class SizedImageField(ImageField):
         super(SizedImageField, self).__init__(verbose_name=verbose_name, **kwargs)
 
 
-class BannerGroup(models.Model):
+class Banners(models.Model):
     STATUS = (
         ('True', 'Enable'),
         ('False', 'Disable'),
     )
 
-    banner_name = models.CharField(max_length=150, null=True, default='Nigne')
-    status = models.CharField(max_length=10, choices=STATUS, default='Enable')
+    group = models.CharField(max_length=150, null=False,  verbose_name='Banner Group')
+    status = models.CharField(max_length=10, choices=STATUS  )
+    caption = models.CharField(max_length=150, null=False,  verbose_name="Title")
+    link = models.URLField(null=False, blank=True)
+    image = models.ImageField( upload_to='images/')
+    sort_order = models.SmallIntegerField(default=0,  null=False)
+    create_at = models.DateTimeField(auto_now_add=True)
+    update_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return str(self.id)
-
-
-class Banners(models.Model):
-    banner = models.ForeignKey(BannerGroup,
-                               related_name="banner_group", on_delete=models.CASCADE)
-    caption = models.CharField(max_length=150, null=True, default='Nigne', verbose_name="Title")
-    link = models.URLField(null=True, blank=True)
-    image = ProcessedImageField(upload_to='avatars',
-                                processors=[ResizeToFill(1920, 718)],
-                                format='JPEG',
-                                options={'quality': 60})
-    sort_order = models.SmallIntegerField(default=0, blank=True, null=False)
-
-    def __str__(self):
-        return self.caption
+        return self.group
 
         ## method to create a fake table field in read only mode
 

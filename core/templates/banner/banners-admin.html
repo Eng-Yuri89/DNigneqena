@@ -79,14 +79,14 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for rs in BannerGroup %}
+                    {% for rs in Banners %}
                         <tr>
                             <td>
-                                {{ rs.id }}
+                                 {{ forloop.counter }}
                             </td>
                             <td>
                                 <a>
-                                    {{ rs.banner_name }}
+                                    {{ rs.group }}
                                 </a>
                                 <br/>
                                 <small>
