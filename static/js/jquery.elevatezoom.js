@@ -1795,7 +1795,7 @@ if ( typeof Object.create !== 'function' ) {
  zoom js
  _____________________________________ */
 if($(window).width() > 991){
-	$('.product-right-slick, .product-slick, .rtl-product-slick, .rtl-product-right-slick').on('afterChange', function(event, slick, currentSlide, nextSlide){
+	$('.catalog-right-slick, .catalog-slick, .rtl-catalog-slick, .rtl-catalog-right-slick').on('afterChange', function(event, slick, currentSlide, nextSlide){
 		var img_url_temp = $(this).find('img').attr('src');
 		var imgs = $('.image_zoom_cls');
 		$('.zoomContainer').remove();
@@ -1812,7 +1812,7 @@ if($(window).width() > 991){
 }
 if($(window).width() > 991){
 	setTimeout(function(){
-		$('.product-right-slick .slick-active img, .product-slick .slick-active img, .rtl-product-slick .slick-active img, .rtl-product-right-slick .slick-active img').elevateZoom({
+		$('.catalog-right-slick .slick-active img, .catalog-slick .slick-active img, .rtl-catalog-slick .slick-active img, .rtl-catalog-right-slick .slick-active img').elevateZoom({
 			zoomType: "inner",
 			cursor: "crosshair"
 		});

@@ -191,7 +191,7 @@ class FacetedSearchView(SearchView):
 
 def basic_search(
     request,
-    template="search/search.html",
+    template="front/pages/search.html",
     load_all=True,
     form_class=ModelSearchForm,
     searchqueryset=None,

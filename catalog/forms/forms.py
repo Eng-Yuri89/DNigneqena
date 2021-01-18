@@ -94,7 +94,7 @@ class ManufacturerAddForm(forms.ModelForm):
 
 class ProductIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
-    category = indexes.CharField(model_attr='product')
+    category = indexes.CharField(model_attr='catalog')
     pub_date = indexes.DateTimeField(model_attr='pub_date')
 
     def get_model(self):

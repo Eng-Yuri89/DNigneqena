@@ -23,7 +23,7 @@ def index(request):
     store = Store.objects.all()
     context = {
         'category': category,
-        'product': product,
+        'catalog': product,
         'store': store,
 
     }
@@ -31,7 +31,7 @@ def index(request):
 
 
 def categories(request):
-    categories = Category.objects.all()
+    categories = Category.objects.filter(status='True')
 
     context = {
         'categories': categories,
@@ -60,6 +60,15 @@ class DeleteCategory(DeleteView):
     fields = '__all__'
     template_name = 'admin/pages/message/category_confirm_delete.html'
     success_url = reverse_lazy('core:category_admin')
+
+def products_admin(request):
+    products = Product.objects.filter(status='True')
+
+    context = {
+        'products': products,
+
+    }
+    return render(request, 'admin/pages/products-admin.html', context)
 
 
 class ProductView(ListView):
@@ -95,7 +104,7 @@ class ProductUpdate(UpdateView):
 class ProductDelete(DeleteView):
     model = Category
     # template_name = 'admin/pages/message/category_confirm_delete.html'
-    success_url = '/admin/product/'
+    success_url = '/admin/catalog/'
 
     def get_success_url(self):
         return reverse('core:product')
@@ -172,7 +181,7 @@ def search(request):
             catid = form.cleaned_data['catid']
             if catid == 0:
                 products = Product.objects.filter(
-                    title__icontains=query)  # SELECT * FROM product WHERE title LIKE '%query%'
+                    title__icontains=query)  # SELECT * FROM catalog WHERE title LIKE '%query%'
             else:
                 products = Product.objects.filter(title__icontains=query, category_id=catid)
 
@@ -285,7 +294,7 @@ def AddProductView(request):
             product_obj.status = status
             print(request.POST)
             product_obj.save()  # last_modified field won't update on chaning other model field, save() trigger change
-            # return reverse('core:product')
+            # return reverse('core:catalog')
             return HttpResponseRedirect('/admin/product', product_created)
             # return render(request,template_name='admin/pages/products-admin.html')
             # return getNoteResponseData(product_obj, tags, product_created)
@@ -379,7 +388,7 @@ def EditProductView(request  ):
             product_obj.status = status
             print(request.POST)
             product_obj.save()  # last_modified field won't update on chaning other model field, save() trigger change
-            # return reverse('core:product')
+            # return reverse('core:catalog')
             return HttpResponseRedirect('/admin/product', product_created)
             # return render(request,template_name='admin/pages/products-admin.html')
             # return getNoteResponseData(product_obj, tags, product_created)

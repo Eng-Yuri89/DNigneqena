@@ -57,10 +57,10 @@
             "English": "user login",
         },
         {
-            "User Key": "user:usersaaa.user-add-product",
+            "User Key": "user:usersaaa.user-add-catalog",
             "Russian" : "добавить продукт",
             "Arabic": "أضف المنتج",
-            "English": "add product",
+            "English": "add catalog",
         },
         {
             "User Key": "user:usersaaa.user-orders-list",
@@ -177,10 +177,10 @@
             "English": "vendor login",
         },
         {
-            "User Key": "vendor:vendors.vendor-add-product",
+            "User Key": "vendor:vendors.vendor-add-catalog",
             "Russian" : "добавить продукт",
             "Arabic": "أضف المنتج",
-            "English": "add product",
+            "English": "add catalog",
         },
         {
             "User Key": "vendor:vendors.vendor-orders-list",

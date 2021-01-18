@@ -90,7 +90,7 @@ def store_delete(request, user_id):
     return redirect('vendors')
 
 
-# Seller product list and details
+# Seller catalog list and details
 
 class SellerProductDetailRedirectView(RedirectView):
     permanent = True

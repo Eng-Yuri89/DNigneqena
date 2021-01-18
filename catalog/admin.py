@@ -20,7 +20,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        # Add cumulative product count
+        # Add cumulative catalog count
         qs = Category.objects.add_related_count(
                 qs,
                 Product,
@@ -28,7 +28,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
                 'products_cumulative_count',
                 cumulative=True)
 
-        # Add non cumulative product count
+        # Add non cumulative catalog count
         qs = Category.objects.add_related_count(qs,
                  Product,
                  'category',
@@ -71,7 +71,7 @@ class ImageAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     list_display = ['subject','comment', 'status','create_at']
     list_filter = ['status']
-    readonly_fields = ('subject','comment','ip','user','product','rate','id')
+    readonly_fields = ('subject','comment','ip','user','catalog','rate','id')
 
 class ColorAdmin(admin.ModelAdmin):
     list_display = ['name','code','color_tag']
@@ -80,8 +80,7 @@ class SizeAdmin(admin.ModelAdmin):
     list_display = ['name','code']
 
 
-class VariantsAdmin(admin.ModelAdmin):
-    list_display = ['title','product','color','size','price','quantity','image_tag']
+
 
 class ProductLangugaeAdmin(admin.ModelAdmin):
     list_display = ['title','lang','slug']
@@ -99,5 +98,4 @@ admin.site.register(Category,CategoryAdmin2)
 
 admin.site.register(Color,ColorAdmin)
 admin.site.register(Size,SizeAdmin)
-admin.site.register(Variants,VariantsAdmin)
 

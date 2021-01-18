@@ -21,10 +21,10 @@
                 <div class="col-lg-6">
                     <ol class="breadcrumb pull-right">
                         <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
-                        {% for rs in category %}
+
                             <li class="breadcrumb-item">Physical</li>
                             <li class="breadcrumb-item active">{{ rs.title }}</li>
-                        {% endfor %}
+
                     </ol>
                 </div>
             </div>
@@ -65,7 +65,7 @@
                             </div>
                             <div class="col-xl-7">
                                 <form class="needs-validation add-product-form" novalidate=""
-                                      action="{% url 'home:category_edit' id  %} " method="post">
+                                      action="{% url 'core:EditCategory' category.id category.slug %} " method="post">
 
                                     <div class="form">
                                         {% csrf_token %}

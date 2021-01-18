@@ -125,7 +125,10 @@ def image_tag(self):
 
 
 def get_absolute_url(self):
-    view_name = "products:detail_slug"
+    return reverse('widget_detail', args=[self.pk])
+
+def get_absolute_urlsss(self):
+    view_name = "home:ProductDetail"
     return reverse(view_name, kwargs={"slug": self.slug})
 
 def get_image_filename(instance, filename):

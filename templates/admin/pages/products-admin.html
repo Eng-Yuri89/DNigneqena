@@ -42,7 +42,7 @@
     <!-- Container-fluid starts-->
     <div class="container-fluid">
         <div class="row products-admin ratio_asos">
-            {% for rs in product_list  %}
+            {% for rs in products  %}
                 <div class="col-xl-3 col-sm-6">
                     <div class="card">
                         <div class="card-body product-box">
@@ -58,7 +58,7 @@
                                                         class="ti-trash"></i></button>
                                                 </a></li>
                                             <li>
-                                                <a href="{% url 'core:ProductUpdate' rs.id rs.slug   %}">
+                                                <a href="{% url 'core:ProductUpdate'  %}">
                                                     <button class="btn" type="button" data-toggle="modal"
                                                             data-target="#exampleModalCenter" data-original-title=""
                                                             title=""><i class="ti-pencil-alt"></i></button>

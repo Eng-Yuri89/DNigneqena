@@ -17,7 +17,7 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = SellerProduct
-    template_name = 'admin/pages/add-product.html'
+    template_name = 'admin/pages/add-catalog.html'
     fields = '__all__'
 
 
@@ -34,9 +34,9 @@ def products_admin(request):
 def product_admin(request, id, slug):
     query = request.GET.get('q')
     category = Category.objects.all()
-    product = SellerProduct.objects.get(pk=id)
+    catalog = SellerProduct.objects.get(pk=id)
 
-    context = {'product': product, 'category': category,
+    context = {'catalog': catalog, 'category': category,
 
                }
     # return HttpResponse('f')
@@ -48,13 +48,13 @@ def create(request):
         form = ProductAddForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('/admin/product')
+            return redirect('/admin/catalog')
     form = ProductAddForm()
-    return render(request, 'admin/pages/add-product.html', {'form': form})
+    return render(request, 'admin/pages/add-catalog.html', {'form': form})
 
 
-def edit(request, pk, template_name='admin/pages/edit-product'):
-    product = get_object_or_404(SellerProduct, pk=pk)
+def edit(request, pk, template_name='admin/pages/edit-catalog'):
+    catalog = get_object_or_404(SellerProduct, pk=pk)
     form = ProductAddForm(request.POST or None, instance=title)
     if form.is_valid():
         form.save()
@@ -63,29 +63,29 @@ def edit(request, pk, template_name='admin/pages/edit-product'):
 
 
 def delete(request, pk, template_name='crudapp/confirm_delete.html'):
-    product = get_object_or_404(SellerProduct, pk=pk)
+    catalog = get_object_or_404(SellerProduct, pk=pk)
     if request.method == 'POST':
-        product.delete()
+        catalog.delete()
         return redirect('/admin')
-    return render(request, template_name, {'object': product})
+    return render(request, template_name, {'object': catalog})
 
 
 def product_edit(request, id, slug):
     # return HttpResponse('1')
     products = SellerProduct.objects.all()
-    product = SellerProduct.objects.filter(pk=id)
+    catalog = SellerProduct.objects.filter(pk=id)
 
     context = {
-        'product': product,
+        'catalog': catalog,
     }
     if request.method == 'GET':
-        return render(request, 'admin/pages/edit-product.html', context)
+        return render(request, 'admin/pages/edit-catalog.html', context)
     if request.method == 'POST':
         title = request.POST.get('title')
 
         if not title:
             messages.error(request, 'Title is required')
-            return render(request, 'admin/pages/edit-product.html', context)
+            return render(request, 'admin/pages/edit-catalog.html', context)
         category = request.POST['category']
         keywords = request.POST['keywords']
         description = request.POST['description']
@@ -102,26 +102,26 @@ def product_edit(request, id, slug):
 
         if not category:
             messages.error(request, 'category is required')
-            return render(request, 'admin/pages/edit-product.html', context)
+            return render(request, 'admin/pages/edit-catalog.html', context)
 
-        product.title = title
-        product.category = category
-        product.keywords = keywords
-        product.description = description
-        product.image = image
-        product.price = price
-        product.n_price = n_price
-        product.discount = discount
-        product.amount = amount
-        product.minamount = minamount
-        product.variant = variant
-        product.detail = detail
-        product.status = status
-        product.slug = slug
-        product.save()
+        catalog.title = title
+        catalog.category = category
+        catalog.keywords = keywords
+        catalog.description = description
+        catalog.image = image
+        catalog.price = price
+        catalog.n_price = n_price
+        catalog.discount = discount
+        catalog.amount = amount
+        catalog.minamount = minamount
+        catalog.variant = variant
+        catalog.detail = detail
+        catalog.status = status
+        catalog.slug = slug
+        catalog.save()
         messages.success(request, 'Category updated  successfully')
 
-        return redirect('/admin/product/')
+        return redirect('/admin/catalog/')
         
         
         
@@ -204,19 +204,19 @@ def addProductView(request):
             post = contributeForm.save(commit=False)
             try:
                 post.save()
-                return redirect('/admin/product')
+                return redirect('/admin/catalog')
             except:
                 pass
         else:
             # this should be include if form validate failed
-            return render(request, 'admin/pages/add-product.html', {'contributeForm': contributeForm})
+            return render(request, 'admin/pages/add-catalog.html', {'contributeForm': contributeForm})
         elif request.method == "GET":
         category = Category.objects.all()
         contributeForm = ProductFullForm()
         context = {'contributeForm': contributeForm
             , 'category': category}
         # return render(request, 'index.html', context) <-- why do you have this here?
-        return render(request, 'admin/pages/add-product.html', context)
+        return render(request, 'admin/pages/add-catalog.html', context)
 
 
 """

@@ -1,0 +1,6 @@
+{{ object.title }}
+{{ object.price }}
+{{ object.image }}
+{{ object.url }}
+
+

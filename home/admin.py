@@ -16,7 +16,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
     def get_queryset(self, request):
         qs = super().get_queryset(request)
 
-        # Add cumulative product count
+        # Add cumulative catalog count
         qs = Category.objects.add_related_count(
                 qs,
                 Product,
@@ -24,7 +24,7 @@ class CategoryAdmin2(DraggableMPTTAdmin):
                 'products_cumulative_count',
                 cumulative=True)
 
-        # Add non cumulative product count
+        # Add non cumulative catalog count
         qs = Category.objects.add_related_count(qs,
                  Product,
                  'category',

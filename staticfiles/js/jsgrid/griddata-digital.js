@@ -33,35 +33,35 @@
     ];
     db.clients = [
         {
-            "Image": "../assets/images/digital-product/graphic-design.png",
+            "Image": "../assets/images/digital-catalog/graphic-design.png",
             "Name": "Graphic Design",
             "Price": "$57.00",
             "Status": "<i class=\"fa fa-circle font-success f-12\"></i>",
             "Category": "Digital",
         },
         {
-            "Image": "../assets/images/digital-product/ebooks.png",
+            "Image": "../assets/images/digital-catalog/ebooks.png",
             "Name": "eBooks",
             "Price": "$472.00",
             "Status": "<i class=\"fa fa-circle font-warning f-12\"></i>",
             "Category": "Digital",
         },
         {
-            "Image": "../assets/images/digital-product/lecture-video-recorder.jpg",
+            "Image": "../assets/images/digital-catalog/lecture-video-recorder.jpg",
             "Name": "Recorded lectures",
             "Price": "$54.00",
             "Status": "<i class=\"fa fa-circle font-success f-12\"></i>",
             "Category": "Digital",
         },
         {
-            "Image": "../assets/images/digital-product/application.jpg",
+            "Image": "../assets/images/digital-catalog/application.jpg",
             "Name": "Application",
             "Price": "$578.00",
             "Status": "<i class=\"fa fa-circle font-danger f-12\"></i>",
             "Category": "Digital",
         },
         {
-            "Image": "../assets/images/digital-product/web-dev.jpg",
+            "Image": "../assets/images/digital-catalog/web-dev.jpg",
             "Name": "Websites",
             "Price": "$5764.00",
             "Status": "<i class=\"fa fa-circle font-warning f-12\"></i>",

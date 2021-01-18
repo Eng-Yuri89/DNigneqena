@@ -590,21 +590,8 @@
                             <div class="icon-nav">
                                 <ul>
                                     <li class="onhover-div mobile-search">
-                                        <script>
-                                            $(function () {
-                                                $("#query").autocomplete({
-                                                    source: "/search_auto/",
-                                                    select: function (event, ui) { //item selected
-                                                        AutoCompleteSelectHandler(event, ui)
-                                                    },
-                                                    minLength: 2,
-                                                });
-                                            });
 
-                                            function AutoCompleteSelectHandler(event, ui) {
-                                                var selectedObj = ui.item;
-                                            }
-                                        </script>
+
                                         <div><img src="{% static '' %}images/icon/search.png" onclick="openSearch()"
                                                   class="img-fluid blur-up lazyload" alt=""> <i class="ti-search"
                                                                                                 onclick="openSearch()"></i>
@@ -617,20 +604,15 @@
                                                         <div class="row">
                                                             <div class="col-xl-12">
 
-                                                                <form action="{% url 'home:search' %}" method="post">
+                                                                <form action="/search/" method="get"   class="autocomplete-me">
                                                                     {% csrf_token %}
                                                                     <div class="form-group">
                                                                         <input type="text" class="form-control"
-                                                                               id="query" name="query"
+                                                                               id="id_q"  name="q"
                                                                                placeholder="Search a Product">
-                                                                        <select name="catid"
-                                                                                class="input search-categories">
-                                                                            <option value="0">{% trans "All Categories" %}</option>
-
-                                                                        </select>
 
                                                                     </div>
-                                                                    <button class="btn btn-primary"><i
+                                                                    <button class="btn btn-primary" type="submit" ><i
                                                                             class="fa fa-search"></i></button>
                                                                 </form>
                                                             </div>

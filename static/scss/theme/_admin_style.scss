@@ -507,7 +507,7 @@ a {
     width: auto!important;
   }
 }
-// product list
+// catalog list
 .products-admin {
   .product-box {
     padding: 20px;
@@ -558,7 +558,7 @@ a {
     }
   }
 }
-// product Detail
+// catalog Detail
 .product-page-main {
   .product-slider {
     .owl-stage-outer {
@@ -4104,7 +4104,7 @@ $i:1;
   }
 }
 @media only screen and (max-width: 1199px) {
-  // product detail
+  // catalog detail
   .product-page-details {
     margin-top: 30px;
   }
@@ -4443,7 +4443,7 @@ $i:1;
       }
     }
   }
-  // product detail
+  // catalog detail
   .product-page-details {
     text-align: left !important;
   }
@@ -4458,7 +4458,7 @@ $i:1;
       margin-bottom: 20px;
     }
   }
-  // add product page
+  // add catalog page
   .add-product {
     img {
       width: 460px;
@@ -4571,7 +4571,7 @@ $i:1;
       }
     }
   }
-  // add product page
+  // add catalog page
   .add-product-form {
     .form-group {
       .form-control, select {
@@ -4889,7 +4889,7 @@ $i:1;
       }
     }
   }
-  // product detail
+  // catalog detail
   .product-page-main {
     .owl-stage-outer {
       margin-top: 15px;
@@ -5026,7 +5026,7 @@ $i:1;
       }
     }
   }
-  // add product css
+  // add catalog css
   .add-product-form {
     .form-group {
       .form-control {
@@ -5146,7 +5146,7 @@ $i:1;
       width: 300px;
     }
   }
-  // product detail
+  // catalog detail
   .product-page-main {
     .btn {
       padding: 5px 12px;

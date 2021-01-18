@@ -427,7 +427,7 @@
         ]
     });
 
-    $('.product-4').slick({
+    $('.catalog-4').slick({
         infinite: true,
         speed: 300,
         slidesToShow: 4,
@@ -451,7 +451,7 @@
         ]
     });
 
-    $('.tools-product-4').slick({
+    $('.tools-catalog-4').slick({
         infinite: true,
         speed: 300,
         slidesToShow: 4,
@@ -513,7 +513,7 @@
         ]
     });
 
-    $('.product-3').slick({
+    $('.catalog-3').slick({
         infinite: true,
         speed: 300,
         slidesToShow: 3,
@@ -656,7 +656,7 @@
         ]
     });
 
-    $('.product-slider-5').slick({
+    $('.catalog-slider-5').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -679,7 +679,7 @@
         ]
     });
 
-    $('.product-5').slick({
+    $('.catalog-5').slick({
         dots: false,
         infinite: true,
         speed: 300,
@@ -792,7 +792,7 @@
         ]
     });
 
-    $('.product-slick').slick({
+    $('.catalog-slick').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
@@ -804,13 +804,13 @@
         vertical: false,
         slidesToShow: 3,
         slidesToScroll: 1,
-        asNavFor: '.product-slick',
+        asNavFor: '.catalog-slick',
         arrows: false,
         dots: false,
         focusOnSelect: true
     });
 
-    $('.product-right-slick').slick({
+    $('.catalog-right-slick').slick({
         slidesToShow: 1,
         slidesToScroll: 1,
         arrows: true,
@@ -823,7 +823,7 @@
             verticalSwiping: true,
             slidesToShow: 3,
             slidesToScroll: 1,
-            asNavFor: '.product-right-slick',
+            asNavFor: '.catalog-right-slick',
             arrows: false,
             infinite: true,
             dots: false,
@@ -836,7 +836,7 @@
             verticalSwiping: false,
             slidesToShow: 3,
             slidesToScroll: 1,
-            asNavFor: '.product-right-slick',
+            asNavFor: '.catalog-right-slick',
             arrows: false,
             infinite: true,
             centerMode: false,
@@ -884,13 +884,13 @@
     $(".tabs li a").on('click', function() {
         event.preventDefault();
         $('.tab_product_slider').slick('unslick');
-        $('.product-4').slick('unslick');
+        $('.catalog-4').slick('unslick');
         $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
         $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-        $(".product-4").slick({
+        $(".catalog-4").slick({
             arrows: true,
             dots: false,
             infinite: false,
@@ -924,14 +924,14 @@
     $(".tabs li a").on('click', function() {
         event.preventDefault();
         $('.tab_product_slider').slick('unslick');
-        $('.product-5').slick('unslick');
+        $('.catalog-5').slick('unslick');
         $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
         $(this).parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
         // var slider_class = $(this).parent().parent().parent().find(".tab-content").children().attr("class").split(' ').pop();
-        $(".product-5").slick({
+        $(".catalog-5").slick({
             arrows: true,
             dots: false,
             infinite: false,
@@ -979,13 +979,13 @@
     $(".tabs li a").on('click', function() {
         event.preventDefault();
         $('.tab_product_slider').slick('unslick');
-        $('.product-3').slick('unslick');
+        $('.catalog-3').slick('unslick');
         $(this).parent().parent().find("li").removeClass("current");
         $(this).parent().addClass("current");
         var currunt_href = $(this).attr("href");
         $('#' + currunt_href).show();
         $(this).parent().parent().parent().parent().find(".tab-content").not('#' + currunt_href).css("display", "none");
-        $(".product-3").slick({
+        $(".catalog-3").slick({
             arrows: true,
             dots: false,
             infinite: false,
@@ -1026,46 +1026,46 @@
     //list layout view
     $('.list-layout-view').on('click', function(e) {
         $('.collection-grid-view').css('opacity', '0');
-        $(".product-wrapper-grid").css("opacity", "0.2");
+        $(".catalog-wrapper-grid").css("opacity", "0.2");
         $('.shop-cart-ajax-loader').css("display", "block");
-        $('.product-wrapper-grid').addClass("list-view");
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-lg-12");
+        $('.catalog-wrapper-grid').addClass("list-view");
+        $(".catalog-wrapper-grid").children().children().removeClass();
+        $(".catalog-wrapper-grid").children().children().addClass("col-lg-12");
         setTimeout(function() {
-            $(".product-wrapper-grid").css("opacity", "1");
+            $(".catalog-wrapper-grid").css("opacity", "1");
             $('.shop-cart-ajax-loader').css("display", "none");
         }, 500);
     });
     //grid layout view
     $('.grid-layout-view').on('click', function(e) {
         $('.collection-grid-view').css('opacity', '1');
-        $('.product-wrapper-grid').removeClass("list-view");
-        $(".product-wrapper-grid").children().children().removeClass();
-        $(".product-wrapper-grid").children().children().addClass("col-lg-3");
+        $('.catalog-wrapper-grid').removeClass("list-view");
+        $(".catalog-wrapper-grid").children().children().removeClass();
+        $(".catalog-wrapper-grid").children().children().addClass("col-lg-3");
 
     });
-    $('.product-2-layout-view').on('click', function(e) {
-        if ($('.product-wrapper-grid').hasClass("list-view")) {} else {
-            $(".product-wrapper-grid").children().children().removeClass();
-            $(".product-wrapper-grid").children().children().addClass("col-lg-6");
+    $('.catalog-2-layout-view').on('click', function(e) {
+        if ($('.catalog-wrapper-grid').hasClass("list-view")) {} else {
+            $(".catalog-wrapper-grid").children().children().removeClass();
+            $(".catalog-wrapper-grid").children().children().addClass("col-lg-6");
         }
     });
-    $('.product-3-layout-view').on('click', function(e) {
-        if ($('.product-wrapper-grid').hasClass("list-view")) {} else {
-            $(".product-wrapper-grid").children().children().removeClass();
-            $(".product-wrapper-grid").children().children().addClass("col-lg-4");
+    $('.catalog-3-layout-view').on('click', function(e) {
+        if ($('.catalog-wrapper-grid').hasClass("list-view")) {} else {
+            $(".catalog-wrapper-grid").children().children().removeClass();
+            $(".catalog-wrapper-grid").children().children().addClass("col-lg-4");
         }
     });
-    $('.product-4-layout-view').on('click', function(e) {
-        if ($('.product-wrapper-grid').hasClass("list-view")) {} else {
-            $(".product-wrapper-grid").children().children().removeClass();
-            $(".product-wrapper-grid").children().children().addClass("col-lg-3");
+    $('.catalog-4-layout-view').on('click', function(e) {
+        if ($('.catalog-wrapper-grid').hasClass("list-view")) {} else {
+            $(".catalog-wrapper-grid").children().children().removeClass();
+            $(".catalog-wrapper-grid").children().children().addClass("col-lg-3");
         }
     });
-    $('.product-6-layout-view').on('click', function(e) {
-        if ($('.product-wrapper-grid').hasClass("list-view")) {} else {
-            $(".product-wrapper-grid").children().children().removeClass();
-            $(".product-wrapper-grid").children().children().addClass("col-lg-2");
+    $('.catalog-6-layout-view').on('click', function(e) {
+        if ($('.catalog-wrapper-grid').hasClass("list-view")) {} else {
+            $(".catalog-wrapper-grid").children().children().removeClass();
+            $(".catalog-wrapper-grid").children().children().addClass("col-lg-2");
         }
     });
 
@@ -1093,11 +1093,11 @@
     });
 
     $(function() {
-        $(".product-load-more .col-grid-box").slice(0, 8).show();
+        $(".catalog-load-more .col-grid-box").slice(0, 8).show();
         $(".loadMore").on('click', function(e) {
             e.preventDefault();
-            $(".product-load-more .col-grid-box:hidden").slice(0, 4).slideDown();
-            if ($(".product-load-more .col-grid-box:hidden").length === 0) {
+            $(".catalog-load-more .col-grid-box:hidden").slice(0, 4).slideDown();
+            if ($(".catalog-load-more .col-grid-box:hidden").length === 0) {
                 $(".loadMore").text('no more products');
             }
         });
@@ -1107,7 +1107,7 @@
     /*=====================
      18.Add to cart
      ==========================*/
-    $('.product-box button .ti-shopping-cart').on('click', function() {
+    $('.catalog-box button .ti-shopping-cart').on('click', function() {
         $.notify({
             icon: 'fa fa-check',
             title: 'Success!',
@@ -1149,7 +1149,7 @@
     /*=====================
      19.Add to wishlist
      ==========================*/
-    $('.product-box a .ti-heart , .product-box a .fa-heart').on('click', function() {
+    $('.catalog-box a .ti-heart , .catalog-box a .fa-heart').on('click', function() {
 
         $.notify({
             icon: 'fa fa-check',

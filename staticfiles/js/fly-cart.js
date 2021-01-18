@@ -4,7 +4,7 @@ $('.cart-info button').on('click', function () {
     }else{
         var cart = $('.mobile-cart .icon-shopping-cart');
     }
-    var imgtodrag = $(this).parents('.product-box').find(".front .bg-size, .front img").eq(0);
+    var imgtodrag = $(this).parents('.catalog-box').find(".front .bg-size, .front img").eq(0);
     if (imgtodrag) {
         var imgclone = imgtodrag.clone()
             .offset({

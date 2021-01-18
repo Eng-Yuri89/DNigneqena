@@ -15,7 +15,7 @@ class Store(models.Model):
     )
 
     vendor = models.OneToOneField(to=User , on_delete=models.CASCADE ,blank=True )
-    #product = models.ForeignKey(Product,on_delete=models.CASCADE ,null=True , blank=True)
+    #catalog = models.ForeignKey(Product,on_delete=models.CASCADE ,null=True , blank=True)
     title = models.CharField(max_length=150 , null=True ,default='Nigne')
     keywords = models.CharField(max_length=255 , default=' ' , null=True)
     company = models.CharField(max_length=50 , default=' ', null=True)

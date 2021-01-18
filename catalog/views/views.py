@@ -11,6 +11,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 # Create your views here.
+from haystack.query import SearchQuerySet
 from rest_framework.renderers import TemplateHTMLRenderer
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -28,7 +29,7 @@ def index(request):
         'page': page,
 
         'catdata':catdata,
-        'product':product,
+        'catalog':product,
     }
     return render(request, 'admin/index.html', context)
 
@@ -85,7 +86,7 @@ def product_detail(request,id,slug):
     images = Image.objects.filter(product_id=id)
     paginator = Paginator(images, 1)  # Show 25 contacts per page.
 
-    context = {'product': product,'category': category,
+    context = {'catalog': product,'category': category,
                'images': images,"paginator":paginator
                }
     #return HttpResponse('f')
@@ -102,7 +103,6 @@ class CatList(APIView):
     def get(self, request):
         queryset = Category.objects.all()
         return Response({'categories': queryset})
-
 
 
 

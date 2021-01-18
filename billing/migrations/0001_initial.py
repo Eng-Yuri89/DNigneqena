@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('price', models.DecimalField(decimal_places=2, default=9.99, max_digits=100, null=True)),
                 ('timestamp', models.DateTimeField(auto_now_add=True)),
                 ('success', models.BooleanField(default=True)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.sellerproduct')),
+                ('catalog', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='catalog.sellerproduct')),
                 ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
