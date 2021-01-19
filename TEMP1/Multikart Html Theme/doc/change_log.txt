@@ -1,0 +1,86 @@
+-----------------------------------------------
+----- +++ 4.4 Updates (09-march-20) +++ -----
+-----------------------------------------------
+Added: added skeleton loader in frontend pages
+Added: unlimited color picker
+Added: marketplace demo
+Added pages:
+1. vendor dashboard
+2. vendor profile
+3. become vendor
+
+-----------------------------------------------
+----- +++ 4.3 Updates (02-nov-19) +++ -----
+-----------------------------------------------
+Added : add christmas layout
+-----------------------------------------------
+----- +++ 4.2 Updates (14-sep-19) +++ -----
+-----------------------------------------------
+Added : add backend responsive scss & css
+
+-----------------------------------------------
+----- +++ 4.1 Updates (29-Aug-19) +++ -----
+-----------------------------------------------
+Fixed : documentation updated
+Fixed : Megamenu RTL issue fixed.
+-----------------------------------------------
+----- +++ 4.0 Updates (1-Aug-19) +++ -----
+-----------------------------------------------
+Added : gulp integreted for sass automation.
+Added : added backend(admin) & change folder structure.
+        add new back-end folder it contain backend files
+Fixed : menu IE issue solved.
+
+-----------------------------------------------
+----- +++ 3.1 Updates (27-july-19) +++ -----
+-----------------------------------------------
+Added : order-history page
+Fix   : Fix some design issue
+
+-----------------------------------------------
+----- +++ 3.0 Updates (27-March-19) +++ -----
+-----------------------------------------------
+- Remove RTL folder and make on click. 
+Add demo :
+1. tools
+2. gym
+3. game
+4. left menu
+5. jewellery
+6. pets
+7. marijuana
+8. metro
+9. video slider
+
+Add shop pages :
+1. metro 
+2. full width
+
+Add SellerProduct pages :
+1. Bundle
+2. 4 image
+3 image swatch
+4. image outside
+
+Add Inner pages :
+1. profile
+2. review
+3. coming soon
+4. typography
+5. site map
+6. compare 
+
+Add Feature:
+1. Darklayout 
+2. On click RTL
+3. Add to cart variation
+4. 4 Email template
+5. Portfolio pages
+6. Element pages
+7. Exit popup
+8. Age varification popup
+
+-----------------------------------------------
+----- +++ 2.0 Updates                +++ -----
+----------------------------------------------
+Added : Added facebook chat and mailchimp
