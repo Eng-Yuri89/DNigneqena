@@ -1,5 +1,5 @@
 from django.http import HttpResponse, request
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 
@@ -55,12 +55,16 @@ def category_list(request):
     return render(request, 'front/pages/category_list.html', context)
 
 
-def product_list(request):
+def product_list(request, category_slug=None):
+    category = None
     catdata = Category.objects.all()
-    products = Product.objects.all()
+    products = Product.objects.filter(status=True)
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = Product.objects.filter(category=category)
 
     context = {'products': products,
-               # 'category':category,
+                'category':category,
                'catdata': catdata}
     #return HttpResponse(1)
     return render(request, 'admin/pages/category-admin.html', context)
@@ -81,14 +85,17 @@ def product_detail(request,id,slug):
 
     category = Category.objects.all()
 
-    product = Product.objects.get(pk=id)
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
 
     images = Image.objects.filter(product_id=id)
     paginator = Paginator(images, 1)  # Show 25 contacts per page.
 
-    context = {'catalog': product,'category': category,
-               'images': images,"paginator":paginator
-               }
+
+    context = {
+        'product': product,
+        'cart_product_form': cart_product_form,
+        'paginator':paginator,
+    }
     #return HttpResponse('f')
     return render(request, 'add-producttest.html', context)
 

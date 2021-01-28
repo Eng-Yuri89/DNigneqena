@@ -1,5 +1,6 @@
 {% load static %}
 {% load bootstrap4 %}
+{% load i18n %}
 <!-- Page Sidebar Start-->
 <div class="page-sidebar">
     <div class="main-header-left d-none d-lg-block">
@@ -23,7 +24,7 @@
                     class="fa fa-angle-right pull-right"></i></a>
 
                         <ul class="sidebar-submenu">
-                            <li><a href="{% url 'core:categories' %}"><i class="fa fa-circle"></i>Categories</a>
+                            <li><a href="{% url 'core:categories' %}"><i class="fa fa-circle"></i>{% trans "Category" %}</a>
                             <li><a href="{% url 'core:products_admin' %}"><i class="fa fa-circle"></i>Products</a></li>
                             <li><a href="product-list.html"><i class="fa fa-circle"></i>Recurring Profiles</a></li>
                             <li><a href="product-detail.html"><i class="fa fa-circle"></i>Filters</a></li>
@@ -85,7 +86,7 @@
             <li><a class="sidebar-header" href=""><i data-feather="chrome"></i><span>Localization</span><i
                     class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu">
-                    <li><a href="translations.html"><i class="fa fa-circle"></i>Translations</a></li>
+                    <li><a href="{% url 'localization:all_lang' %}"><i class="fa fa-circle"></i>{% translate "Translations" %}</a></li>
                     <li><a href="currency-rates.html"><i class="fa fa-circle"></i>Currency Rates</a></li>
                     <li><a href="taxes.html"><i class="fa fa-circle"></i>Taxes</a></li>
                 </ul>
@@ -96,6 +97,7 @@
                     class="fa fa-angle-right pull-right"></i></a>
                 <ul class="sidebar-submenu">
                     <li><a href="{%  url 'core:update_setting'  %}"><i class="fa fa-circle"></i>Settings</a></li>
+                    <li><a href="{%  url 'core:add_setting'  %}"><i class="fa fa-circle"></i>ADD Settings</a></li>
                      <li><a href="profile.html"><i class="fa fa-circle"></i>Profile</a></li>
                 </ul>
             </li>

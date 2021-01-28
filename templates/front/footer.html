@@ -988,7 +988,17 @@
     <!-- Add to cart modal popup end-->
 
     <!-- facebook chat section start -->
-    <div id="fb-root"></div>
+<script>
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId            : 'your-app-id',
+      autoLogAppEvents : true,
+      xfbml            : true,
+      version          : 'v9.0'
+    });
+  };
+</script>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
     <script>(function (d, s, id) {
             var js, fjs = d.getElementsByTagName(s)[0];
             if (d.getElementById(id)) return;
@@ -1009,7 +1019,7 @@
 
     <!-- cart start -->
     <div class="addcart_btm_popup" id="fixed_cart_icon">
-        <a href="#" class="fixed_cart">
+        <a href="{% url 'sales:shopcart' %}" class="fixed_cart">
             <i class="ti-shopping-cart"></i>
         </a>
     </div>

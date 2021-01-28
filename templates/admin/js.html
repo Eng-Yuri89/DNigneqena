@@ -103,3 +103,23 @@
 <script src="{%  static ''%}js/editor/ckeditor/styles.js"></script>
 <script src="{%  static ''%}js/editor/ckeditor/adapters/jquery.js"></script>
 <script src="{%  static ''%}js/editor/ckeditor/ckeditor.custom.js"></script>
+
+<script>
+        $(window).on('load', function () {
+            setTimeout(function () {
+                $('#exampleModal').modal('hide');
+            }, 2500);
+        });
+        function openSearch() {
+            document.getElementById("search-overlay").style.display = "block";
+        }
+
+        function closeSearch() {
+            document.getElementById("search-overlay").style.display = "none";
+        }
+
+
+        $('#language a:first').tab('show');
+
+
+    </script>

@@ -1,0 +1,194 @@
+{% extends 'admin/adminbase.html' %}
+
+{% load crispy_forms_filters %}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+
+
+
+
+    <div class="page-body">
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="page-header">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="page-header-left">
+                            <h3>Store ADD Setting
+                                <small>{{ setting.title }} Admin panel</small>
+                            </h3>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <ol class="breadcrumb pull-right">
+                            <li class="breadcrumb-item"><a href="/"><i data-feather="home"></i></a></li>
+                            <li class="breadcrumb-item">Setting</li>
+                            <li class="breadcrumb-item active">{{ setting.title }}</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Container-fluid Ends-->
+
+        <!-- Container-fluid starts-->
+        <div class="container-fluid">
+            <div class="row product-adding">
+                <div class="col-xl-12">
+                    <div class="card">
+                        <form class="needs-validation" enctype="multipart/form-data"
+                              action="{% url 'core:add_setting' %}"
+                              method="post">
+                            {% csrf_token %}
+
+                            {% if form.errors %}
+                                {% for error_field, error_message in form.errors.items %}
+
+                                    <div class="alert alert-danger">
+                                        {{ error_field|striptags }}: {{ error_message|striptags }}
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+
+                            {% endif %}
+                            <div class="card-body">
+                                <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist">
+                                    <li class="nav-item"><a class="nav-link active show" id="general-tab"
+                                                            data-toggle="tab"
+                                                            href="#general" role="tab" aria-controls="general"
+                                                            aria-selected="true" data-original-title=""
+                                                            title="">General</a>
+                                    </li>
+                                    <li class="nav-item"><a class="nav-link" id="data-tabs" data-toggle="tab"
+                                                            href="#data"
+                                                            role="tab" aria-controls="data" aria-selected="false"
+                                                            data-original-title="" title="">Data</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="image-tabs" data-toggle="tab"
+                                                            href="#image"
+                                                            role="tab" aria-controls="image" aria-selected="false"
+                                                            data-original-title="" title="">Image</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="option-tabs" data-toggle="tab"
+                                                            href="#option"
+                                                            role="tab" aria-controls="option" aria-selected="false"
+                                                            data-original-title="" title="">Option</a></li>
+                                    <li class="nav-item"><a class="nav-link" id="seo-tabs" data-toggle="tab" href="#seo"
+                                                            role="tab" aria-controls="seo" aria-selected="false"
+                                                            data-original-title="" title="">SEO</a></li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class=" active show tab-coupon" id="language" role="tablist">
+                                        <ul class="nav nav-tabs tab-coupon" id="myTab" role="tablist" >
+                                            {% for language in langlist %}
+                                                <li class=" nav-item  tab-coupon mx-3 " ><a  href="#language{{ language.id }}" data-toggle="tab"><img
+                                                        src="{{ language.image.url }}"
+                                                        title="{{ language.name }}"/> {{ language.name }}</a></li> {% endfor %}
+
+                                        </ul>
+                                        <div class=" tab-content ">
+                                            {% for language in langlist %}
+                                                <div class="tab-pane   "  id="language{{ language.id }}">
+                                                    <div class="form-group row required">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-name{{ language.id }}">{{ language.name }}
+                                                            Title</label>
+                                                        <div class="col-sm-10 show">
+                                                            <input type="text"
+                                                                   name="category_description[{{ language.language_id }}][name]"
+                                                                   value="{{ language.name }}"
+                                                                   placeholder="{{ entry_name }}"
+                                                                   id="input-name{{ language.language_id }}"
+                                                                   class="form-control"/>
+                                                            {% if error_name %}
+                                                                <div class="text-danger">{{ error_name }}</div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-description{{ language.language_id }}">keywords</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea
+                                                                    name="category_description[{{ language.language_id }}][description]"
+                                                                    placeholder="keywords"
+                                                                    id="input-description{{ language.language_id }}"
+                                                                    data-toggle="summernote"
+                                                                    data-lang="{{ summernote }}"
+                                                                    class="form-control">{{ language.id }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-meta-title{{ language.language_id }}">company</label>
+                                                        <div class="col-sm-10">
+                                                            <input type="text"
+                                                                   name="category_description[{{ language.language_id }}][meta_title]"
+                                                                   value="{{ language.name }}"
+                                                                   placeholder="{{ entry_meta_title }}"
+                                                                   id="input-meta-title{{ language.language_id }}"
+                                                                   class="form-control"/>
+                                                            {% if error_meta_title %}
+                                                                <div class="text-danger">{{ error_meta_title }}</div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-meta-description{{ language.language_id }}">about</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea
+                                                                    name="category_description[{{ language.language_id }}][meta_description]"
+                                                                    rows="5" placeholder="{{ entry_meta_description }}"
+                                                                    id="input-meta-description{{ language.language_id }}"
+                                                                    class="form-control">{{ language.id }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 control-label"
+                                                               for="input-meta-keyword{{ language.language_id }}">address</label>
+                                                        <div class="col-sm-10">
+                                                            <textarea
+                                                                    name="category_description[{{ language.language_id }}][meta_keyword]"
+                                                                    rows="5" placeholder="{{ entry_meta_keyword }}"
+                                                                    id="input-meta-keyword{{ language.language_id }}"
+                                                                    class="form-control">{{ language.id }}</textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="form-group mb-0">
+                                        <div class="product-buttons text-center">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                            <button type="submit" class="btn btn-light">Discard</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Container-fluid Ends-->
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+    </div>
+    {% if uploaded_file_url %}
+        <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
+    {% endif %}
+
+
+{% endblock %}
+
+{% block foot %} {% include 'admin/footer.html' %}  {% endblock %}
+{% block js %}{% include 'admin/js.html' %}{% endblock %}

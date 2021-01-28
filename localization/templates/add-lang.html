@@ -1,0 +1,103 @@
+{% extends 'admin/adminbase.html' %}
+{% load static %}
+
+{% load widget_tweaks %}
+
+
+
+
+{% block body %}
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="page-header">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="page-header-left">
+                        <h3>Add Category
+                            <small>Multikart Admin panel</small>
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ol class="breadcrumb pull-right">
+                        <li class="breadcrumb-item"><a href="/admin"><i data-feather="home"></i></a></li>
+                        <li class="breadcrumb-item">Physical</li>
+                        <li class="breadcrumb-item active">Add Product</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+
+    <!-- Container-fluid starts-->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Add Category</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row product-adding">
+                            <div class="col-xl-5">
+                                <div class="add-product">
+                                    <div class="row">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-9 xl-50 col-sm-6 col-9">
+                                <form class="needs-validation add-product-form" novalidate=""
+                                      enctype="multipart/form-data" action="{% url 'localization:AddLang' %}"
+                                      method="post">
+
+                                    <div class="form">
+
+                                        {% csrf_token %}
+                                        {% for hidden in form.hidden_fields %}
+                                            {{ hidden }}
+                                        {% endfor %}
+                                        {% for field in form.visible_fields %}
+
+
+                                            <div class="form-group mb-3 row">
+                                                <label for="{{ field.id_for_label }}"
+                                                       class="col-xl-3 col-sm-4 mb-0">{{ field.label }}
+                                                    :</label>
+                                            {{ form.media }}
+                                                {{ field|add_class:'form-control' }}
+                                                {% for error in field.errors %}
+                                                    <span class="help-block">{{ error }}</span>
+                                                {% endfor %}
+                                                <div class="valid-feedback">Looks good!</div>
+                                            </div>
+                                        {% endfor %}
+
+                                        <div class="offset-xl-3 offset-sm-4">
+                                            <button type="submit" class="btn btn-primary">Add</button>
+                                            <button type="button" class="btn btn-light">Discard</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Container-fluid Ends-->
+
+
+
+
+{% endblock %}
+
+
+
+{% block foot %} {% include 'admin/footer.html' %}  {% endblock %}
+{% block js %} {% include 'admin/js.html' %}  {% endblock %}

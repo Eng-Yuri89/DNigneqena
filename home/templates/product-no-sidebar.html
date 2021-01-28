@@ -1,12 +1,14 @@
 {% extends 'front/homebase.html' %}
 
 {% load static %}
+{% load myapptags %}
+{% load imagefit %}
 {% load bootstrap4 %}
 <!--Slick slider css-->
-    <link rel="stylesheet" type="text/css" href="{% static ''%}css/slick.css">
-    <link rel="stylesheet" type="text/css" href="{% static ''%}css/slick-theme.css">
+<link rel="stylesheet" type="text/css" href="{% static '' %}css/slick.css">
+<link rel="stylesheet" type="text/css" href="{% static '' %}css/slick-theme.css">
 {% block body %}
-<body>
+    <body>
 
 
     <!-- breadcrumb start -->
@@ -33,7 +35,7 @@
 
 
     <!-- section start -->
-   <section>
+    <section>
         <div class="collection-wrapper">
             <div class="container">
                 <div class="row">
@@ -41,35 +43,38 @@
                         <div class="row">
                             <div class="col-12 p-0">
                                 <div class="slider-right-nav">
-                                    <div><img src="{{ product.thumbnail.url }}" alt=""
-                                            class="img-fluid blur-up lazyload"></div>
-                                    <div><img src="{{ product.thumbnail.url }}" alt=""
-                                            class="img-fluid blur-up lazyload"></div>
-                                    <div><img src="{{ product.thumbnail.url }}" alt=""
-                                            class="img-fluid blur-up lazyload"></div>
-                                    <div><img src="{{ product.thumbnail.url }}" alt=""
-                                            class="img-fluid blur-up lazyload"></div>
+                                    <div><img src="{{ product.thumbnail.url }}" width="100px" height="100px" alt=""
+                                              class="img-fluid blur-up lazyload"></div>
+                                    <div><img src="{{ product.image1.url }}" width="100px" height="100px" alt=""
+                                              class="img-fluid blur-up lazyload"></div>
+                                    <div><img src="{{ product.image2.url }}" width="100px" height="100px" alt=""
+                                              class="img-fluid blur-up lazyload"></div>
+                                    <div><img src="{{ product.image3.url }}" width="100px" height="100px" alt=""
+                                              class="img-fluid blur-up lazyload"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-5 col-sm-10 col-xs-12 order-up">
                         <div class="product-right-slick">
-                            <div><img src="{{ product.thumbnail.url }}" alt=""
-                                    class="img-fluid blur-up lazyload image_zoom_cls-0"></div>
-                            <div><img src="{{ product.thumbnail.url }}" alt=""
-                                    class="img-fluid blur-up lazyload image_zoom_cls-1"></div>
-                            <div><img src="{{ product.thumbnail.url }}" alt=""
-                                    class="img-fluid blur-up lazyload image_zoom_cls-2"></div>
-                            <div><img src="{{ product.thumbnail.url }}" alt=""
-                                    class="img-fluid blur-up lazyload image_zoom_cls-3"></div>
+                            <div><img src="{{ product.thumbnail.url }}" width="100px" height="100px" alt=""
+                                      class="img-fluid blur-up lazyload image_zoom_cls-0"></div>
+                            <div><img src="{{ product.image1.url }}" width="100px" height="100px" alt=""
+                                      class="img-fluid blur-up lazyload"></div>
+                            <div><img src="{{ product.image2.url }}" width="100px" height="100px" alt=""
+                                      class="img-fluid blur-up lazyload"></div>
+                            <div><img src="{{ product.image3.url }}" width="100px" height="100px" alt=""
+                                      class="img-fluid blur-up lazyload"></div>
+
                         </div>
                     </div>
                     <div class="col-lg-6 rtl-text">
                         <div class="product-right">
-                            <h2>Women Pink Shirt</h2>
-                            <h4><del>$459.00</del><span>55% off</span></h4>
-                            <h3>$32.96</h3>
+                            <h2>{{ product.title }}</h2>
+                            <h4>
+                                <del>{{ product.price }}</del>
+                                <span>{{ product.discount }}</span></h4>
+                            <h3>{{ product.sale_price }}</h3>
                             <ul class="color-variant">
                                 <li class="bg-light0"></li>
                                 <li class="bg-light1"></li>
@@ -77,18 +82,21 @@
                             </ul>
                             <div class="product-description border-product">
                                 <h6 class="product-title size-text">select size <span><a href="" data-toggle="modal"
-                                            data-target="#sizemodal">size chart</a></span></h6>
+                                                                                         data-target="#sizemodal">size chart</a></span>
+                                </h6>
                                 <div class="modal fade" id="sizemodal" tabindex="-1" role="dialog"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Sheer Straight Kurta</h5>
                                                 <button type="button" class="close" data-dismiss="modal"
-                                                    aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                                                </button>
                                             </div>
-                                            <div class="modal-body"><img src="{% static ''%}images/size-chart.jpg" alt=""
-                                                    class="img-fluid blur-up lazyload"></div>
+                                            <div class="modal-body"><img src="{% static '' %}images/size-chart.jpg"
+                                                                         alt=""
+                                                                         class="img-fluid blur-up lazyload"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -100,20 +108,59 @@
                                         <li><a href="#">xl</a></li>
                                     </ul>
                                 </div>
+                                 {% if  product.variant != 'None'   %}
                                 <h6 class="product-title">quantity</h6>
-                                <div class="qty-box">
+                                     <form action="{% url 'sales:addtoshopcart' product.id %}" method="post"  id="addchart-form">
+                                    {% csrf_token %}
+                                        <div class="qty-box">
                                     <div class="input-group"><span class="input-group-prepend"><button type="button"
-                                                class="btn quantity-left-minus" data-type="minus" data-field=""><i
-                                                    class="ti-angle-left"></i></button> </span>
-                                        <input type="text" name="quantity" class="form-control input-number" value="1">
+                                                                                                       class="btn quantity-left-minus"
+                                                                                                       data-type="minus"
+                                                                                                       data-field=""><i
+                                            class="ti-angle-left"></i></button> </span>
+                                        <input type="text" name="quantity" class="form-control input-number" value="1"  max="{{ product.amount }}">
                                         <span class="input-group-prepend"><button type="button"
-                                                class="btn quantity-right-plus" data-type="plus" data-field=""><i
-                                                    class="ti-angle-right"></i></button></span></div>
+                                                                                  class="btn quantity-right-plus"
+                                                                                  data-type="plus" data-field=""><i
+                                                class="ti-angle-right"></i></button></span></div>
                                 </div>
+
+
+                                        <div class="product-buttons"><a href="" data-toggle="modal" data-target="#addtocart"
+                                                            class="btn btn-solid">add to cart</a> <a href="{% url 'sales:orderproduct' %}"
+                                                                                                     class="btn btn-solid">buy
+                                now</a>
+                                        </div> </form>
                             </div>
-                            <div class="product-buttons"><a href="#" data-toggle="modal" data-target="#addtocart"
-                                    class="btn btn-solid">add to cart</a> <a href="#" class="btn btn-solid">buy now</a>
+                             {% else %}
+                            <h6 class="product-title">quantity</h6>
+                                      <form action="{% url 'sales:addtoshopcart' product.id %}" method="post"  id="addchart-form">
+                                    {% csrf_token %}
+                                <div class="qty-box">
+                                   {% if product.amount > 0  %}
+                                    <div class="input-group"><span class="input-group-prepend"><button type="button"
+                                                                                                       class="btn quantity-left-minus"
+                                                                                                       data-type="minus"
+                                                                                                       data-field=""><i
+                                            class="ti-angle-left"></i></button> </span>
+                                        <input type="text" name="quantity" class="form-control input-number" value="1" max="{{ product.amount }}">
+                                        <span class="input-group-prepend"><button type="button"
+                                                                                  class="btn quantity-right-plus" aria-errormessage="{{ product.amount }}"
+                                                                                  data-type="plus" data-field="" ><i
+                                                class="ti-angle-right" aria-valuemax="{{ product.amount }}"></i></button></span></div>
+                                     </div>
+                                       {% else %} Out of Stock {% endif %}
+
+
+                            <div class="product-buttons"><a href="{% url 'sales:addtoshopcart' product.id %}"  type="submit"
+                                                            class="btn btn-solid">add to cart</a> <a href="{% url 'sales:orderproduct' %}"
+                                                                                                     class="btn btn-solid">buy
+                                now</a>
                             </div>
+                                      </form>
+                         {% endif %}
+
+
                             <div class="border-product">
                                 <h6 class="product-title">product details</h6>
                                 <p>Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium
@@ -141,11 +188,11 @@
                                 <h6 class="product-title">Time Reminder</h6>
                                 <div class="timer">
                                     <p id="demo"><span>25 <span class="padding-l">:</span> <span
-                                                class="timer-cal">Days</span> </span><span>22 <span
-                                                class="padding-l">:</span> <span class="timer-cal">Hrs</span>
+                                            class="timer-cal">Days</span> </span><span>22 <span
+                                            class="padding-l">:</span> <span class="timer-cal">Hrs</span>
                                         </span><span>13 <span class="padding-l">:</span> <span
-                                                class="timer-cal">Min</span> </span><span>57 <span
-                                                class="timer-cal">Sec</span></span>
+                                            class="timer-cal">Min</span> </span><span>57 <span
+                                            class="timer-cal">Sec</span></span>
                                     </p>
                                 </div>
                             </div>
@@ -166,25 +213,25 @@
                 <div class="col-sm-12 col-lg-12">
                     <ul class="nav nav-tabs nav-material" id="top-tab" role="tablist">
                         <li class="nav-item"><a class="nav-link active" id="top-home-tab" data-toggle="tab"
-                                href="#top-home" role="tab" aria-selected="true">Description</a>
+                                                href="#top-home" role="tab" aria-selected="true">Description</a>
                             <div class="material-border"></div>
                         </li>
                         <li class="nav-item"><a class="nav-link" id="profile-top-tab" data-toggle="tab"
-                                href="#top-profile" role="tab" aria-selected="false">Details</a>
+                                                href="#top-profile" role="tab" aria-selected="false">Details</a>
                             <div class="material-border"></div>
                         </li>
                         <li class="nav-item"><a class="nav-link" id="contact-top-tab" data-toggle="tab"
-                                href="#top-contact" role="tab" aria-selected="false">Video</a>
+                                                href="#top-contact" role="tab" aria-selected="false">Video</a>
                             <div class="material-border"></div>
                         </li>
                         <li class="nav-item"><a class="nav-link" id="review-top-tab" data-toggle="tab"
-                                href="#top-review" role="tab" aria-selected="false">Write Review</a>
+                                                href="#top-review" role="tab" aria-selected="false">Write Review</a>
                             <div class="material-border"></div>
                         </li>
                     </ul>
                     <div class="tab-content nav-material" id="top-tabContent">
                         <div class="tab-pane fade show active" id="top-home" role="tabpanel"
-                            aria-labelledby="top-home-tab">
+                             aria-labelledby="top-home-tab">
                             <p>{{ product.description }}</p>
                         </div>
                         <div class="tab-pane fade" id="top-profile" role="tabpanel" aria-labelledby="profile-top-tab">
@@ -192,30 +239,30 @@
                             <div class="single-product-tables">
                                 <table>
                                     <tbody>
-                                        <tr>
-                                            <td>Febric</td>
-                                            <td>Chiffon</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Color</td>
-                                            <td>Red</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Material</td>
-                                            <td>Crepe printed</td>
-                                        </tr>
+                                    <tr>
+                                        <td>Febric</td>
+                                        <td>Chiffon</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Color</td>
+                                        <td>Red</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Material</td>
+                                        <td>Crepe printed</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                                 <table>
                                     <tbody>
-                                        <tr>
-                                            <td>Length</td>
-                                            <td>50 Inches</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Size</td>
-                                            <td>S, M, L .XXL</td>
-                                        </tr>
+                                    <tr>
+                                        <td>Length</td>
+                                        <td>50 Inches</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Size</td>
+                                        <td>S, M, L .XXL</td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -223,7 +270,7 @@
                         <div class="tab-pane fade" id="top-contact" role="tabpanel" aria-labelledby="contact-top-tab">
                             <div class="mt-4 text-center">
                                 <iframe width="560" height="315" src="https://www.youtube.com/embed/BUWzX78Ye_8"
-                                    allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                                        allow="autoplay; encrypted-media" allowfullscreen></iframe>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="top-review" role="tabpanel" aria-labelledby="review-top-tab">
@@ -242,7 +289,7 @@
                                     <div class="col-md-6">
                                         <label for="name">Name</label>
                                         <input type="text" class="form-control" id="name" placeholder="Enter Your name"
-                                            required>
+                                               required>
                                     </div>
                                     <div class="col-md-6">
                                         <label for="email">Email</label>
@@ -251,12 +298,12 @@
                                     <div class="col-md-12">
                                         <label for="review">Review Title</label>
                                         <input type="text" class="form-control" id="review"
-                                            placeholder="Enter your Review Subjects" required>
+                                               placeholder="Enter your Review Subjects" required>
                                     </div>
                                     <div class="col-md-12">
                                         <label for="review">Review Title</label>
                                         <textarea class="form-control" placeholder="Wrire Your Testimonial Here"
-                                            id="exampleFormControlTextarea1" rows="6"></textarea>
+                                                  id="exampleFormControlTextarea1" rows="6"></textarea>
                                     </div>
                                     <div class="col-md-12">
                                         <button class="btn btn-solid" type="submit">Submit YOur Review</button>
@@ -283,40 +330,44 @@
             </div>
             <div class="row search-product">
                 {% for rs in productlast %}
-                <div class="col-xl-2 col-md-4 col-sm-6">
-                    <div class="product-box">
-                        <div class="img-wrapper">
-                            <div class="front">
-                                <a href="#"><img src="{{ rs.image.url }}"
-                                        class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                            </div>
-                            <div class="back">
-                                <a href="#"><img src="{% static ''%}images/pro3/34.jpg"
-                                        class="img-fluid blur-up lazyload bg-img" alt=""></a>
-                            </div>
-                            <div class="cart-info cart-wrap">
-                                <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
-                                        class="ti-shopping-cart"></i></button> <a href="javascript:void(0)"
-                                    title="Add to Wishlist"><i class="ti-heart" aria-hidden="true"></i></a> <a href="#"
-                                    data-toggle="modal" data-target="#quick-view" title="Quick View"><i
+                    <div class="col-xl-2 col-md-4 col-sm-6">
+                        <div class="product-box">
+                            <div class="img-wrapper">
+                                <div class="front">
+                                    <a href="#"><img src="{{ rs.image.url }}"
+                                                     class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                </div>
+                                <div class="back">
+                                    <a href="#"><img src="{% static '' %}images/pro3/34.jpg"
+                                                     class="img-fluid blur-up lazyload bg-img" alt=""></a>
+                                </div>
+                                <div class="cart-info cart-wrap">
+                                    <button data-toggle="modal" data-target="#addtocart" title="Add to cart"><i
+                                            class="ti-shopping-cart"></i></button>
+                                    <a href="javascript:void(0)"
+                                       title="Add to Wishlist"><i class="ti-heart" aria-hidden="true"></i></a> <a
+                                        href="#"
+                                        data-toggle="modal" data-target="#quick-view" title="Quick View"><i
                                         class="ti-search" aria-hidden="true"></i></a> <a href="compare.html"
-                                    title="Compare"><i class="ti-reload" aria-hidden="true"></i></a></div>
-                        </div>
-                        <div class="product-detail">
-                            <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                    class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></div>
-                            <a href="product-page(no-sidebar).html">
-                                <h6>{{ rs.title}}</h6>
-                            </a>
-                            <h4>$500.00</h4>
-                            <ul class="color-variant">
-                                <li class="bg-light0"></li>
-                                <li class="bg-light1"></li>
-                                <li class="bg-light2"></li>
-                            </ul>
+                                                                                         title="Compare"><i
+                                        class="ti-reload" aria-hidden="true"></i></a></div>
+                            </div>
+                            <div class="product-detail">
+                                <div class="rating"><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
+                                        class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i>
+                                </div>
+                                <a href="product-page(no-sidebar).html">
+                                    <h6>{{ rs.title }}</h6>
+                                </a>
+                                <h4>$500.00</h4>
+                                <ul class="color-variant">
+                                    <li class="bg-light0"></li>
+                                    <li class="bg-light1"></li>
+                                    <li class="bg-light2"></li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
 
             </div>
@@ -324,20 +375,160 @@
     </section>
     <!-- product section end -->
 
+    <!-- Add to cart modal popup start-->
+    <div class="modal fade bd-example-modal-lg theme-modal cart-modal" id="addtocart" tabindex="-1" role="dialog"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body modal1">
+                    <div class="container-fluid p-0">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="modal-bg addtocart">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <div class="media">
+                                        <a href="#">
+                                            <img class="img-fluid blur-up lazyload pro-img"
+                                                src="{% static ''%}images/fashion/product/43.jpg" alt="">
+                                        </a>
+                                        <div class="media-body align-self-center text-center">
+                                            <a href="#">
+                                                <h6>
+                                                    <i class="fa fa-check"></i>Item
+                                                    <span>men full sleeves</span>
+                                                    <span> successfully added to your Cart</span>
+                                                </h6>
+                                            </a>
+                                            <div class="buttons">
+                                                <a href="{% url 'sales:addtoshopcart' product.id %}" class="view-cart btn btn-solid">Your cart</a>
+                                                <a href="{% url 'sales:orderproduct'  %}" class="checkout btn btn-solid">Check out</a>
+                                                <a href="{% url 'home:ProductsView'  %}" class="continue btn btn-solid">Continue shopping</a>
+                                            </div>
+
+                                            <div class="upsell_payment">
+                                                <img src="{% static ''%}images/payment_cart.png"
+                                                    class="img-fluid blur-up lazyload" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-section">
+                                        <div class="col-12 product-upsell text-center">
+                                            <h4>Customers who bought this item also.</h4>
+                                        </div>
+                                        <div class="row" id="upsell_product">
+                                            <div class="product-box col-sm-3 col-6">
+                                                <div class="img-wrapper">
+                                                    <div class="front">
+                                                        <a href="#">
+                                                            <img src="{% static ''%}images/fashion/product/1.jpg"
+                                                                class="img-fluid blur-up lazyload mb-1"
+                                                                alt="cotton top">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <h6><a href="#"><span>cotton top</span></a></h6>
+                                                        <h4><span>$25</span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-box col-sm-3 col-6">
+                                                <div class="img-wrapper">
+                                                    <div class="front">
+                                                        <a href="#">
+                                                            <img src="{% static ''%}images/fashion/product/34.jpg"
+                                                                class="img-fluid blur-up lazyload mb-1"
+                                                                alt="cotton top">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <h6><a href="#"><span>cotton top</span></a></h6>
+                                                        <h4><span>$25</span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-box col-sm-3 col-6">
+                                                <div class="img-wrapper">
+                                                    <div class="front">
+                                                        <a href="#">
+                                                            <img src="{% static ''%}images/fashion/product/13.jpg"
+                                                                class="img-fluid blur-up lazyload mb-1"
+                                                                alt="cotton top">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <h6><a href="#"><span>cotton top</span></a></h6>
+                                                        <h4><span>$25</span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-box col-sm-3 col-6">
+                                                <div class="img-wrapper">
+                                                    <div class="front">
+                                                        <a href="#">
+                                                            <img src="{% static ''%}images/fashion/product/19.jpg"
+                                                                class="img-fluid blur-up lazyload mb-1"
+                                                                alt="cotton top">
+                                                        </a>
+                                                    </div>
+                                                    <div class="product-detail">
+                                                        <h6><a href="#"><span>cotton top</span></a></h6>
+                                                        <h4><span>$25</span></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add to cart modal popup end-->
+
 {% endblock %}
 
 
+</body>
+<!-- Load Facebook SDK for JavaScript -->
+      <div id="fb-root"></div>
+      <script>
+        window.fbAsyncInit = function() {
+          FB.init({
+            xfbml            : true,
+            version          : 'v9.0'
+          });
+        };
 
+        (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
 
+      <!-- Your Chat Plugin code -->
+      <div class="fb-customerchat"
+        attribution=setup_tool
+        page_id="101167818651440">
+      </div>
 
 
 
 {% block foot %} {% include 'front/footer.html' %}  {% endblock %}
 <!-- slick js-->
-    <script src="{% static ''%}js/slick.js"></script>
+<script src="{% static '' %}js/slick.js"></script>
+
+<!-- popper js-->
+    <script src="{% static ''%}js/popper.min.js"></script>
 
 <!-- Zoom js-->
-    <script src="{% static ''%}js/jquery.elevatezoom.js"></script>
+<script src="{% static '' %}js/jquery.elevatezoom.js"></script>
 {% block js %} {% include 'front/js.html' %}  {% endblock %}
 
 

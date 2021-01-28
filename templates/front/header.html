@@ -1,236 +1,12 @@
+{% load crispy_forms_filters %}
 {% load static %}
 {% load bootstrap4 %}
+{% load imagefit %}
+{% load myapptags %}
 {% load i18n %}
 
 
-<!-- loader start -->
-<div class="loader_skeleton">
-    <div class="top-header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="header-contact">
-                        <ul>
-                            <li>{{ setting.title }} </li>
-                            <li><i class="fa fa-phone" aria-hidden="true"></i>Call Us: {{ setting.phone }}0</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-6 text-right">
-                    <ul class="header-dropdown">
-                        <li class="mobile-wishlist"><a href="/"><i class="fa fa-heart" aria-hidden="true"></i></a>
-                        </li>
-                        <li class="onhover-dropdown mobile-account"><i class="fa fa-user" aria-hidden="true"></i>
-                            My Account
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <header>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="main-menu">
-                        <div class="menu-left">
-                            <div class="navbar">
-                                <a href="javascript:void(0)">
-                                    <div class="bar-style"><i class="fa fa-bars sidebar-bar" aria-hidden="true"></i>
-                                    </div>
-                                </a>
-                            </div>
-                            <div class="brand-logo">
-
-                                <a href="/home"><img src="{{ setting.image.url }}"
-                                                     class="img-fluid blur-up lazyload" width="50px" height="50px"
-                                                     alt=""></a>
-
-                            </div>
-                        </div>
-                        <div class="menu-right pull-right">
-                            <div>
-                                <nav>
-                                    <div class="toggle-nav"><i class="fa fa-bars sidebar-bar"></i></div>
-                                    <ul class="sm pixelstrap sm-horizontal">
-                                        <li>
-                                            <div class="mobile-back text-right">Back<i
-                                                    class="fa fa-angle-right pl-2" aria-hidden="true"></i></div>
-                                        </li>
-                                        <li>
-                                            <a href="/">Home</a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'catalog:category_list' %}">Category</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">product</a>
-                                        </li>
-                                        <li class="mega"><a href="#">features
-                                            <div class="lable-nav">new</div>
-                                        </a>
-                                        </li>
-                                        <li><a href="#">pages</a>
-                                        </li>
-                                        <li>
-                                            <a href="{% url 'catalog:category_list' %}">blog</a>
-                                        </li>
-                                    </ul>
-                                </nav>
-                            </div>
-                            <div>
-                                <div class="icon-nav d-none d-sm-block">
-
-                                    <ul>
-                                        <li class="onhover-div mobile-search">
-
-                                            <div><img src="{% static '' %}images/icon/search.png"
-                                                      onclick="openSearch()"
-                                                      class="img-fluid blur-up lazyload" alt=""> <i
-                                                    class="ti-search"
-                                                    onclick="openSearch()"></i>
-
-                                            </div>
-
-                                        </li>
-                                        <li class="onhover-div mobile-setting">
-                                            <div><img src="{% static '' %}images/icon/setting.png"
-                                                      class="img-fluid blur-up lazyload" alt=""> <i
-                                                    class="ti-settings"></i></div>
-                                        </li>
-                                        <li class="onhover-div mobile-cart">
-                                            <div><img src="{% static '' %}images/icon/cart.png"
-                                                      class="img-fluid blur-up lazyload" alt=""> <i
-                                                    class="ti-shopping-cart"></i></div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-    <div class="home-slider">
-        <div class="home"></div>
-    </div>
-    <section class="collection-banner">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="ldr-bg">
-                        <div class="contain-banner">
-                            <div>
-                                <h4></h4>
-                                <h2></h2>
-                                <h6></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="ldr-bg">
-                        <div class="contain-banner">
-                            <div>
-                                <h4></h4>
-                                <h2></h2>
-                                <h6></h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <div class="container section-b-space">
-        <div class="row section-t-space">
-            <div class="col-lg-6 offset-lg-3">
-                <div class="product-para">
-                    <p class="first"></p>
-                    <p class="second"></p>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="no-slider row">
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                    <div class="product-box">
-                        <div class="img-wrapper"></div>
-                        <div class="product-detail">
-                            <h4></h4>
-                            <h5></h5>
-                            <h5 class="second"></h5>
-                            <h6></h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- loader end -->
+{% block slider %} {% include 'front/loader.html' %} {% endblock %}
 
 
 <!-- header start -->
@@ -256,12 +32,11 @@
                                 <strong class="text-uppercase">{{ user.first_name }} </strong>
                                 <ul class="onhover-show-div">
                                     {% if store is  None %}
-                                        <li><a href="{% url 'vendors:vendor_dashboard' %}" data-lng="es">My Store</a>
+                                        <li><a href="{% url 'vendors:vendor_dashboard' %}" data-lng="es">{% translate "My Store" %}</a>
                                         </li>
 
                                     {% else %}
-                                        <li><a href="{% url 'vendors:become_seller' user.id %}" data-lng="es">start
-                                            selling</a></li>
+                                        <li><a href="{% url 'vendors:become_seller' user.id %}" data-lng="es">{% translate "start selling" %}</a></li>
                                     {% endif %}
 
                                     <li><a href="{% url 'accounts:customer_logout' %}" data-lng="es">Logout</a></li>
@@ -443,11 +218,11 @@
                                                                                    aria-hidden="true"></i></div>
                                     </li>
                                     <li>
-                                        <a href="{% url 'home:index' %}">Home</a>
+                                        <a href="{% url 'home:index' %}">{% translate "home" %}</a>
 
                                     </li>
                                     <li>
-                                        <a href="{% url 'catalog:category_list' %}">Category</a>
+                                        <a href="{% url 'catalog:category_list' %}">{% translate "Category" %}</a>
                                         <ul>
 
                                             {% for rs in categories %}
@@ -604,15 +379,16 @@
                                                         <div class="row">
                                                             <div class="col-xl-12">
 
-                                                                <form action="/search/" method="get"   class="autocomplete-me">
+                                                                <form action="/search/" method="get"
+                                                                      class="autocomplete-me">
                                                                     {% csrf_token %}
                                                                     <div class="form-group">
                                                                         <input type="text" class="form-control"
-                                                                               id="id_q"  name="q"
+                                                                               id="id_q" name="q"
                                                                                placeholder="Search a Product">
 
                                                                     </div>
-                                                                    <button class="btn btn-primary" type="submit" ><i
+                                                                    <button class="btn btn-primary" type="submit"><i
                                                                             class="fa fa-search"></i></button>
                                                                 </form>
                                                             </div>
@@ -629,8 +405,33 @@
                                         <div class="show-div setting">
                                             <h6>language</h6>
                                             <ul>
-                                                <li><a href="#">english</a></li>
-                                                <li><a href="#">french</a></li>
+                                                <div class="lan-selector">
+
+                                                    <li class="dropdown default-dropdown">
+                                                        <form action="{% url 'selectlanguage' %}"
+                                                              method="post">{% csrf_token %}
+                                                            <input name="next" type="hidden" value="{{ redirect_to }}">
+                                                            <select name="language" onchange="submit()">
+
+                                                                {% get_current_language as LANGUAGE_CODE %}
+                                                                {% get_available_languages as LANGUAGES %}
+                                                                {% get_language_info_list for LANGUAGES as languages %}
+                                                                {% for language in languages %}
+                                                                    <option value="{{ language.code }}"
+                                                                            {% if language.code == LANGUAGE_CODE %}
+                                                                            selected{% endif %}>
+                                                                        {{ language.name_local }} ({{ language.code }})
+                                                                    </option>
+                                                                {% endfor %}
+
+                                                            </select>
+
+                                                                <input type="submit" value="Set"/>
+
+                                                        </form>
+                                                    </li>
+
+                                                </div>
                                             </ul>
                                             <h6>currency</h6>
                                             <ul class="list-inline">
@@ -642,48 +443,45 @@
                                         </div>
                                     </li>
                                     <li class="onhover-div mobile-cart">
-                                        <div><img src="{% static '' %}images/icon/cart.png"
-                                                  class="img-fluid blur-up lazyload" alt=""> <i
-                                                class="ti-shopping-cart"></i></div>
+                                        {% load myapptags %}
+                                        {% shopcartcount user.id as count %}
+
+                                        <div></span><img src="{% static '' %}images/icon/cart.png"
+                                                         class="img-fluid blur-up lazyload" alt=""> <i
+                                                class="ti-shopping-cart"></i><span class="qty">{{ count }}</span></div>
                                         <ul class="show-div shopping-cart">
                                             <li>
-                                                <div class="media">
-                                                    <a href="#"><img alt="" class="mr-3"
-                                                                     src="{% static '' %}images/fashion/product/1.jpg"></a>
-                                                    <div class="media-body">
-                                                        <a href="#">
-                                                            <h4>item name</h4>
-                                                        </a>
-                                                        <h4><span>1 x $ 299.00</span></h4>
-                                                    </div>
-                                                </div>
-                                                <div class="close-circle"><a href="#"><i class="fa fa-times"
-                                                                                         aria-hidden="true"></i></a>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="media">
-                                                    <a href="#"><img alt="" class="mr-3"
-                                                                     src="{% static '' %}images/fashion/product/2.jpg"></a>
-                                                    <div class="media-body">
-                                                        <a href="#">
-                                                            <h4>item name</h4>
-                                                        </a>
-                                                        <h4><span>1 x $ 299.00</span></h4>
-                                                    </div>
-                                                </div>
-                                                <div class="close-circle"><a href="#"><i class="fa fa-times"
-                                                                                         aria-hidden="true"></i></a>
-                                                </div>
-                                            </li>
+                                                {% for rs in shopcart %}
+                                                    {% with product=rs.product %}
+                                                        <div class="media">
+
+                                                            <a href="#"><img alt="" height="60px" width="80px"
+                                                                             class="mr-3"
+                                                                             src="{{ product.thumbnail.url }}"></a>
+                                                            <div class="media-body">
+                                                                <a href="#">
+                                                                    <h4>{{ product.title }}</h4>
+                                                                </a>
+                                                                <h4>
+                                                                    <span>{{ rs.quantity }} x $ {{ product.price }}</span>
+                                                                </h4>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    {% endwith %}
+                                                {% endfor %}
                                             <li>
                                                 <div class="total">
-                                                    <h5>subtotal : <span>$299.00</span></h5>
+                                                    <h5>subtotal : <span>{{ total }}</span></h5>
                                                 </div>
                                             </li>
                                             <li>
-                                                <div class="buttons"><a href="cart.html" class="view-cart">view
-                                                    cart</a> <a href="#" class="checkout">checkout</a></div>
+                                                <div class="buttons"><a href="{% url 'sales:shopcart' %}"
+                                                                        class="view-cart">view
+                                                    cart</a> <a href="{% url 'sales:orderproduct' %}" class="checkout">checkout</a>
+                                                </div>
                                             </li>
                                         </ul>
                                     </li>

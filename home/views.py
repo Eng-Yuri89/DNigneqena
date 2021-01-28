@@ -7,18 +7,45 @@ from django.views.generic import ListView, DetailView
 from haystack import indexes
 from haystack.query import SearchQuerySet
 from haystack.inputs import AutoQuery, Exact, Clean
+
+from DNigne import settings
 from catalog.models.models import Category, Product, Tag, Image
 from core.models.banners import Banners
+from core.models.models import Setting, SettingLang
 
 from home.forms import SearchForm
+from sales.models.order import ShopCart
+
 from vendors.models import Store
 
 
 def index(request):
+    if not request.session.has_key('currency'):
+        request.session['currency'] = settings.DEFAULT_CURRENCY
+
+    setting = Setting.objects.first()
+    products_latest = Product.objects.all().order_by('-id')[:4]  # last 4 products
+    # >>>>>>>>>>>>>>>> M U L T I   L A N G U G A E >>>>>> START
+    defaultlang = settings.LANGUAGE_CODE[0:2]
+    currentlang = request.LANGUAGE_CODE
+
+    if defaultlang != currentlang:
+        setting = SettingLang.objects.filter(lang=currentlang)
+        products_latest = Product.objects.raw(
+            'SELECT p.id,p.price, l.title, l.description,l.slug  '
+            'FROM product_product as p '
+            'LEFT JOIN product_productlang as l '
+            'ON p.id = l.product_id '
+            'WHERE  l.lang=%s ORDER BY p.id DESC LIMIT 4', [currentlang])
     categories = Category.objects.all()
     products = Product.objects.all()
     store = Store.objects.all()
     banner = Banners.objects.all()
+    current_user = request.user  # Access User Session information
+    shopcart = ShopCart.objects.filter(user_id=current_user.id)
+    total = 0
+    for rs in shopcart:
+        total += rs.product.price * rs.quantity
 
     top_collection = Product.objects.all().order_by('-id')[:8]  # last 4 products
     products_first = Product.objects.all().order_by('id')[:8]  # first 4 products
@@ -29,10 +56,12 @@ def index(request):
     best_products = Product.objects.all().order_by('?')[:8]  # Best Sellers
 
     context = {
+        'setting':setting,
         'categories': categories,
         'products': products,
         'store': store,
         'banner': banner,
+        'shopcart':shopcart,
         'top_collection': top_collection,
         'products_first': products_first,
         'new_products': new_products,
@@ -55,8 +84,8 @@ def categories(request):
     return render(request, 'front/pages/category_list.html', context)
 
 
-class ProductView(ListView):
-    template_name = 'admin/pages/products-admin.html'
+class ProductsView(ListView):
+    template_name = 'category-page(6-grid).html'
     context_object_name = 'product_list'
 
     def get_queryset(self):
@@ -70,6 +99,7 @@ class ProductDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['productlest'] = Product.objects.all()
+
         context['prodtag'] = Product.category
         return context
 

@@ -35,8 +35,17 @@ class ProductAddForm(forms.ModelForm):
     thumbnail = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='image')
     status = forms.ChoiceField(label="status", choices=(
         ('True', 'Enable'),
-        ('False', 'Disable'),
-    ))
+        ('False', 'Disable'),))
+    variant = forms.ChoiceField(label="variant",
+        choices = (
+        ('None', 'None'),
+        ('Size', 'Size'),
+        ('Color', 'Color'),
+        ('Size-Color', 'Size-Color'),))
+
+
+
+
 
     class Meta:
         model = Product
@@ -45,6 +54,7 @@ class ProductAddForm(forms.ModelForm):
         widgets = {'title': forms.TextInput(attrs={'class': 'form-control'}),
                    'keywords': forms.TextInput(attrs={'class': 'form-control'}),
                    'category': forms.Select(attrs={'class': 'custom-select'}),
+                   #'variant': forms.Select(attrs={'class': 'custom-select'}),
                    'slug': forms.TextInput(attrs={'class': 'form-control'}),
                    'price': forms.NumberInput(attrs={'class': 'form-control'}),
                    'detail': CKEditorWidget(attrs={'class': 'form-control'}),
@@ -72,6 +82,7 @@ class ProductFullForm(ProductAddForm):
         widgets = {'title': forms.TextInput(attrs={'class': 'form-control'}),
                    'keywords': forms.TextInput(attrs={'class': 'form-control'}),
                    'category': forms.Select(attrs={'class': 'custom-select'}),
+                   #'variant': forms.Select(attrs={'class': 'custom-select'}),
                    'slug': forms.TextInput(attrs={'class': 'form-control'}),
                    'price': forms.NumberInput(attrs={'class': 'form-control'}),
                    'detail': CKEditorWidget(attrs={'class': 'form-control'}),

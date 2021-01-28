@@ -2,6 +2,7 @@ from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.db.models.signals import pre_save
+from django.forms import ModelForm
 from django.template.defaultfilters import slugify
 # Create your models here.
 from django.urls import reverse
@@ -9,8 +10,10 @@ from django.utils.safestring import mark_safe
 from django.utils.text import slugify
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
+from parler.models import TranslatableModel, TranslatedFields
 
 from DNigne.utils import unique_slug_generator
+from accounts.models import User
 
 STATUS = (
     ('True', 'Enable'),
@@ -18,22 +21,31 @@ STATUS = (
 )
 
 
-class Category(MPTTModel):
+class Category(MPTTModel, TranslatableModel):
     parent = TreeForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
-    title = models.CharField(max_length=50)
+    translations = TranslatedFields(
+        _title=models.CharField(blank=False, default='', db_index=True, max_length=128),
+        _slug=models.SlugField(blank=False, default='', db_index=True, unique=True, max_length=128)
+    )
+    title = models.CharField(max_length=128)
     keywords = models.CharField(max_length=255)
     description = RichTextUploadingField()
     image = models.ImageField(blank=True, upload_to='images/')
     status = models.CharField(max_length=10, choices=STATUS)
-    slug = models.SlugField(null=False, unique=True)
+    slug = models.SlugField(null=False,max_length=128, unique=True)
     create_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        #ordering = ('title',)
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
+
     def __str__(self):
-        return self.title
+        return self.safe_translation_getter('title', any_language=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = slugify(self.safe_translation_getter('title', any_language=True))
         super(Category, self).save(*args, **kwargs)
 
     class MPTTMeta:
@@ -70,6 +82,13 @@ class Tag(models.Model):
 
 
 class Product(models.Model):
+    VARIANTS = (
+        ('None', 'None'),
+        ('Size', 'Size'),
+        ('Color', 'Color'),
+        ('Size-Color', 'Size-Color'),
+
+    )
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     # store = models.ForeignKey(Store, on_delete=models.CASCADE, null=False)  # many to one relation with Category
     title = models.CharField(max_length=150)
@@ -87,7 +106,7 @@ class Product(models.Model):
     discount = models.DecimalField(decimal_places=2, max_digits=10, default=0)
     amount = models.IntegerField(default=0)
     min_amount = models.IntegerField(default=3)
-    # variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
+    variant = models.CharField(max_length=10, choices=VARIANTS, default='None')
     detail = RichTextUploadingField()
     tags = models.ManyToManyField(Tag)
     slug = models.SlugField(max_length=250, null=True, blank=True, unique=True, )
@@ -96,7 +115,8 @@ class Product(models.Model):
     update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        ordering = ['-update_at']
+        ordering = ['title']
+        #index_together = (('id', 'slug'),)
 
     # def getProductTags(self):
     # return self.tags.all()

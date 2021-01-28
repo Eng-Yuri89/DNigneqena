@@ -10,7 +10,7 @@ urlpatterns = [
     # path('category/', views.category_list, name='category_list'),
 
     path('category/', views.category_list, name='category_list'),
-    path('catalog/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
+   # path('category/<int:id>/<slug:slug>/', views.product_detail, name='product_detail'),
 
     # API
     path('api/category', api.category_list_api, name='category_list_api'),

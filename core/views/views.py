@@ -232,6 +232,7 @@ def AddProductView(request):
             image5 = form.cleaned_data['image5']
             image6 = form.cleaned_data['image6']
             category = form.cleaned_data['category']
+            variant = form.cleaned_data['variant']
             price = form.cleaned_data['price']
             sale_price = form.cleaned_data['sale_price']
             discount = form.cleaned_data['discount']
@@ -246,7 +247,7 @@ def AddProductView(request):
             if not product_id:
                 print(request)
                 product_obj = Product.objects.create(title=title, keywords=keywords, category=category,
-                                                     description=description,
+                                                     description=description,variant=variant,
                                                      image1=image1, image2=image2, image3=image3, image4=image4,
                                                      image5=image5, image6=image6,
                                                      thumbnail=thumbnail, price=price, sale_price=sale_price,
@@ -274,6 +275,7 @@ def AddProductView(request):
                 print(request)
                 Image.objects.create(product=product_obj, image=f)
             product_obj.category = category
+            product_obj.variant=variant
             product_obj.title = title
             product_obj.keywords = keywords
             product_obj.description = description

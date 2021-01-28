@@ -227,19 +227,18 @@
                                     <div class="tab-pane fade" id="option" role="tabpanel"
                                          aria-labelledby="option-tabs">
                                         <h4>Option</h4>
-                                        <div class="form-group  ">
-                                            <label for="categoryFormControlSelect1"
-                                                   class="col-form-label pt-0 "><span>*</span>variant
-                                                :</label>
-                                            <select class="form-control "
-                                                    name="variant"
-                                                    id="categoryFormControlSelect1">
-                                                {% for rs in product %}
-                                                    <option value=""></option>
-                                                {% endfor %}
+                                        <div class="form-group row">
+                                                                    <label class="col-xl-3 col-md-4">variant
+                                                                    </label>
+                                                                    <select name="variant"
+                                                                            class="custom-select  col-md-7" required="">
 
-                                            </select>
-                                        </div>
+                                                                        <option value="">--Select--</option>
+                                                                        {% for value, text in form.variant.field.choices %}
+                                                                            <option value="{{ value }}">{{ text }}</option>
+                                                                        {% endfor %}
+                                                                    </select>
+                                                                </div>
                                     </div>
                                     <div class="tab-pane fade" id="image" role="tabpanel" aria-labelledby="image-tabs">
                                         <h4>Image</h4>
@@ -332,7 +331,7 @@
             </div>
         </div>
     </div>
-    </div>
+
     {% if uploaded_file_url %}
         <p>File uploaded at: <a href="{{ uploaded_file_url }}">{{ uploaded_file_url }}</a></p>
     {% endif %}

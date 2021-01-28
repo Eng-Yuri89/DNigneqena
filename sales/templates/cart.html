@@ -1,0 +1,128 @@
+
+{% extends 'front/homebase.html' %}
+
+{% load crispy_forms_filters %}
+{% load static %}
+{% load widget_tweaks %}
+{% block body %}
+
+
+
+
+    <!-- breadcrumb start -->
+    <div class="breadcrumb-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="page-title">
+                        <h2>cart</h2>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <nav aria-label="breadcrumb" class="theme-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                            <li class="breadcrumb-item active">cart</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- breadcrumb End -->
+
+
+    <!--section start-->
+    <section class="cart-section section-b-space">
+
+        <div class="container">
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <table class="table cart-table table-responsive-xs">
+                        <thead>
+                            <tr class="table-head">
+                                <th scope="col">image</th>
+                                <th scope="col">product name</th>
+                                <th scope="col">price</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">action</th>
+                                <th scope="col">total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for rs in shopcart %}
+                    {% with product=rs.product  %}
+                            <tr>
+                                <td>
+                                    <img src="{% if product.image %} {{ product.thumbnail.url }} {% else %} {% static 'img/default.jpg' %} {% endif %}" alt="..." style="height: 130px; width: auto">
+                                </td>
+                                <td><a href="#">{{ product.title }}</a>
+                                    <div class="mobile-cart-content row">
+                                        <div class="col-xs-3">
+                                            <div class="qty-box">
+                                                <div class="input-group">
+                                                    <input type="text" name="quantity" class="form-control input-number"
+                                                        value="1">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color">{{ product.price }}</h2>
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <h2 class="td-color"><a href="#" class="icon"><i class="ti-close"></i></a>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h2> {{ product.price }}</h2>
+                                </td>
+                                <td>
+                                    <div class="qty-box">
+                                        <div class="input-group">
+                                            {{rs.quantity}}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><a href="{% url 'sales:deletefromcart'  rs.id %}" class="icon"><i class="ti-close"></i></a></td>
+                                <td>
+                                    <h2 class="td-color">{{ rs.amount }}</h2>
+                                </td>
+                            </tr>
+                        </tbody>
+                     {% endwith %}
+                {% endfor %}
+
+                    </table>
+                    <table class="table cart-table table-responsive-md">
+                        <tfoot>
+                            <tr>
+                                <td>total price :</td>
+                                <td>
+                                    <h2>$. {{ total }}</h2>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="row cart-buttons">
+                <div class="col-6"><a href="{% url "home:ProductsView" %}" class="btn btn-solid">continue shopping</a></div>
+                <div class="col-6"><a href="{% url 'sales:orderproduct'  %}" class="btn btn-solid">check out</a></div>
+            </div>
+        </div>
+    </section>
+    <!--section end-->
+
+
+
+
+
+{% endblock %}
+
+{% block foot %} {% include 'front/footer.html' %}  {% endblock %}
+{% block js %}{% include 'front/js.html' %}{% endblock %}
+
+

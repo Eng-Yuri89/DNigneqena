@@ -14,40 +14,38 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+from localization import views
+
 urlpatterns = [
+    path('selectlanguage', views.selectlanguage, name='selectlanguage'),
+    #path('selectcurrency', views.selectcurrency, name='selectcurrency'),
+    path('savelangcur', views.savelangcur, name='savelangcur'),
+    path('i18n/', include('django.conf.urls.i18n')),
+]
+urlpatterns += i18n_patterns(
     path('admin/', admin.site.urls),
-
-
     path('', include('home.urls'),name='home'),
     path('', include('core.urls'),name='core'),
     path('', include('catalog.urls'),name='catalog'),
     path('',include('accounts.urls'),name='accounts'),
-
+    path('', include('localization.urls'), name='localization'),
+    path('',include('sales.urls'),name='sales'),
     path('', include('vendors.urls'), name='vendors'),
-
     path('search/', include('haystack.urls'), name='haystack'),
-
-
-
     # USER URL
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('imagefit/', include('imagefit.urls')),
-
-
     # LOGIN URL
-
-
     #API URL
     path('api-auth/', include('rest_framework.urls')),
 
-
-
-
-]
+ prefix_default_language=False,
+)
 
 # ... the rest of your URLconf goes here ...
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
